@@ -3,9 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CareerLaunch - Find Your Dream Internship</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/hero.css">
+    <link rel="stylesheet" href="css/components/features.css">
+    <link rel="stylesheet" href="css/components/how-it-works.css">
+    <link rel="stylesheet" href="css/components/jobs.css">
+    <link rel="stylesheet" href="css/components/companies.css">
+    <link rel="stylesheet" href="css/components/stories.css">
+    <link rel="stylesheet" href="css/components/cta.css">
+    <link rel="stylesheet" href="css/components/footer.css">
 </head>
 <body>
+<div id="header"></div>>
+      <section class="hero" id="hero">
+        <div class="floating-elements">
+            <div class="floating-element" id="floating1"></div>
+            <div class="floating-element" id="floating2"></div>
+            <div class="floating-element" id="floating3"></div>
+            <div class="floating-element" id="floating4"></div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-logo">
+    <div class="logo-icon">CL</div>
+</div>
+
+            <div class="hero-content">
+                <h1>Launch Your Career with Perfect Internships & Part-Time Jobs</h1>
+                <p>Connect with verified companies and find opportunities that match your skills, schedule, and career goals. Our AI-powered matching algorithm helps you discover the right fit faster than ever before.</p>
+                
+                <div class="hero-buttons">
+                    <a href="registration.html?type=student" class="btn btn-primary btn-large" id="studentSignupBtn">
+                        <i class="fas fa-rocket"></i> Start as Student
+                    </a>
+                    <a href="registration.html?type=company" class="btn btn-secondary btn-large" id="companySignupBtn">
+                        <i class="fas fa-building"></i> Hire as Company
+                    </a>
+                    <a href="#browse-jobs" class="btn btn-outline-light">
+                        <i class="fas fa-search"></i> Browse Jobs
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat" id="stat1">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Active Opportunities</span>
+                    </div>
+                    <div class="stat" id="stat2">
+                        <span class="stat-number">20+</span>
+                        <span class="stat-label">Verified Companies</span>
+                    </div>
+                    <div class="stat" id="stat3">
+                        <span class="stat-number">85%</span>
+                        <span class="stat-label">Match Success Rate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     
+</section>
+    <!--3rd feature -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Why Choose CareerLaunch?</h2>
+            <div class="features-grid" id="featuresGrid"></div>
+        </div>
+    </section>
+
+
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2>How It Works in 4 Simple Steps</h2>
+            <div class="steps" id="stepsContainer"></div>
+        </div>
+    </section>
+
+   
+    <section id="browse-jobs" class="browse-jobs">
+        <div class="container">
+            <h2 > Browse Opportunities</h2>
+            <p class="section-subtitle">Discover internships and part-time jobs that match your skills and career goals. Filter by category, location, or job type to find your perfect fit.</p>
+            
+            <div class="jobs-filter" id="jobsFilter"></div>
+            
+            <div class="jobs-grid" id="jobsGrid"></div>
+            
+            <div class="text-center">
+                <a href="jobs.html" class="btn  btn-outline btn-large">View All Opportunities</a>
+            </div>
+        </div>
+    </section>
+
+  
+    <section id="for-companies" class="for-companies">
+        <div class="container">
+            <h2>For Companies</h2>
+            <p class="section-subtitle">Find the perfect candidates for your internships and entry-level positions. Our platform connects you with pre-vetted, talented students ready to contribute to your team.</p>
+            
+            <div class="companies-content" id="companiesContent"></div>
+        </div>
+    </section>
+
+
+    <section id="success-stories" class="success-stories">
+        <div class="container">
+            <h2>Success Stories</h2>
+            <p class="section-subtitle">Hear from students and companies who have found success through CareerLaunch. Real stories, real results.</p>
+            
+            <div class="stories-container" id="storiesContainer"></div>
+            
+            <div class="text-center">
+                <a href="stories.html" class="btn  btn-large">Read More Success Stories</a>
+            </div>
+        </div>
+    </section>
+
+    <!--cta -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Launch Your Career?</h2>
+            <p>Join thousands of students who have found their perfect internships and part-time jobs through CareerLaunch. Start your journey today and take the first step toward your dream career!</p>
+            
+            <div class="cta-buttons">
+                <a href="registration.html?type=student" class="btn btn-primary btn-large" id="ctaStudentBtn">
+                    <i class="fas fa-user-graduate"></i> Sign Up as Student
+                </a>
+                <a href="registration.html?type=company" class="btn btn-secondary btn-large" id="ctaCompanyBtn">
+                    <i class="fas fa-briefcase"></i> Post Jobs as Company
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!--footer -->
+    <div id="footer"></div>
+
+ 
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Help Center</h2>
+            <p>Welcome to our Help Center! We're here to assist you with any questions or issues.</p>
+            <p>You can contact us directly:</p>
+            <ul>
+                <li>Email: support@careerlaunch.com</li>
+                <li>Phone: +1 (555) 123-4567</li>
+                <li>Live Chat: Available 9AM-6PM PST</li>
+            </ul>
+            <div class="modal-actions">
+                <button class="btn close-modal">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Contact Us</h2>
+            <p><strong>Email:</strong> support@careerlaunch.com</p>
+            <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+            <p><strong>Address:</strong> 123 Career Street, Suite 100, San Francisco, CA 94105</p>
+            <p><strong>Business Hours:</strong> Monday-Friday, 9AM-6PM PST</p>
+            <div class="modal-actions">
+                <button class="btn close-modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Privacy Policy</h2>
+            <p>Your privacy is important to us. This policy explains how we collect, use, and protect your information.</p>
+            <p><strong>Information We Collect:</strong></p>
+            <ul>
+                <li>Personal details (name, email, etc.)</li>
+                <li>Resume and career information</li>
+                <li>Usage data and preferences</li>
+            </ul>
+            <p>We never sell your personal information to third parties.</p>
+            <div class="modal-actions">
+                <button class="btn close-modal">I Understand</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Terms of Service</h2>
+            <p>By using CareerLaunch, you agree to our terms of service.</p>
+            <p><strong>Key Points:</strong></p>
+            <ul>
+                <li>Users must be at least 16 years old</li>
+                <li>Companies must provide accurate job information</li>
+                <li>Respect other users and maintain professional conduct</li>
+                <li>We reserve the right to remove inappropriate content</li>
+            </ul>
+            <div class="modal-actions">
+                <button class="btn close-modal">Agree</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/config.js"></script>
+    <script src="js/components/header.js"></script>
+    <script src="js/components/hero.js"></script>
+    <script src="js/components/features.js"></script>
+    <script src="js/components/how-it-works.js"></script>
+    <script src="js/components/jobs.js"></script>
+    <script src="js/components/companies.js"></script>
+    <script src="js/components/stories.js"></script>
+    <script src="js/components/cta.js"></script>
+    <script src="js/components/footer.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
