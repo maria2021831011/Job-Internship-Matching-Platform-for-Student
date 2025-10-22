@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications - CareerHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/applications/applications.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <main class="dashboard-layout">
+        <div id="sidebar"></div>
+
+        <div class="main-content">
+            <div class="page-header">
+                <h1>My Applications</h1>
+                <p>Track and manage your job applications</p>
+                <button class="btn btn-primary" id="newApplicationBtn">
+                    + New Application
+                </button>
+            </div>
+
+            <div class="applications-container">
+                <div class="applications-filters">
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select id="statusFilter">
+                            <option value="all">All Statuses</option>
+                            <option value="applied">Applied</option>
+                            <option value="review">Under Review</option>
+                            <option value="interview">Interview</option>
+                            <option value="offer">Offer</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Date Range</label>
+                        <select id="dateFilter">
+                            <option value="all">All Time</option>
+                            <option value="week">Last Week</option>
+                            <option value="month">Last Month</option>
+                            <option value="quarter">Last 3 Months</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sort By</label>
+                        <select id="sortFilter">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="company">Company Name</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="applications-list" id="applicationsList">
+                    <!--Applications loaded dynamically--->
+                </div>
+
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">📝</div>
+                    <h3>No applications yet</h3>
+                    <p>Start applying to jobs and track your progress here.</p>
+                    <button class="btn btn-primary">Browse Jobs</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!--application modal--->
+    <div id="applicationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Application</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="applicationForm" class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="jobTitle">Job Title *</label>
+                        <input type="text" id="jobTitle" name="jobTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="companyName">Company *</label>
+                        <input type="text" id="companyName" name="companyName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="jobDescription">Job Description</label>
+                    <textarea id="jobDescription" name="jobDescription" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="applicationDate">Application Date *</label>
+                        <input type="date" id="applicationDate" name="applicationDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="applicationStatus">Status *</label>
+                        <select id="applicationStatus" name="applicationStatus" required>
+                            <option value="applied">Applied</option>
+                            <option value="review">Under Review</option>
+                            <option value="interview">Interview</option>
+                            <option value="offer">Offer</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" name="notes" rows="2" placeholder="Add any relevant notes..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelApplication">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="../../js/utils/helpers.js"></script>
+    <script src="../../js/utils/api.js"></script>
+    <script src="../../js/applications/applications.js"></script>
+</body>
+</html>

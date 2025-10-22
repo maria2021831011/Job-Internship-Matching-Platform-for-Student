@@ -1,0 +1,384 @@
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <div class="user-info">
+            <img src="https://via.placeholder.com/40" alt="User" class="user-avatar" id="userAvatar">
+            <div class="user-details">
+                <div class="user-name" id="userName">Loading...</div>
+                <div class="user-role" id="userRole">Job Seeker</div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="nav-section">
+            <div class="nav-section-title">Main</div>
+            <a href="../../index.html" class="nav-item">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text">Dashboard</span>
+            </a>
+            <a href="../profile/profile_student.html" class="nav-item">
+                <span class="nav-icon">👤</span>
+                <span class="nav-text">My Profile</span>
+            </a>
+            <a href="../applications/applications.html" class="nav-item">
+                <span class="nav-icon">📝</span>
+                <span class="nav-text">My Applications</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Jobs</div>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">🔍</span>
+                <span class="nav-text">Job Search</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">💼</span>
+                <span class="nav-text">Saved Jobs</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">🔔</span>
+                <span class="nav-text">Job Alerts</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Resources</div>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Career Advice</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📄</span>
+                <span class="nav-text">Resume Builder</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span class="nav-text">Interview Prep</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Company</div>
+            <a href="../profile/profile_company.html" class="nav-item">
+                <span class="nav-icon">🏢</span>
+                <span class="nav-text">Company Profile</span>
+            </a>
+            <a href="../applications/application_management.html" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span class="nav-text">Application Management</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Analytics</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Account</div>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-text">Settings</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">🆘</span>
+                <span class="nav-text">Help & Support</span>
+            </a>
+            <a href="#" class="nav-item logout-item" id="logoutBtn">
+                <span class="nav-icon">🚪</span>
+                <span class="nav-text">Logout</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="upgrade-banner">
+            <div class="upgrade-icon">⭐</div>
+            <div class="upgrade-content">
+                <div class="upgrade-title">Upgrade to Premium</div>
+                <div class="upgrade-description">Get access to advanced features</div>
+            </div>
+            <button class="btn-upgrade">Upgrade</button>
+        </div>
+    </div>
+</aside>
+
+<style>
+    .sidebar {
+        width: 280px;
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .sidebar-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .user-details {
+        flex: 1;
+    }
+
+    .user-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.125rem;
+    }
+
+    .user-role {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+    }
+
+    .sidebar-nav {
+        flex: 1;
+        padding: 1rem 0;
+        overflow-y: auto;
+    }
+
+    .nav-section {
+        margin-bottom: 1.5rem;
+    }
+
+    .nav-section-title {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 0 1.5rem 0.5rem;
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.5rem;
+        text-decoration: none;
+        color: var(--text-secondary);
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+    }
+
+    .nav-item:hover {
+        background: var(--background);
+        color: var(--text-primary);
+        border-left-color: var(--primary);
+    }
+
+    .nav-item.active {
+        background: var(--primary);
+        color: white;
+        border-left-color: var(--primary-dark);
+    }
+
+    .nav-icon {
+        font-size: 1.125rem;
+        width: 20px;
+        text-align: center;
+    }
+
+    .nav-text {
+        font-weight: 500;
+        font-size: 0.875rem;
+    }
+
+    .logout-item {
+        color: var(--error);
+    }
+
+    .logout-item:hover {
+        background: #fef2f2;
+        color: var(--error);
+        border-left-color: var(--error);
+    }
+
+    .sidebar-footer {
+        padding: 1rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .upgrade-banner {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .upgrade-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .upgrade-title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .upgrade-description {
+        font-size: 0.75rem;
+        opacity: 0.9;
+        margin-bottom: 0.75rem;
+    }
+
+    .btn-upgrade {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+    }
+
+    .btn-upgrade:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    /*Responsive Sidebar */
+    @media (max-width: 768px) {
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            height: 100vh;
+            z-index: 1000;
+            transition: left 0.3s ease;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+    }
+
+    /* Scrollbar*/
+    .sidebar-nav::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .sidebar-nav::-webkit-scrollbar-track {
+        background: var(--background);
+    }
+
+    .sidebar-nav::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 2px;
+    }
+
+    .sidebar-nav::-webkit-scrollbar-thumb:hover {
+        background: var(--text-secondary);
+    }
+</style>
+
+<script>
+    class SidebarManager {
+        constructor() {
+            this.init();
+        }
+
+        init() {
+            this.loadUserInfo();
+            this.setupEventListeners();
+            this.setupActiveState();
+        }
+
+        loadUserInfo() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            
+            document.getElementById('userName').textContent = currentUser.name || 'User Name';
+            document.getElementById('userRole').textContent = currentUser.type === 'company' ? 'Employer' : 'Job Seeker';
+            
+            //update avatar if available
+            if (currentUser.avatar) {
+                document.getElementById('userAvatar').src = currentUser.avatar;
+            }
+        }
+
+        setupEventListeners() {
+            //logout functionality
+            document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleLogout();
+            });
+
+            //mobile sidebar toggle
+            this.setupMobileNavigation();
+
+            //upgrade button
+            document.querySelector('.btn-upgrade')?.addEventListener('click', () => {
+                this.handleUpgrade();
+            });
+        }
+
+        setupActiveState() {
+            const currentPage = window.location.pathname;
+            const navItems = document.querySelectorAll('.nav-item');
+
+            navItems.forEach(item => {
+                const href = item.getAttribute('href');
+                if (href && currentPage.includes(href.replace('../../', ''))) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        setupMobileNavigation() {
+            //integrated with the main mobile menu
+            //for now,handle the basic functionality
+        }
+
+        handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('authToken');
+                window.location.href = '../../index.html';
+            }
+        }
+
+        handleUpgrade() {
+            //Show upgrade modal 
+            alert('Upgrade to premium to access advanced features!');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        window.sidebarManager = new SidebarManager();
+    });
+</script>

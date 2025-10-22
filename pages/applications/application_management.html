@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Management - CareerHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/applications/application_management.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <main class="dashboard-layout">
+        <div id="sidebar"></div>
+
+        <div class="main-content">
+            <div class="page-header">
+                <div class="header-content">
+                    <h1>Application Management</h1>
+                    <p>Manage and track job applications from candidates</p>
+                </div>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <input type="text" id="searchApplications" placeholder="Search applications...">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                    <button class="btn btn-primary" id="bulkActionBtn">
+                        Bulk Actions
+                    </button>
+                </div>
+            </div>
+
+            <div class="management-container">
+                <!-- Statistics Overview -->
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-icon">📥</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="totalApplications">0</div>
+                            <div class="stat-label">Total Applications</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👀</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="newApplications">0</div>
+                            <div class="stat-label">New This Week</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="hiredCount">0</div>
+                            <div class="stat-label">Hired</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="avgResponseTime">0h</div>
+                            <div class="stat-label">Avg Response Time</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Filters and Actions-->
+                <div class="management-toolbar">
+                    <div class="toolbar-filters">
+                        <div class="filter-group">
+                            <label>Status</label>
+                            <select id="statusFilter" multiple>
+                                <option value="new">New</option>
+                                <option value="reviewed">Reviewed</option>
+                                <option value="interview">Interview</option>
+                                <option value="shortlisted">Shortlisted</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="hired">Hired</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Job Position</label>
+                            <select id="positionFilter">
+                                <option value="all">All Positions</option>
+                                <option value="frontend">Frontend Developer</option>
+                                <option value="backend">Backend Developer</option>
+                                <option value="fullstack">Full Stack Developer</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Date Applied</label>
+                            <select id="dateFilter">
+                                <option value="all">All Time</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="toolbar-actions">
+                        <button class="btn btn-secondary" id="exportBtn">
+                            Export CSV
+                        </button>
+                        <button class="btn btn-primary" id="addNoteBtn">
+                            Add Note
+                        </button>
+                    </div>
+                </div>
+
+                <div class="applications-table-container">
+                    <table class="applications-table" id="applicationsTable">
+                        <thead>
+                            <tr>
+                                <th class="checkbox-cell">
+                                    <input type="checkbox" id="selectAll">
+                                </th>
+                                <th>Candidate</th>
+                                <th>Position</th>
+                                <th>Applied Date</th>
+                                <th>Status</th>
+                                <th>Experience</th>
+                                <th>Last Activity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicationsTableBody">
+                            <!---Applications will be loaded here--->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Showing <span id="showingStart">1</span>-<span id="showingEnd">10</span> of <span id="totalItems">0</span> applications
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="btn btn-secondary" id="prevPage" disabled>Previous</button>
+                        <div class="page-numbers" id="pageNumbers"></div>
+                        <button class="btn btn-secondary" id="nextPage">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!--Application Details Modal--->
+    <div id="applicationDetailsModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Application Details</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="applicationDetailsContent">
+                <!--Application details will be loaded here--->
+            </div>
+        </div>
+    </div>
+
+    <div id="statusUpdateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Update Application Status</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="statusUpdateForm" class="modal-body">
+                <input type="hidden" id="updateApplicationId">
+                <div class="form-group">
+                    <label for="newStatus">New Status</label>
+                    <select id="newStatus" name="newStatus" required>
+                        <option value="new">New</option>
+                        <option value="reviewed">Reviewed</option>
+                        <option value="interview">Interview</option>
+                        <option value="shortlisted">Shortlisted</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="hired">Hired</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="statusNotes">Notes (Optional)</label>
+                    <textarea id="statusNotes" name="statusNotes" rows="3" placeholder="Add any notes about this status change..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelStatusUpdate">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--bulk Actions Modal--->
+    <div id="bulkActionsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Bulk Actions</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="bulkAction">Action</label>
+                    <select id="bulkAction" name="bulkAction">
+                        <option value="move_to_reviewed">Move to Reviewed</option>
+                        <option value="move_to_interview">Move to Interview</option>
+                        <option value="move_to_shortlisted">Move to Shortlisted</option>
+                        <option value="reject">Reject Applications</option>
+                        <option value="send_email">Send Email</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bulkMessage">Message (for email actions)</label>
+                    <textarea id="bulkMessage" name="bulkMessage" rows="4" placeholder="Enter message for selected candidates..."></textarea>
+                </div>
+                <div class="selected-count">
+                    <span id="selectedApplicationsCount">0</span> applications selected
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBulkActions">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="applyBulkActions">Apply Actions</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="../../js/utils/helpers.js"></script>
+    <script src="../../js/utils/api.js"></script>
+    <script src="../../js/applications/application_management.js"></script>
+</body>
+</html>

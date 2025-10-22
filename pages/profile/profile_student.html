@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile - CareerHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/profile/student.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <main class="dashboard-layout">
+        <div id="sidebar"></div>
+
+        <div class="main-content">
+            <div class="page-header">
+                <h1>My Profile</h1>
+                <p>Manage your personal and professional information</p>
+            </div>
+
+            <div class="profile-container">
+                <div class="profile-sidebar">
+                    <div class="profile-summary">
+                        <div class="profile-avatar">
+                            <img src="https://via.placeholder.com/150" alt="Profile" id="profileImage">
+                            <button class="btn-upload" id="uploadImageBtn">Change Photo</button>
+                        </div>
+                        <h2 id="profileName">Loading...</h2>
+                        <p class="profile-title" id="profileTitle">Job Seeker</p>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <div class="stat-value" id="applicationsCount">0</div>
+                                <div class="stat-label">Applications</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value" id="interviewsCount">0</div>
+                                <div class="stat-label">Interviews</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav class="profile-nav">
+                        <a href="#personal" class="nav-item active" data-tab="personal">Personal Info</a>
+                        <a href="#education" class="nav-item" data-tab="education">Education</a>
+                        <a href="#experience" class="nav-item" data-tab="experience">Experience</a>
+                        <a href="#skills" class="nav-item" data-tab="skills">Skills</a>
+                        <a href="#preferences" class="nav-item" data-tab="preferences">Preferences</a>
+                    </nav>
+                </div>
+
+                <div class="profile-content">
+                    <!--personal Information-->
+                    <div class="tab-content active" id="personalTab">
+                        <div class="tab-header">
+                            <h3>Personal Information</h3>
+                            <button class="btn btn-primary" id="editPersonalBtn">Edit</button>
+                        </div>
+                        <form id="personalForm" class="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" name="firstName" required readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" name="lastName" required readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required readonly>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="location">Location</label>
+                                    <input type="text" id="location" name="location" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="headline">Professional Headline</label>
+                                <input type="text" id="headline" name="headline" placeholder="e.g., Frontend Developer" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="summary">Professional Summary</label>
+                                <textarea id="summary" name="summary" rows="4" placeholder="Describe your professional background and career goals..." readonly></textarea>
+                            </div>
+                            <div class="form-actions" id="personalActions" style="display: none;">
+                                <button type="button" class="btn btn-secondary" id="cancelPersonal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!--education-tab--->
+                    <div class="tab-content" id="educationTab">
+                        <div class="tab-header">
+                            <h3>Education</h3>
+                            <button class="btn btn-primary" id="addEducationBtn">Add Education</button>
+                        </div>
+                        <div class="education-list" id="educationList">
+                            <!--education items will be loaded here--->
+                        </div>
+                    </div>
+
+                    <!--experience-tab-->
+                    <div class="tab-content" id="experienceTab">
+                        <div class="tab-header">
+                            <h3>Work Experience</h3>
+                            <button class="btn btn-primary" id="addExperienceBtn">Add Experience</button>
+                        </div>
+                        <div class="experience-list" id="experienceList">
+                            <!--experience items will be loaded here-->
+                        </div>
+                    </div>
+
+                    <!--skills-tab-->
+                    <div class="tab-content" id="skillsTab">
+                        <div class="tab-header">
+                            <h3>Skills & Expertise</h3>
+                            <button class="btn btn-primary" id="addSkillBtn">Add Skill</button>
+                        </div>
+                        <div class="skills-container">
+                            <div class="skills-input">
+                                <input type="text" id="skillInput" placeholder="Add a skill (e.g., JavaScript, React, Project Management)">
+                                <button class="btn btn-primary" id="saveSkillBtn">Add</button>
+                            </div>
+                            <div class="skills-list" id="skillsList">
+                                <!--Skills loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--preferences-Tab--->
+                    <div class="tab-content" id="preferencesTab">
+                        <div class="tab-header">
+                            <h3>Job Preferences</h3>
+                            <button class="btn btn-primary" id="editPreferencesBtn">Edit</button>
+                        </div>
+                        <form id="preferencesForm" class="profile-form">
+                            <div class="form-group">
+                                <label>Desired Job Types</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="jobType" value="full-time" disabled>
+                                        <span>Full-time</span>
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="jobType" value="part-time" disabled>
+                                        <span>Part-time</span>
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="jobType" value="contract" disabled>
+                                        <span>Contract</span>
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="jobType" value="internship" disabled>
+                                        <span>Internship</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="preferredLocation">Preferred Location</label>
+                                <input type="text" id="preferredLocation" name="preferredLocation" placeholder="e.g., Remote, New York, NY" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="minSalary">Minimum Expected Salary ($)</label>
+                                <input type="number" id="minSalary" name="minSalary" placeholder="50000" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="industries">Industries of Interest</label>
+                                <textarea id="industries" name="industries" rows="3" placeholder="List industries you're interested in..." readonly></textarea>
+                            </div>
+                            <div class="form-actions" id="preferencesActions" style="display: none;">
+                                <button type="button" class="btn btn-secondary" id="cancelPreferences">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Preferences</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!--education-modal-->
+    <div id="educationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="educationModalTitle">Add Education</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="educationForm" class="modal-body">
+                <input type="hidden" id="educationId" name="id">
+                <div class="form-group">
+                    <label for="institution">Institution *</label>
+                    <input type="text" id="institution" name="institution" required>
+                </div>
+                <div class="form-group">
+                    <label for="degree">Degree *</label>
+                    <input type="text" id="degree" name="degree" required>
+                </div>
+                <div class="form-group">
+                    <label for="field">Field of Study</label>
+                    <input type="text" id="field" name="field">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate">Start Date *</label>
+                        <input type="month" id="startDate" name="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">End Date (or expected)</label>
+                        <input type="month" id="endDate" name="endDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox">
+                        <input type="checkbox" id="currentlyStudying" name="currentlyStudying">
+                        <span>I am currently studying here</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelEducation">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Education</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="../../js/utils/helpers.js"></script>
+    <script src="../../js/utils/api.js"></script>
+    <script src="../../js/profile/student.js"></script>
+</body>
+</html>
