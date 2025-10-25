@@ -704,10 +704,10 @@
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
                 </a>
-                <a href="../index.html" class="menu-item">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
+               <a href="#" class="menu-item logout-btn">
+    <i class="fas fa-sign-out-alt"></i>
+    <span>Logout</span>
+</a>
             </div>
         </div>
 
@@ -1008,43 +1008,174 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-           
-            const menuToggle = document.getElementById('menuToggle');
-            const sidebar = document.querySelector('.sidebar');
-            
-            menuToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('active');
-            });
-            
-        
-            const statusTabs = document.querySelectorAll('.status-tab');
-            
-            statusTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    statusTabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-               
-                    console.log('Switched to tab:', this.textContent);
-                });
-            });
-            
-           
-            const notificationItems = document.querySelectorAll('.notification-item');
-            
-            notificationItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    this.classList.remove('unread');
-                });
-            });
-            
-           
-            setTimeout(() => {
-              
-                console.log('Dashboard data loaded');
-            }, 1000);
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    checkAuthentication();
+    
+  
+    setupLogoutHandlers();
+    
+    
+    setupUIInteractions();
+    
+   
+    setupSessionSecurity();
+});
+
+// Enhanced authentication check
+async function checkAuthentication() {
+    try {
+        const response = await fetch('/api/auth/status', {
+            method: 'GET',
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache'
+            },
+            credentials: 'include'
         });
-    </script>
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        
+        if (!data.loggedIn) {
+           
+            clearClientStorage();
+            window.location.replace('/login.html');
+            return;
+        }
+        
+       
+        updateUserInfo(data);
+        
+    } catch (error) {
+        console.error('Authentication check failed:', error);
+        clearClientStorage();
+        window.location.replace('/login.html');
+    }
+}
+
+
+async function handleLogout() {
+    if (!confirm('Are you sure you want to logout?')) {
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-cache'
+            },
+            credentials: 'include'
+        });
+
+        const data = await response.json();
+       
+        clearClientStorage();
+        
+        window.location.replace('/login.html');
+        
+    } catch (error) {
+        console.error('Logout error:', error);
+     
+        clearClientStorage();
+        window.location.replace('/login.html');
+    }
+}
+
+function clearClientStorage() {
+  
+    localStorage.clear();
+
+    sessionStorage.clear();
+
+    document.cookie.split(";").forEach(function(cookie) {
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    });
+}
+
+function setupLogoutHandlers() {
+  
+    document.querySelectorAll('.logout-btn, a[href*="logout"], button[onclick*="logout"]').forEach(element => {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            handleLogout();
+        });
+    });
+}
+
+
+function setupUIInteractions() {
+
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.querySelector('.sidebar');
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+    }
+
+    document.querySelectorAll('.notification-item').forEach(item => {
+        item.addEventListener('click', function() {
+            this.classList.remove('unread');
+           
+        });
+    });
+}
+
+
+function updateUserInfo(userData) {
+ 
+    const welcomeElement = document.getElementById('welcomeMessage');
+    if (welcomeElement && userData.userName) {
+        welcomeElement.textContent = `Welcome, ${userData.userName}!`;
+    }
+}
+
+function setupSessionSecurity() {
+  
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+
+   
+    window.history.pushState(null, null, window.location.href);
+    window.addEventListener('popstate', function(event) {
+        checkAuthentication();
+        window.history.pushState(null, null, window.location.href);
+    });
+
+    setInterval(checkAuthentication, 2 * 60 * 1000);
+   
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            checkAuthentication();
+        }
+    });
+}
+
+
+window.addEventListener('error', function(e) {
+    console.error('Global error:', e.error);
+});
+
+window.addEventListener('unhandledrejection', function(e) {
+    console.error('Unhandled promise rejection:', e.reason);
+});
+</script>
+
+
 </body>
 </html>

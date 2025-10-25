@@ -759,10 +759,11 @@
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
                 </a>
-                <a href="../index.html" class="menu-item">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
+              
+<a href="#" class="menu-item logout-btn">
+    <i class="fas fa-sign-out-alt"></i>
+    <span>Logout</span>
+</a>
             </div>
         </div>
 
@@ -1123,42 +1124,269 @@
             </div>
         </div>
     </div>
+<script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        
-            const menuToggle = document.getElementById('menuToggle');
-            const sidebar = document.querySelector('.sidebar');
-            
-            menuToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('active');
-            });
-            
-          
-            const notificationItems = document.querySelectorAll('.notification-item');
-            
-            notificationItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    this.classList.remove('unread');
-                });
-            });
-            
+document.addEventListener('DOMContentLoaded', function() {
+   
+    checkAuthentication();
     
-            const actionCards = document.querySelectorAll('.action-card');
-            
-            actionCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const action = this.querySelector('h3').textContent;
-                    console.log('Action clicked:', action);
-                });
-            });
-            
+   
+    setupLogoutHandlers();
+    
+   
+    setupUIInteractions();
+    
+   
+    setupSessionSecurity();
+});
 
-            setTimeout(() => {
-            
-                console.log('Company dashboard data loaded');
-            }, 1000);
+
+async function checkAuthentication() {
+    try {
+        const response = await fetch('/api/auth/status', {
+            method: 'GET',
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache'
+            },
+            credentials: 'include'
         });
-    </script>
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        
+        if (!data.loggedIn) {
+          
+            clearClientStorage();
+            window.location.replace('/login.html');
+            return;
+        }
+        
+        
+        updateUserInfo(data);
+        
+    } catch (error) {
+        console.error('Authentication check failed:', error);
+        clearClientStorage();
+        window.location.replace('/login.html');
+    }
+}
+
+
+async function handleLogout() {
+    if (!confirm('Are you sure you want to logout?')) {
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-cache'
+            },
+            credentials: 'include'
+        });
+
+        const data = await response.json();
+        
+      
+        clearClientStorage();
+        
+       
+        window.location.replace('/login.html');
+        
+    } catch (error) {
+        console.error('Logout error:', error);
+      
+        clearClientStorage();
+        window.location.replace('/login.html');
+    }
+}
+
+
+function clearClientStorage() {
+   
+    localStorage.clear();
+    
+   
+    sessionStorage.clear();
+    
+
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+}
+
+
+function setupLogoutHandlers() {
+  
+    const logoutElements = document.querySelectorAll('.logout-btn, a[href*="logout"], [onclick*="logout"]');
+    
+    logoutElements.forEach(element => {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            handleLogout();
+        });
+    });
+
+    
+    const indexLinks = document.querySelectorAll('a[href="../index.html"]');
+    indexLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            handleLogout();
+        });
+    });
+}
+
+
+function setupUIInteractions() {
+   
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.querySelector('.sidebar');
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+    }
+
+    
+    document.querySelectorAll('.notification-item').forEach(item => {
+        item.addEventListener('click', function() {
+            this.classList.remove('unread');
+           
+        });
+    });
+
+  
+    document.querySelectorAll('.action-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const action = this.querySelector('h3').textContent;
+            console.log('Action clicked:', action);
+          
+        });
+    });
+}
+
+
+function updateUserInfo(userData) {
+
+    const headerTitle = document.querySelector('.header-title h1');
+    if (headerTitle && userData.userName) {
+        headerTitle.textContent = `Welcome, ${userData.userName}`;
+    }
+
+
+    const companyName = document.querySelector('.user-profile div div:first-child');
+    if (companyName && userData.userName) {
+        companyName.textContent = userData.userName;
+    }
+
+
+    const avatar = document.querySelector('.avatar');
+    if (avatar && userData.userName) {
+        const initials = userData.userName
+            .split(' ')
+            .map(word => word[0])
+            .join('')
+            .toUpperCase()
+            .substring(0, 2);
+        avatar.textContent = initials;
+    }
+}
+
+
+function setupSessionSecurity() {
+  
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+
+
+    window.history.pushState(null, null, window.location.href);
+    window.addEventListener('popstate', function(event) {
+        checkAuthentication();
+        window.history.pushState(null, null, window.location.href);
+    });
+
+    setInterval(checkAuthentication, 2 * 60 * 1000);
+   
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            checkAuthentication();
+        }
+    });
+
+   
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+}
+
+
+function showLoading() {
+    const loadingEl = document.createElement('div');
+    loadingEl.id = 'global-loading';
+    loadingEl.innerHTML = `
+        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:9999;">
+            <div style="background:white; padding:20px; border-radius:10px; text-align:center;">
+                <div class="spinner"></div>
+                <p>Loading...</p>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(loadingEl);
+}
+
+function hideLoading() {
+    const loadingEl = document.getElementById('global-loading');
+    if (loadingEl) {
+        loadingEl.remove();
+    }
+}
+
+
+window.addEventListener('error', function(e) {
+    console.error('Global error:', e.error);
+});
+
+window.addEventListener('unhandledrejection', function(e) {
+    console.error('Unhandled promise rejection:', e.reason);
+});
+
+
+const style = document.createElement('style');
+style.textContent = `
+    .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 2s linear infinite;
+        margin: 0 auto 10px;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);
+</script>
+
+
 </body>
 </html>

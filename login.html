@@ -1,82 +1,579 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - CareerLaunch</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/components/auth.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - CareerLaunch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a2980, #26d0ce);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      max-width: 1000px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-section {
+      flex: 1;
+      background: linear-gradient(135deg, #1a2980, #26d0ce);
+      color: white;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-section h1 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .hero-section p {
+      font-size: 1rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .login-section {
+      flex: 1;
+      padding: 50px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo h2 {
+      font-size: 2rem;
+      background: linear-gradient(to right, #1a2980, #26d0ce);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    .logo p {
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .user-type-selector {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      background: #f5f7fa;
+      border-radius: 12px;
+      overflow: hidden;
+      padding: 4px;
+    }
+
+    .type-option {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: transparent;
+      color: #666;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .type-option.active {
+      background: #fff;
+      color: #1a2980;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #444;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      color: #777;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 12px 12px 38px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      outline: none;
+      background: #fff;
+      color: #333;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #1a2980;
+      box-shadow: 0 0 0 2px rgba(26, 41, 128, 0.1);
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .forgot-password {
+      color: #1a2980;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(to right, #1a2980, #26d0ce);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+      margin-bottom: 20px;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(26, 41, 128, 0.2);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(26, 41, 128, 0.3);
+    }
+
+    .register-link {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .register-link a {
+      color: #1a2980;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+
+    .message {
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      text-align: center;
+      display: none;
+    }
+
+    .success {
+      background: #e7f7ef;
+      color: #0a7c42;
+      border: 1px solid #a3e9c4;
+    }
+
+    .error {
+      background: #fde8e8;
+      color: #c53030;
+      border: 1px solid #fbb6b6;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      
+      .hero-section {
+        padding: 30px;
+      }
+      
+      .login-section {
+        padding: 30px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <div class="logo">
-                    <div class="logo-icon">CL</div>
-                    <div class="logo-text">Career<span>Launch</span></div>
-                </div>
-                <h2>Welcome Back</h2>
-                <br>
-                <p>Sign in to your account to continue</p>
-            </div>
 
-     
-            <div class="user-type-selector">
-                <button type="button" class="type-option active" data-type="student">
-                    <i class="fas fa-user-graduate"></i> Student
-                </button>
-                <button type="button" class="type-option" data-type="company">
-                    <i class="fas fa-building"></i> Company
-                </button>
-            </div>
-
-       
-            <form id="loginForm" class="auth-form" action="../api/auth/login.php" method="POST">
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-envelope input-icon"></i>
-                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                    </div>
-                </div>
-
-                <div class="form-options">
-                    <div class="remember-me">
-                        <input type="checkbox" id="remember" name="remember">
-                        <label for="remember">Remember me</label>
-                    </div>
-                    <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Sign In</button>
-
-              
-
-    
-            <div class="social-login">
-                <div class="divider">
-                    <span>Or continue with</span>
-                </div>
-                <button type="button" class="btn btn-google">
-                    <i class="fab fa-google"></i> Google
-                </button>
-            </div>
-
-            <div class="auth-footer">
-                <p>Don't have an account? <a href="register.html">Create one here</a></p>
-            </div>
+  <div class="container">
+    <div class="hero-section">
+      <h1>Continue Your Career Journey</h1>
+      <p>Access your personalized dashboard and discover opportunities that match your skills and aspirations.</p>
+      
+      <div style="margin-top: 30px;">
+        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+          <i class="fas fa-rocket" style="margin-right: 10px; color: #ffd700;"></i>
+          <span>Track your applications</span>
         </div>
+        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+          <i class="fas fa-bell" style="margin-right: 10px; color: #ffd700;"></i>
+          <span>Get personalized notifications</span>
+        </div>
+        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+          <i class="fas fa-chart-line" style="margin-right: 10px; color: #ffd700;"></i>
+          <span>Monitor your progress</span>
+        </div>
+      </div>
     </div>
 
-    <script src="../js/pages/login.js"></script>
+    <div class="login-section">
+      <div class="logo">
+        <h2>CareerLaunch</h2>
+        <p>Sign in to your account</p>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <div class="user-type-selector">
+        <button type="button" class="type-option active" data-type="student">
+          <i class="fas fa-user-graduate"></i> Student
+        </button>
+        <button type="button" class="type-option" data-type="company">
+          <i class="fas fa-building"></i> Company
+        </button>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-with-icon">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-with-icon">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <div class="remember-me">
+            <input type="checkbox" id="remember" name="remember">
+            <label for="remember">Remember me</label>
+          </div>
+          <a href="#" class="forgot-password">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="submit-btn">Sign In</button>
+
+        <div class="register-link">
+          Don't have an account? <a href="registration.html">Create one here</a>
+        </div>
+      </form>
+    </div>
+  </div>
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    checkExistingSession();
+    
+   
+    setupUserTypeSelection();
+    
+ 
+    setupLoginForm();
+    
+    
+    preventCaching();
+    
+   
+    debugCurrentState();
+});
+async function checkExistingSession() {
+    try {
+        const response = await fetch('/api/auth/status', {
+            method: 'GET',
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate'
+            },
+            credentials: 'include'
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.loggedIn) {
+            
+                const redirectUrl = data.userType === 'student' ? 'stu.html' : 'com.html';
+                window.location.replace(redirectUrl);
+            }
+        }
+    } catch (error) {
+        console.log('No existing session or error checking session');
+    }
+}
+
+
+function setupUserTypeSelection() {
+  
+    window.selectedUserType = 'student';
+    
+    console.log('Setting up user type selection...');
+    
+    document.querySelectorAll('.type-option').forEach(option => {
+        console.log('Found option:', {
+            text: option.textContent.trim(),
+            type: option.dataset.type,
+            isActive: option.classList.contains('active')
+        });
+        
+        option.addEventListener('click', function() {
+            console.log(' Clicked:', this.dataset.type);
+            
+         
+            document.querySelectorAll('.type-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            
+         
+            this.classList.add('active');
+            window.selectedUserType = this.dataset.type;
+            
+            console.log('User type set to:', window.selectedUserType);
+            
+          
+            updateFormForUserType(window.selectedUserType);
+        });
+    });
+    
+    console.log(' Default user type:', window.selectedUserType);
+}
+
+
+function updateFormForUserType(userType) {
+    const emailInput = document.getElementById('email');
+    if (emailInput) {
+        if (userType === 'student') {
+            emailInput.placeholder = 'Enter your student email';
+        } else {
+            emailInput.placeholder = 'Enter your company email';
+        }
+    }
+}
+
+
+function setupLoginForm() {
+    const loginForm = document.getElementById('loginForm');
+    if (!loginForm) return;
+
+    loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const loginData = {
+            email: formData.get('email').trim(),
+            password: formData.get('password'),
+            userType: window.selectedUserType || 'student'
+        };
+
+        console.log('📤 Login data being sent:', {
+            email: loginData.email,
+            userType: loginData.userType,
+            passwordLength: loginData.password ? loginData.password.length : 0
+        });
+
+       
+        if (!validateLoginForm(loginData)) {
+            return;
+        }
+
+        await processLogin(loginData);
+    });
+}
+
+
+function validateLoginForm(data) {
+    const messageEl = document.getElementById('message');
+    
+    if (!data.email || !data.password) {
+        showMessage('Please fill in all fields', 'error');
+        return false;
+    }
+    
+    if (!isValidEmail(data.email)) {
+        showMessage('Please enter a valid email address', 'error');
+        return false;
+    }
+    
+    return true;
+}
+
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+
+async function processLogin(loginData) {
+    const submitBtn = document.querySelector('#loginForm .submit-btn');
+    const originalText = submitBtn.textContent;
+    
+  
+    submitBtn.textContent = 'Signing In...';
+    submitBtn.disabled = true;
+    
+    try {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginData),
+            credentials: 'include'
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            showMessage(data.message + ' Redirecting...', 'success');
+            
+      
+            document.getElementById('loginForm').reset();
+            
+          
+            setTimeout(() => {
+                window.location.replace(data.redirectUrl);
+            }, 1000);
+            
+        } else {
+            showMessage(data.message || 'Login failed. Please try again.', 'error');
+        }
+        
+    } catch (error) {
+        console.error('Login error:', error);
+        showMessage('Network error. Please check your connection and try again.', 'error');
+    } finally {
+   
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+}
+
+
+function showMessage(text, type) {
+    const messageEl = document.getElementById('message');
+    if (!messageEl) return;
+    
+    messageEl.textContent = text;
+    messageEl.className = `message ${type}`;
+    messageEl.style.display = 'block';
+    
+ 
+    if (type === 'success') {
+        setTimeout(() => {
+            messageEl.style.display = 'none';
+        }, 5000);
+    }
+}
+
+
+function preventCaching() {
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+}
+
+document.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm && document.activeElement.form === loginForm) {
+            loginForm.dispatchEvent(new Event('submit'));
+        }
+    }
+});
+
+function debugCurrentState() {
+    console.log('=== LOGIN PAGE DEBUG ===');
+    console.log('Active user type:', document.querySelector('.type-option.active')?.dataset.type);
+    console.log('Window selectedUserType:', window.selectedUserType);
+    
+
+    const debugBtn = document.createElement('button');
+    debugBtn.textContent = 'Debug Login';
+    debugBtn.style.position = 'fixed';
+    debugBtn.style.top = '10px';
+    debugBtn.style.right = '10px';
+    debugBtn.style.zIndex = '9999';
+    debugBtn.style.padding = '5px 10px';
+    debugBtn.style.background = '#ff4444';
+    debugBtn.style.color = 'white';
+    debugBtn.style.border = 'none';
+    debugBtn.style.borderRadius = '5px';
+    debugBtn.style.cursor = 'pointer';
+    debugBtn.addEventListener('click', function() {
+        console.log('=== CURRENT LOGIN STATE ===');
+        console.log('Active user type:', document.querySelector('.type-option.active')?.dataset.type);
+        console.log('Window selectedUserType:', window.selectedUserType);
+        console.log('All type options:', Array.from(document.querySelectorAll('.type-option')).map(opt => ({
+            text: opt.textContent.trim(),
+            type: opt.dataset.type,
+            isActive: opt.classList.contains('active')
+        })));
+    });
+    document.body.appendChild(debugBtn);
+}
+</script>
+
 </body>
 </html>
