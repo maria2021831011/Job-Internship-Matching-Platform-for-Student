@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Applications - JobPlatform</title>
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-content">
+
+            <div class="applications-header glass animate-fade-in">
+                <div>
+                    <h1 class="text-gradient">Candidate Applications</h1>
+                    <p>Manage and review job applications for your open positions</p>
+                </div>
+                <div class="applications-stats">
+                    <div class="stat-bubble">
+                        <span class="stat-number">156</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                    <div class="stat-bubble">
+                        <span class="stat-number">24</span>
+                        <span class="stat-label">New</span>
+                    </div>
+                    <div class="stat-bubble">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Interview</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filters-section glass animate-slide-in">
+                <div class="filter-group">
+                    <label>Job Position</label>
+                    <select id="jobFilter" class="filter-select">
+                        <option value="all">All Positions</option>
+                        <option value="frontend">Frontend Developer</option>
+                        <option value="backend">Backend Developer</option>
+                        <option value="fullstack">Full Stack Engineer</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select id="statusFilter" class="filter-select">
+                        <option value="all">All Statuses</option>
+                        <option value="new">New</option>
+                        <option value="reviewed">Reviewed</option>
+                        <option value="interview">Interview</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="hired">Hired</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Experience</label>
+                    <select id="experienceFilter" class="filter-select">
+                        <option value="all">All Levels</option>
+                        <option value="intern">Intern</option>
+                        <option value="junior">Junior (0-2 yrs)</option>
+                        <option value="mid">Mid (3-5 yrs)</option>
+                        <option value="senior">Senior (5+ yrs)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Date Range</label>
+                    <select id="dateFilter" class="filter-select">
+                        <option value="all">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="companyApplications.clearFilters()">
+                    🔄 Clear
+                </button>
+            </div>
+
+            <div class="card glass">
+                <div class="table-header">
+                    <h3>Recent Applications</h3>
+                    <div class="table-actions">
+                        <button class="btn btn-outline" onclick="companyApplications.exportApplications()">
+                            📊 Export CSV
+                        </button>
+                        <button class="btn btn-primary" onclick="companyApplications.bulkAction()">
+                            🚀 Bulk Actions
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="applications-table" id="applicationsTable">
+                </div>
+                <div class="pagination">
+                    <button class="pagination-btn" onclick="companyApplications.previousPage()">⬅️ Previous</button>
+                    <span class="pagination-info">Page 1 of 5</span>
+                    <button class="pagination-btn" onclick="companyApplications.nextPage()">Next ➡️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="applicationDetailModal" class="modal">
+        <div class="modal-content glass large">
+            <span class="close">&times;</span>
+            <div id="applicationDetailContent">
+            </div>
+        </div>
+    </div>
+
+    <div id="bulkActionsModal" class="modal">
+        <div class="modal-content glass">
+            <span class="close">&times;</span>
+            <h2>Bulk Actions</h2>
+            <div class="bulk-actions">
+                <button class="btn btn-outline" onclick="companyApplications.bulkStatusChange('reviewed')">
+                    Mark as Reviewed
+                </button>
+                <button class="btn btn-outline" onclick="companyApplications.bulkStatusChange('interview')">
+                    Schedule Interviews
+                </button>
+                <button class="btn btn-outline" onclick="companyApplications.bulkStatusChange('rejected')">
+                    Reject Applications
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/modules/applications/company-applications.js"></script>
+    <script src="../../js/components/modal.js"></script>
+    <script src="../../js/components/toast.js"></script>
+</body>
+</html>

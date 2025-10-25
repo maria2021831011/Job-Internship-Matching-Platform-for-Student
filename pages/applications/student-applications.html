@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications - JobPlatform</title>
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-content">
+
+            <div class="applications-header glass animate-fade-in">
+                <h1 class="text-gradient">My Applications</h1>
+                <div class="applications-stats">
+                    <div class="stat-bubble">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Active</span>
+                    </div>
+                    <div class="stat-bubble">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Interviews</span>
+                    </div>
+                    <div class="stat-bubble">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Offers</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filters-section glass animate-slide-in">
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select id="statusFilter" class="filter-select">
+                        <option value="all">All Applications</option>
+                        <option value="applied">Applied</option>
+                        <option value="review">Under Review</option>
+                        <option value="interview">Interview</option>
+                        <option value="offer">Offer</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Date</label>
+                    <select id="dateFilter" class="filter-select">
+                        <option value="all">All Time</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="quarter">This Quarter</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Sort By</label>
+                    <select id="sortFilter" class="filter-select">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="status">By Status</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="applicationFilters.clearFilters()">
+                    Clear Filters
+                </button>
+            </div>
+
+            <div class="applications-grid stagger-animation" id="applicationsContainer">
+            </div>
+
+            <div class="empty-state glass hidden" id="emptyState">
+                <div class="empty-illustration">📋</div>
+                <h2>No Applications Found</h2>
+                <p>You haven't applied to any jobs yet. Start your job search today!</p>
+                <button class="btn btn-primary">Browse Jobs</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="applicationModal" class="modal">
+        <div class="modal-content glass large">
+            <span class="close">&times;</span>
+            <div id="applicationModalContent">
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/modules/applications/student-applications.js"></script>
+    <script src="../../js/modules/applications/application-filters.js"></script>
+    <script src="../../js/components/modal.js"></script>
+    <script src="../../js/components/toast.js"></script>
+</body>
+</html>
