@@ -1,0 +1,30 @@
+.browse-jobs { background: linear-gradient(135deg, #0b1327 0%, #8191c3 100%); padding: 100px 0; }
+.container h2{
+    color: antiquewhite;
+}
+ .browse-jobs>.container p{
+    color: antiquewhite;
+ }
+.jobs-filter { display: flex; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; justify-content: center; margin-top: 50px; }
+  .filter-btn { padding: 10px 20px; background: white; border: 2px solid var(--light-gray); border-radius: 30px; cursor: pointer; transition: var(--transition); font-weight: 500; } .filter-btn.active, 
+  .filter-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); }
+   .jobs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; } 
+   .job-card { background: rgb(237, 239, 235); border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); cursor: pointer; position: relative; } 
+   .job-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); } 
+   .job-card:before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); transform: scaleX(0); transition: transform 0.3s ease; }
+    .job-card:hover:before { transform: scaleX(1); } .job-header { padding: 25px; border-bottom: 1px solid var(--light-gray); display: flex; justify-content: space-between; align-items: flex-start; } .job-info h3 { margin-bottom: 8px; font-size: 1.3rem; color: var(--dark); }
+     .job-company { color: var(--primary); font-weight: 600; margin-bottom: 10px; display: block; } .job-type { background: rgba(67, 97, 238, 0.1); color: var(--primary); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; } .match-badge { font-size: 0.9rem; color: var(--success); font-weight: 500; margin-bottom: 5px; } .posted-date { font-size: 0.8rem; color: var(--gray); } .job-details { padding: 20px 25px; }
+      .job-meta { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; } 
+      .job-meta span { display: flex; align-items: center; gap: 5px; color: var(--gray); font-size: 0.9rem; }
+       .job-skills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; } 
+       .skill-tag { background: var(--light); color: var(--dark); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; transition: var(--transition); } 
+       .skill-tag:hover { background: var(--primary); color: white; } 
+       .job-actions { display: flex; gap: 10px; } 
+       .job-actions .btn { flex: 1; } 
+       .text-center .btn{
+        margin: 50px;
+        color: rgb(0, 0, 0);
+        background-color: rgb(131, 236, 236);
+       }
+       @media (max-width: 768px) { .jobs-grid { grid-template-columns: 1fr; } .job-header { flex-direction: column; gap: 15px; } 
+       .job-meta { gap: 10px; } }

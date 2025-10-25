@@ -1,0 +1,124 @@
+.how-it-works {
+    background: linear-gradient(135deg, #0b1327 0%, #8191c3 100%);
+    position: relative;
+    padding: 80px 0;
+}
+
+.how-it-works h2 {
+    text-align: center;
+    font-size: 2.8rem;
+    margin-bottom: 50px;
+    background: linear-gradient(135deg, #6366f1, #67e8f9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    gap: 40px;
+}
+
+.steps:before {
+    content: '';
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #6366f1, #67e8f9);
+    z-index: 1;
+    border-radius: 2px;
+}
+
+.step {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.step-number {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #6366f1, #67e8f9);
+    color: rgb(239, 237, 231);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0 auto 25px;
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-number:after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0) 70%);
+    z-index: -1;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.3; }
+}
+
+.step:hover .step-number {
+    transform: scale(1.15);
+    box-shadow: 0 15px 40px rgba(99,102,241,0.4);
+}
+
+.step-content {
+    background: #e5f2d9;
+    padding: 30px 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover .step-content {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+}
+
+.step-content h3 {
+    color: #6366f1;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+.step-content p {
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+@media (max-width: 992px) {
+    .steps {
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .steps:before {
+        display: none;
+    }
+
+    .step {
+        padding: 0;
+    }
+}
