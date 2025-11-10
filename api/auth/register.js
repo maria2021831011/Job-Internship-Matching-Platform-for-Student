@@ -6,13 +6,13 @@ const fs = require('fs');
 const db = require('../../config/database');
 const router = express.Router();
 
-
+// Create uploads directory if it doesn't exist
 const uploadsDir = path.join(__dirname, '../../uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-
+// Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadsDir);
@@ -40,10 +40,10 @@ const upload = multer({
   }
 });
 
-
+// For company registration (no file upload)
 const noUpload = multer();
 
-
+// Student Registration
 router.post('/register_student', upload.single('resume'), async (req, res) => {
   console.log('=== STUDENT REGISTRATION STARTED ===');
   console.log('Body:', req.body);
@@ -138,7 +138,7 @@ router.post('/register_student', upload.single('resume'), async (req, res) => {
   }
 });
 
-
+// Company Registration
 router.post('/register_company', noUpload.none(), async (req, res) => {
   console.log('=== COMPANY REGISTRATION STARTED ===');
   console.log('Body:', req.body);

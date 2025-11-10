@@ -4,9 +4,10 @@ const crypto = require('crypto');
 const db = require('../../config/database');
 const router = express.Router();
 
-
+// Store reset tokens temporarily (in production use Redis or Database)
 const resetTokens = new Map();
 
+// Forgot Password - Send reset link
 router.post('/forgot-password', (req, res) => {
   const { email, userType } = req.body;
 
@@ -21,6 +22,7 @@ router.post('/forgot-password', (req, res) => {
 
   const table = userType === 'student' ? 'students' : 'companies';
 
+  // Check if user exists
   db.query(`SELECT * FROM ${table} WHERE email = ?`, [email], (err, results) => {
     if (err) {
       console.error('Database error:', err);
@@ -39,11 +41,11 @@ router.post('/forgot-password', (req, res) => {
 
     const user = results[0];
     
-
+    // Generate reset token
     const token = crypto.randomBytes(32).toString('hex');
-    const expires = Date.now() + 3600000; 
+    const expires = Date.now() + 3600000; // 1 hour from now
 
-  
+    // Store token in memory
     resetTokens.set(token, { 
       email, 
       userType, 
@@ -54,17 +56,19 @@ router.post('/forgot-password', (req, res) => {
     console.log(`Reset token generated for ${email}: ${token}`);
     console.log(`Token expires at: ${new Date(expires).toLocaleString()}`);
 
+    // For demo purposes, return the token and reset link
     const resetLink = `http://localhost:3000/reset-password.html?token=${token}&userType=${userType}`;
 
     res.json({
       success: true,
       message: 'Password reset instructions have been sent to your email',
-      token: token, 
-      resetLink: resetLink 
+      token: token, // For demo only
+      resetLink: resetLink // For demo only
     });
   });
 });
 
+// Verify reset token
 router.get('/verify-reset-token/:token', (req, res) => {
   const { token } = req.params;
 
@@ -95,6 +99,7 @@ router.get('/verify-reset-token/:token', (req, res) => {
   });
 });
 
+// Reset Password
 router.post('/reset-password', async (req, res) => {
   const { token, password, userType } = req.body;
 
@@ -107,7 +112,7 @@ router.post('/reset-password', async (req, res) => {
     });
   }
 
-
+  // Validate token
   const tokenData = resetTokens.get(token);
   if (!tokenData) {
     return res.status(400).json({ 
@@ -124,7 +129,7 @@ router.post('/reset-password', async (req, res) => {
     });
   }
 
-  
+  // Check if token userType matches request userType
   if (tokenData.userType !== userType) {
     return res.status(400).json({ 
       success: false, 
@@ -133,10 +138,11 @@ router.post('/reset-password', async (req, res) => {
   }
 
   try {
- 
+    // Hash new password
     const hashedPassword = await bcrypt.hash(password, 10);
     const table = userType === 'student' ? 'students' : 'companies';
 
+    // Update password in database
     db.query(
       `UPDATE ${table} SET password = ? WHERE email = ?`,
       [hashedPassword, tokenData.email],
@@ -158,7 +164,7 @@ router.post('/reset-password', async (req, res) => {
 
         console.log(`Password reset successfully for: ${tokenData.email}`);
 
-    
+        // Remove used token
         resetTokens.delete(token);
 
         res.json({
@@ -176,7 +182,7 @@ router.post('/reset-password', async (req, res) => {
   }
 });
 
-
+// Clean up expired tokens (runs every hour)
 setInterval(() => {
   const now = Date.now();
   let expiredCount = 0;

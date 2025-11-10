@@ -9,9 +9,9 @@ router.post('/login', (req, res) => {
   
   const { email, password, userType } = req.body;
 
-
+  // Enhanced validation with logging
   if (!email || !password || !userType) {
-    console.log('Missing fields:', { 
+    console.log('❌ Missing fields:', { 
       email: !!email, 
       password: !!password, 
       userType: userType 
@@ -22,9 +22,9 @@ router.post('/login', (req, res) => {
     });
   }
 
-  console.log(`Searching in table: ${userType === 'student' ? 'students' : 'companies'}`);
-  console.log(` Email: ${email}`);
-  console.log(` User Type: ${userType}`);
+  console.log(`🔍 Searching in table: ${userType === 'student' ? 'students' : 'companies'}`);
+  console.log(`📧 Email: ${email}`);
+  console.log(`👤 User Type: ${userType}`);
 
   const table = userType === 'student' ? 'students' : 'companies';
   const nameField = userType === 'student' ? 'name' : 'companyName';
@@ -49,7 +49,7 @@ router.post('/login', (req, res) => {
     }
 
     const user = results[0];
-    console.log(' User found:', {
+    console.log('✅ User found:', {
       id: user.id,
       name: user[nameField],
       email: user.email,
@@ -57,19 +57,19 @@ router.post('/login', (req, res) => {
     });
 
     try {
-      console.log(' Comparing password...');
+      console.log('🔐 Comparing password...');
       const isMatch = await bcrypt.compare(password, user.password);
-      console.log(' Password match result:', isMatch);
+      console.log('🔑 Password match result:', isMatch);
       
       if (!isMatch) {
-        console.log(' Password does not match');
+        console.log('❌ Password does not match');
         return res.status(400).json({ 
           success: false, 
           message: 'Invalid email or password' 
         });
       }
 
-    
+      // Set session
       req.session.userId = user.id;
       req.session.userType = userType;
       req.session.userName = user[nameField];
