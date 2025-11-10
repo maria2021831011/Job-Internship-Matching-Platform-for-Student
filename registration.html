@@ -1,0 +1,710 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerLaunch - Professional Career Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a2980, #26d0ce);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      max-width: 1200px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .hero-section {
+      flex: 1;
+      background: linear-gradient(135deg, #1a2980, #26d0ce);
+      color: white;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-section h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .hero-section p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .features {
+      margin-top: 30px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .feature i {
+      margin-right: 10px;
+      color: #ffd700;
+    }
+
+    .signup-section {
+      flex: 1;
+      padding: 50px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo h2 {
+      font-size: 2rem;
+      background: linear-gradient(to right, #1a2980, #26d0ce);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    .logo p {
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .tab-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      background: #f5f7fa;
+      border-radius: 12px;
+      overflow: hidden;
+      padding: 4px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: transparent;
+      color: #666;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .tab-btn.active {
+      background: #fff;
+      color: #1a2980;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #444;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      color: #777;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 12px 12px 38px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      outline: none;
+      background: #fff;
+      color: #333;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    textarea {
+      padding: 12px;
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #1a2980;
+      box-shadow: 0 0 0 2px rgba(26, 41, 128, 0.1);
+    }
+
+    .file-input-container {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .file-input-container input[type=file] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 15px;
+      background: #f5f7fa;
+      border-radius: 8px;
+      border: 1px dashed #bbb;
+      color: #666;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .file-input-label:hover {
+      background: #eef2f7;
+    }
+
+    .file-input-label i {
+      color: #1a2980;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(to right, #1a2980, #26d0ce);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 10px;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(26, 41, 128, 0.2);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(26, 41, 128, 0.3);
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .login-link a {
+      color: #1a2980;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    .message {
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      text-align: center;
+      display: none;
+    }
+
+    .success {
+      background: #e7f7ef;
+      color: #0a7c42;
+      border: 1px solid #a3e9c4;
+    }
+
+    .error {
+      background: #fde8e8;
+      color: #c53030;
+      border: 1px solid #fbb6b6;
+    }
+
+    .password-strength {
+      margin-top: 5px;
+      height: 5px;
+      border-radius: 5px;
+      background: #f0f0f0;
+      overflow: hidden;
+    }
+
+    .password-strength-bar {
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s, background-color 0.3s;
+    }
+
+    .strength-weak {
+      background-color: #e74c3c;
+      width: 25%;
+    }
+
+    .strength-medium {
+      background-color: #f39c12;
+      width: 50%;
+    }
+
+    .strength-strong {
+      background-color: #2ecc71;
+      width: 100%;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      
+      .hero-section {
+        padding: 30px;
+      }
+      
+      .signup-section {
+        padding: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="hero-section">
+      <h1>Launch Your Career Journey</h1>
+      <p>Connect with top companies and discover opportunities that match your skills and aspirations.</p>
+      
+      <div class="features">
+        <div class="feature">
+          <i class="fas fa-rocket"></i>
+          <span>Fast-track your career growth</span>
+        </div>
+        <div class="feature">
+          <i class="fas fa-handshake"></i>
+          <span>Connect with industry leaders</span>
+        </div>
+        <div class="feature">
+          <i class="fas fa-briefcase"></i>
+          <span>Discover exclusive opportunities</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="signup-section">
+      <div class="logo">
+        <h2>CareerLaunch</h2>
+        <p>Join as Student or Company</p>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="student">
+          <i class="fas fa-user-graduate"></i> Student
+        </button>
+        <button class="tab-btn" data-tab="company">
+          <i class="fas fa-building"></i> Company
+        </button>
+      </div>
+
+      
+      <div id="student" class="tab-content active">
+        <form id="studentForm">
+          <div class="form-group">
+            <label for="studentName">Full Name</label>
+            <div class="input-with-icon">
+              <i class="fas fa-user input-icon"></i>
+              <input type="text" id="studentName" name="name" placeholder="Enter your full name" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="studentEmail">Email Address</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope input-icon"></i>
+              <input type="email" id="studentEmail" name="email" placeholder="Enter your email" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="studentPassword">Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock input-icon"></i>
+              <input type="password" id="studentPassword" name="password" placeholder="Create a strong password" required onkeyup="checkPasswordStrength(this.value, 'student')">
+            </div>
+            <div class="password-strength">
+              <div id="studentPasswordStrength" class="password-strength-bar"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="studentInstitution">Institution</label>
+            <div class="input-with-icon">
+              <i class="fas fa-graduation-cap input-icon"></i>
+              <input type="text" id="studentInstitution" name="institution" placeholder="Your institution/university" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="studentDepartment">Department</label>
+            <div class="input-with-icon">
+              <i class="fas fa-book input-icon"></i>
+              <input type="text" id="studentDepartment" name="department" placeholder="Your department" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="studentSkills">Skills</label>
+            <div class="input-with-icon">
+              <i class="fas fa-tools input-icon"></i>
+              <input type="text" id="studentSkills" name="skills" placeholder="e.g., JavaScript, Python, React">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="studentAvailability">Availability</label>
+            <div class="input-with-icon">
+              <i class="fas fa-calendar input-icon"></i>
+              <select id="studentAvailability" name="availability">
+                <option value="">Select availability</option>
+                <option value="Immediate">Immediate</option>
+                <option value="1 month">1 month</option>
+                <option value="2 months">2 months</option>
+                <option value="3 months">3 months</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="studentResume">Upload Resume</label>
+            <div class="file-input-container">
+              <div class="file-input-label">
+                <span id="resumeFileName">Choose file (PDF, DOC, DOCX)</span>
+                <i class="fas fa-upload"></i>
+              </div>
+              <input type="file" id="studentResume" name="resume" accept=".pdf,.doc,.docx">
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">Register as Student</button>
+
+          <div class="login-link">
+            Already have an account? <a href="login.html">Login here</a>
+          </div>
+        </form>
+      </div>
+
+      <div id="company" class="tab-content">
+        <form id="companyForm">
+          <div class="form-group">
+            <label for="companyName">Company Name</label>
+            <div class="input-with-icon">
+              <i class="fas fa-building input-icon"></i>
+              <input type="text" id="companyName" name="companyName" placeholder="Enter company name" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="companyEmail">Business Email</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope input-icon"></i>
+              <input type="email" id="companyEmail" name="email" placeholder="Enter company email" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="companyPassword">Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock input-icon"></i>
+              <input type="password" id="companyPassword" name="password" placeholder="Create a strong password" required onkeyup="checkPasswordStrength(this.value, 'company')">
+            </div>
+            <div class="password-strength">
+              <div id="companyPasswordStrength" class="password-strength-bar"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="companyIndustry">Industry</label>
+            <div class="input-with-icon">
+              <i class="fas fa-industry input-icon"></i>
+              <input type="text" id="companyIndustry" name="industry" placeholder="Company industry" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="companyWebsite">Website</label>
+            <div class="input-with-icon">
+              <i class="fas fa-globe input-icon"></i>
+              <input type="url" id="companyWebsite" name="website" placeholder="https://example.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="companyDescription">Description</label>
+            <div class="input-with-icon">
+              <i class="fas fa-file-alt input-icon"></i>
+              <textarea id="companyDescription" name="description" placeholder="Brief company description" rows="3"></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">Register as Company</button>
+
+          <div class="login-link">
+            Already have an account? <a href="login.html">Login here</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+   
+    setupTabSwitching();
+   
+    setupFileInput();
+    
+   
+    setupFormSubmissions();
+    
+    checkExistingSession();
+});
+
+function setupTabSwitching() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+           
+            tabButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+           
+            const targetTab = this.dataset.tab;
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.id === targetTab) {
+                    tab.classList.add('active');
+                }
+            });
+          
+            hideMessage();
+        });
+    });
+}
+
+function setupFileInput() {
+    const resumeInput = document.getElementById('studentResume');
+    const resumeFileName = document.getElementById('resumeFileName');
+    
+    if (resumeInput && resumeFileName) {
+        resumeInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                resumeFileName.textContent = file.name;
+               
+                if (file.size > 5 * 1024 * 1024) {
+                    showMessage('File size must be less than 5MB', 'error');
+                    this.value = '';
+                    resumeFileName.textContent = 'Choose file (PDF, DOC, DOCX)';
+                }
+            } else {
+                resumeFileName.textContent = 'Choose file (PDF, DOC, DOCX)';
+            }
+        });
+    }
+}
+
+function setupFormSubmissions() {
+    
+    const studentForm = document.getElementById('studentForm');
+    if (studentForm) {
+        studentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            registerUser(this, 'student');
+        });
+    }
+    
+    const companyForm = document.getElementById('companyForm');
+    if (companyForm) {
+        companyForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            registerUser(this, 'company');
+        });
+    }
+}
+function checkPasswordStrength(password, formType = 'student') {
+    const strengthBar = document.getElementById(`${formType}PasswordStrength`);
+    if (!strengthBar) return;
+    
+    let strength = 0;
+    
+    strengthBar.className = 'password-strength-bar';
+    
+    if (password.length >= 8) strength++;
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+    if (password.match(/\d/)) strength++;
+    if (password.match(/[^a-zA-Z\d]/)) strength++;
+    if (password.length > 0) {
+        if (strength < 2) {
+            strengthBar.className = 'password-strength-bar strength-weak';
+        } else if (strength < 4) {
+            strengthBar.className = 'password-strength-bar strength-medium';
+        } else {
+            strengthBar.className = 'password-strength-bar strength-strong';
+        }
+    }
+}
+async function registerUser(form, userType) {
+    const formData = new FormData(form);
+    const submitBtn = form.querySelector('.submit-btn');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Registering...';
+    submitBtn.disabled = true;
+    
+    try {
+        const response = await fetch(`/api/auth/register_${userType}`, {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            showMessage(data.message + ' Redirecting to login...', 'success');
+          
+            form.reset();
+          
+            if (userType === 'student') {
+                const resumeFileName = document.getElementById('resumeFileName');
+                if (resumeFileName) {
+                    resumeFileName.textContent = 'Choose file (PDF, DOC, DOCX)';
+                }
+            }
+            
+            const strengthBar = document.getElementById(`${userType}PasswordStrength`);
+            if (strengthBar) {
+                strengthBar.className = 'password-strength-bar';
+            }
+            
+          
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2000);
+            
+        } else {
+            showMessage(data.message || 'Registration failed. Please try again.', 'error');
+        }
+        
+    } catch (error) {
+        console.error('Registration error:', error);
+        showMessage('Network error. Please check your connection and try again.', 'error');
+    } finally {
+      
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+}
+
+function showMessage(text, type) {
+    const messageEl = document.getElementById('message');
+    if (!messageEl) return;
+    
+    messageEl.textContent = text;
+    messageEl.className = `message ${type}`;
+    messageEl.style.display = 'block';
+
+    if (type === 'success') {
+        setTimeout(() => {
+            messageEl.style.display = 'none';
+        }, 5000);
+    }
+}
+
+function hideMessage() {
+    const messageEl = document.getElementById('message');
+    if (messageEl) {
+        messageEl.style.display = 'none';
+    }
+}
+
+async function checkExistingSession() {
+    try {
+        const response = await fetch('/api/auth/status');
+        if (response.ok) {
+            const data = await response.json();
+            if (data.loggedIn) {
+                const redirectUrl = data.userType === 'student' ? 'stu.html' : 'com.html';
+                window.location.href = redirectUrl;
+            }
+        }
+    } catch (error) {
+        
+    }
+}
+</script>
+
+</body>
+</html>
