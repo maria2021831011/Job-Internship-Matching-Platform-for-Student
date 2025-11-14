@@ -2247,6 +2247,7 @@ function updateAllApplyButtons(jobId) {
                     <div class="applications-list" id="all-applications-list">
                         <!-- Applications will be loaded here -->
                     </div>
+                    ${app.cover_letter ? `<p><strong>Cover Letter:</strong> ${app.cover_letter.substring(0, 100)}...</p>` : ''}
                 </div>
             </div>
         `;
