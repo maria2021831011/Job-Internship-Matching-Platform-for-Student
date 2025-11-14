@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Details - JobPlatform</title>
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-content">
+            <div class="back-nav animate-fade-in">
+                <a href="student-applications.html" class="back-link">
+                    ← Back to Applications
+                </a>
+            </div>
+
+            <div class="card glass application-header-card animate-fade-in">
+                <div class="application-header-content">
+                    <div class="application-main-info">
+                        <div class="company-logo-large">
+                            <div class="logo-placeholder">TC</div>
+                        </div>
+                        <div class="application-title-section">
+                            <h1 class="text-gradient">Senior Frontend Developer</h1>
+                            <h2 class="company-name">TechCorp Inc</h2>
+                            <div class="application-meta-tags">
+                                <span class="meta-tag">📍 San Francisco, CA</span>
+                                <span class="meta-tag">💰 $120,000 - $150,000</span>
+                                <span class="meta-tag">🕒 Full-time</span>
+                                <span class="meta-tag">🎯 Senior Level</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="application-status-section">
+                        <div class="status-display">
+                            <div class="status-badge-large status-interview">
+                                Interview Stage
+                            </div>
+                            <div class="application-date">
+                                Applied on January 15, 2024
+                            </div>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-secondary" onclick="applicationDetails.withdrawApplication()">
+                                Withdraw
+                            </button>
+                            <button class="btn btn-primary" onclick="applicationDetails.contactRecruiter()">
+                                Contact Recruiter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2 stagger-animation">
+
+                <div class="content-column">
+    
+                    <div class="card glass">
+                        <div class="card-header">
+                            <h2 class="card-title">Application Timeline</h2>
+                        </div>
+                        <div class="timeline-detailed" id="applicationTimeline">
+                        </div>
+                    </div>
+
+                    <div class="card glass">
+                        <div class="card-header">
+                            <h2 class="card-title">Job Description</h2>
+                        </div>
+                        <div class="job-description">
+                            <h3>About the Role</h3>
+                            <p>We're looking for a talented Senior Frontend Developer to join our growing team. You'll be responsible for building and maintaining our core web applications using modern technologies.</p>
+                            
+                            <h3>Responsibilities</h3>
+                            <ul class="responsibilities-list">
+                                <li>Develop and maintain responsive web applications</li>
+                                <li>Collaborate with design and backend teams</li>
+                                <li>Write clean, maintainable code with tests</li>
+                                <li>Mentor junior developers</li>
+                                <li>Participate in code reviews</li>
+                            </ul>
+
+                            <h3>Requirements</h3>
+                            <ul class="requirements-list">
+                                <li>5+ years of frontend development experience</li>
+                                <li>Expert knowledge of React and TypeScript</li>
+                                <li>Experience with modern build tools and CI/CD</li>
+                                <li>Strong understanding of web performance</li>
+                                <li>Excellent communication skills</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-column"> 
+                    <div class="card glass">
+                        <div class="card-header">
+                            <h2 class="card-title">Application Progress</h2>
+                        </div>
+                        <div class="progress-tracker">
+                            <div class="progress-step completed">
+                                <div class="step-icon">📝</div>
+                                <div class="step-content">
+                                    <h4>Application Submitted</h4>
+                                    <p>January 15, 2024</p>
+                                </div>
+                            </div>
+                            <div class="progress-step completed">
+                                <div class="step-icon">👀</div>
+                                <div class="step-content">
+                                    <h4>Under Review</h4>
+                                    <p>January 16, 2024</p>
+                                </div>
+                            </div>
+                            <div class="progress-step current">
+                                <div class="step-icon">🎯</div>
+                                <div class="step-content">
+                                    <h4>Technical Interview</h4>
+                                    <p>Scheduled for January 25, 2024</p>
+                                </div>
+                            </div>
+                            <div class="progress-step upcoming">
+                                <div class="step-icon">🤝</div>
+                                <div class="step-content">
+                                    <h4>Final Interview</h4>
+                                    <p>Not scheduled</p>
+                                </div>
+                            </div>
+                            <div class="progress-step upcoming">
+                                <div class="step-icon">✅</div>
+                                <div class="step-content">
+                                    <h4>Offer</h4>
+                                    <p>Pending</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card glass">
+                        <div class="card-header">
+                            <h2 class="card-title">Next Steps</h2>
+                        </div>
+                        <div class="next-steps">
+                            <div class="next-step-item">
+                                <div class="step-indicator">1</div>
+                                <div class="step-details">
+                                    <h4>Prepare for Technical Interview</h4>
+                                    <p>Review data structures and algorithms</p>
+                                    <button class="btn btn-outline btn-sm">View Prep Materials</button>
+                                </div>
+                            </div>
+                            <div class="next-step-item">
+                                <div class="step-indicator">2</div>
+                                <div class="step-details">
+                                    <h4>Complete Coding Assessment</h4>
+                                    <p>Due by January 22, 2024</p>
+                                    <button class="btn btn-primary btn-sm">Start Assessment</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card glass">
+                        <div class="card-header">
+                            <h2 class="card-title">Contact Information</h2>
+                        </div>
+                        <div class="contact-info">
+                            <div class="contact-person">
+                                <div class="contact-avatar">
+                                    <img src="../../assets/images/avatars/recruiter1.jpg" alt="Sarah Wilson">
+                                </div>
+                                <div class="contact-details">
+                                    <h4>Sarah Wilson</h4>
+                                    <p>Technical Recruiter</p>
+                                    <div class="contact-methods">
+                                        <a href="mailto:sarah@techcorp.com" class="contact-link">📧 Email</a>
+                                        <a href="#" class="contact-link">💬 Message</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content glass">
+            <span class="close">&times;</span>
+            <h2>Schedule Interview</h2>
+            <form id="scheduleForm" class="schedule-form">
+                <div class="form-group">
+                    <label for="interviewDate">Interview Date</label>
+                    <input type="date" id="interviewDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="interviewTime">Interview Time</label>
+                    <input type="time" id="interviewTime" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="interviewType">Interview Type</label>
+                    <select id="interviewType" class="form-control" required>
+                        <option value="technical">Technical Interview</option>
+                        <option value="behavioral">Behavioral Interview</option>
+                        <option value="cultural">Cultural Fit Interview</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="interviewer">Interviewer</label>
+                    <input type="text" id="interviewer" class="form-control" placeholder="Enter interviewer name">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="applicationDetails.closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Schedule Interview</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../js/modules/applications/application-details.js"></script>
+    <script src="../../js/modules/applications/status-timeline.js"></script>
+    <script src="../../js/components/modal.js"></script>
+    <script src="../../js/components/toast.js"></script>
+</body>
+</html>
