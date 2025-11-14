@@ -9,7 +9,6 @@ router.post('/login', (req, res) => {
   
   const { email, password, userType } = req.body;
 
-  // Enhanced validation with logging
   if (!email || !password || !userType) {
     console.log('❌ Missing fields:', { 
       email: !!email, 
@@ -49,7 +48,7 @@ router.post('/login', (req, res) => {
     }
 
     const user = results[0];
-    console.log('✅ User found:', {
+    console.log(' User found:', {
       id: user.id,
       name: user[nameField],
       email: user.email,
@@ -57,26 +56,26 @@ router.post('/login', (req, res) => {
     });
 
     try {
-      console.log('🔐 Comparing password...');
+      console.log(' Comparing password...');
       const isMatch = await bcrypt.compare(password, user.password);
-      console.log('🔑 Password match result:', isMatch);
+      console.log(' Password match result:', isMatch);
       
       if (!isMatch) {
-        console.log('❌ Password does not match');
+        console.log('Password does not match');
         return res.status(400).json({ 
           success: false, 
           message: 'Invalid email or password' 
         });
       }
 
-      // Set session
+    
       req.session.userId = user.id;
       req.session.userType = userType;
       req.session.userName = user[nameField];
       req.session.userEmail = user.email;
       
-      console.log('🎉 Login successful for:', user[nameField]);
-      console.log('💾 Session set:', { 
+      console.log('Login successful for:', user[nameField]);
+      console.log(' Session set:', { 
         userId: user.id, 
         userType: userType, 
         userName: user[nameField] 
@@ -89,7 +88,7 @@ router.post('/login', (req, res) => {
         redirectUrl: userType === 'student' ? '/stu.html' : '/com.html'
       });
     } catch (hashError) {
-      console.error('❌ Password comparison error:', hashError);
+      console.error(' Password comparison error:', hashError);
       return res.status(500).json({ 
         success: false, 
         message: 'Authentication error' 
@@ -98,4 +97,4 @@ router.post('/login', (req, res) => {
   });
 });
 
-module.exports = router;
+module.exports = router; 
