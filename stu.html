@@ -1243,7 +1243,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
            
             <div id="profile-content" class="form-container" style="display: none;">
@@ -1448,7 +1447,7 @@
         </div>
     </div>
 <script>
-    // Global variables
+   
     let currentUser = null;
     let allJobs = [];
     let userApplications = [];
@@ -1456,7 +1455,6 @@
     let userNotifications = [];
     let socket = null;
 
-    // Initialize the dashboard
     document.addEventListener('DOMContentLoaded', function() {
         checkAuthentication();
         setupEventListeners();
@@ -1464,7 +1462,7 @@
         connectToRealTime();
     });
 
-    // Authentication functions
+   
     async function checkAuthentication() {
         try {
             const response = await fetch('/api/auth/status');
@@ -1495,7 +1493,6 @@
         document.getElementById('userName').textContent = currentUser.name;
         document.getElementById('userMajor').textContent = currentUser.department || 'Not specified';
         
-        // Update avatar initials
         const initials = currentUser.name
             .split(' ')
             .map(word => word[0])
@@ -1505,14 +1502,13 @@
         document.getElementById('userAvatar').textContent = initials;
     }
 
-    // Event listeners setup
     function setupEventListeners() {
-        // Menu toggle for mobile
+       
         document.getElementById('menuToggle').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('active');
         });
 
-        // Sidebar navigation
+        
         document.querySelectorAll('.menu-item').forEach(item => {
             if (!item.classList.contains('logout-btn')) {
                 item.addEventListener('click', function(e) {
@@ -1520,14 +1516,13 @@
                     const page = this.getAttribute('data-page');
                     navigateToPage(page);
                     
-                    // Update active menu item
                     document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
                     this.classList.add('active');
                 });
             }
         });
 
-        // Search functionality
+    
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
             searchInput.addEventListener('input', function() {
@@ -1535,7 +1530,7 @@
                 if (query.length > 2) {
                     performSearch(query);
                 } else if (query.length === 0) {
-                    // Reset search
+                 
                     if (document.getElementById('jobs-content').style.display !== 'none') {
                         loadAndDisplayJobs();
                     }
@@ -1543,13 +1538,11 @@
             });
         }
 
-        // Logout button
         document.getElementById('logoutBtn').addEventListener('click', function(e) {
             e.preventDefault();
             handleLogout();
         });
 
-        // Status tabs
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('status-tab')) {
                 const status = e.target.getAttribute('data-status');
@@ -1561,9 +1554,8 @@
         });
     }
 
-    // Navigation function
     function navigateToPage(page) {
-        // Hide all content sections
+     
         const sections = [
             'dashboard-content',
             'profile-content', 
@@ -1580,7 +1572,7 @@
             if (element) element.style.display = 'none';
         });
         
-        // Show the selected page
+       
         switch(page) {
             case 'dashboard':
                 document.getElementById('dashboard-content').style.display = 'block';
@@ -1613,27 +1605,25 @@
         }
     }
 
-    // Data loading functions
     async function loadDashboardData() {
         showLoading();
         
         try {
-            // Load jobs
+          
             const jobsResponse = await fetch('/api/jobs/active');
             const jobsData = await jobsResponse.json();
             if (jobsData.success) allJobs = jobsData.jobs;
             
-            // Load applications
+          
             const appsResponse = await fetch('/api/jobs/applications');
             const appsData = await appsResponse.json();
             if (appsData.success) userApplications = appsData.applications || [];
             
-            // Load notifications
+         
             const notifsResponse = await fetch('/api/notifications');
             const notifsData = await notifsResponse.json();
             if (notifsData.success) userNotifications = notifsData.notifications || [];
             
-            // Update dashboard with real data
             updateDashboardStats();
             renderRecommendedJobs();
             renderApplications();
@@ -1641,7 +1631,7 @@
             
         } catch (error) {
             console.error('Error loading dashboard data:', error);
-            // Use mock data for demo
+          
             loadMockData();
         }
         
@@ -1649,7 +1639,7 @@
     }
 
     function updateDashboardStats() {
-        // Update stats counts
+     
         const applicationsCount = userApplications.length;
         const interviewsCount = userApplications.filter(app => app.status === 'interview').length;
         const shortlistedCount = userApplications.filter(app => app.status === 'shortlisted').length;
@@ -1660,7 +1650,7 @@
         document.getElementById('shortlisted-count').textContent = shortlistedCount;
         document.getElementById('profile-completion').textContent = `${profileCompletion}%`;
         
-        // Update menu badges
+      
         const applicationsBadge = document.getElementById('applications-count-badge');
         const messagesBadge = document.getElementById('messages-count-badge');
         const notificationsBadge = document.getElementById('notifications-count-badge');
@@ -1723,7 +1713,6 @@
             </div>
         `).join('');
         
-        // Add event listeners to buttons
         container.querySelectorAll('.apply-job-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const jobId = this.getAttribute('data-job-id');
@@ -1801,28 +1790,25 @@
             </div>
         `).join('');
         
-        // Add click handlers to mark as read
         container.querySelectorAll('.notification-item').forEach(item => {
             item.addEventListener('click', function() {
                 this.classList.remove('unread');
-                // In real app, mark as read in database
+             
             });
         });
     }
 
-// Job application system - FIXED VERSION
 async function applyForJob(jobId) {
     console.log('=== APPLY FOR JOB CLICKED ===');
     console.log('Job ID:', jobId);
     
-    // Validate jobId
+
     if (!jobId || jobId === 'undefined') {
         console.log('❌ Invalid job ID');
         showNotification('Invalid job selection. Please try again.', 'error');
         return;
     }
 
-    // Find the job in allJobs array
     const job = allJobs.find(j => j.id == jobId);
     if (!job) {
         console.log('❌ Job not found in local data. Available jobs:', allJobs);
@@ -1832,7 +1818,6 @@ async function applyForJob(jobId) {
 
     console.log('✅ Job found:', job.title, 'Company:', job.companyName);
 
-    // Check if already applied
     try {
         const checkResponse = await fetch(`/api/jobs/check-application/${jobId}`);
         if (checkResponse.ok) {
@@ -1845,10 +1830,9 @@ async function applyForJob(jobId) {
         }
     } catch (error) {
         console.log('No check endpoint or error:', error);
-        // Continue with application
+      
     }
 
-    // Show application modal
     showApplicationModal(job);
 }
 
@@ -1899,7 +1883,6 @@ function showApplicationModal(job) {
 
     document.body.appendChild(modal);
 
-    // Close modal events
     modal.querySelector('.modal-close').addEventListener('click', () => {
         console.log('Modal closed by X button');
         modal.remove();
@@ -1917,7 +1900,6 @@ function showApplicationModal(job) {
         }
     });
 
-    // Handle form submission
     modal.querySelector('#application-form').addEventListener('submit', (e) => handleApplicationSubmit(e, job.id));
 }
 
@@ -1926,11 +1908,9 @@ async function handleApplicationSubmit(e, jobId) {
     console.log('=== APPLICATION FORM SUBMITTED ===');
     console.log('Job ID from parameter:', jobId);
     
-    // Double check the hidden input value
     const hiddenJobId = document.getElementById('apply-job-id').value;
     console.log('Job ID from hidden input:', hiddenJobId);
     
-    // Use the jobId from parameter as primary, fallback to hidden input
     const finalJobId = jobId || hiddenJobId;
     
     if (!finalJobId) {
@@ -1973,7 +1953,7 @@ async function handleApplicationSubmit(e, jobId) {
             showNotification(`✅ Application submitted to ${result.companyName} successfully!`, 'success');
             document.querySelector('.modal').remove();
             updateAllApplyButtons(finalJobId);
-            loadDashboardData(); // Refresh dashboard
+            loadDashboardData(); 
         } else {
             showNotification(`❌ ${result.message}`, 'error');
             submitBtn.disabled = false;
@@ -2121,7 +2101,7 @@ function updateAllApplyButtons(jobId) {
         }
     }
 */
-    // Page loading functions
+    
     async function loadJobsPage() {
         const container = document.getElementById('jobs-content');
         
@@ -2145,7 +2125,7 @@ function updateAllApplyButtons(jobId) {
 
         await loadAndDisplayJobs();
         
-        // Refresh button
+    
         document.getElementById('refreshJobs').addEventListener('click', async function() {
             await loadAndDisplayJobs();
             showNotification('Jobs refreshed!', 'success');
@@ -2226,7 +2206,6 @@ function updateAllApplyButtons(jobId) {
             </div>
         `).join('');
         
-        // Add event listeners
         container.querySelectorAll('.apply-job-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const jobId = this.getAttribute('data-job-id');
@@ -2268,6 +2247,7 @@ function updateAllApplyButtons(jobId) {
                     <div class="applications-list" id="all-applications-list">
                         <!-- Applications will be loaded here -->
                     </div>
+                    ${app.cover_letter ? `<p><strong>Cover Letter:</strong> ${app.cover_letter.substring(0, 100)}...</p>` : ''}
                 </div>
             </div>
         `;
@@ -2449,7 +2429,6 @@ function updateAllApplyButtons(jobId) {
     function loadProfileData() {
         if (!currentUser) return;
         
-        // In real app, fetch from API
         document.getElementById('profile-name').value = currentUser.name || '';
         document.getElementById('profile-email').value = currentUser.email || '';
         document.getElementById('profile-phone').value = currentUser.phone || '';
@@ -2462,16 +2441,16 @@ function updateAllApplyButtons(jobId) {
     }
 
     function loadResumeData() {
-        // In real app, fetch resume data from API
+       
         console.log('Loading resume data...');
     }
 
     function loadSettingsData() {
-        // In real app, fetch settings from API
+       
         console.log('Loading settings data...');
     }
 
-    // Utility functions
+    
     function getInitials(name) {
         if (!name) return '??';
         return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
@@ -2526,7 +2505,7 @@ function updateAllApplyButtons(jobId) {
     }
 
     function calculateMatchScore(job) {
-        // Simplified match score calculation
+   
         if (!currentUser || !currentUser.skills || !job.skills_required) return Math.floor(Math.random() * 20) + 70;
         
         const userSkills = currentUser.skills.toLowerCase().split(',').map(s => s.trim());
@@ -2544,7 +2523,7 @@ function updateAllApplyButtons(jobId) {
         console.log('Searching for:', query);
         
         if (document.getElementById('jobs-content').style.display !== 'none') {
-            // Filter jobs based on search query
+        
             const filteredJobs = allJobs.filter(job => 
                 job.title.toLowerCase().includes(query) || 
                 job.companyName.toLowerCase().includes(query) ||
@@ -2568,15 +2547,15 @@ function updateAllApplyButtons(jobId) {
     }
 
     function showLoading() {
-        // Could show a loading spinner
+        
     }
 
     function hideLoading() {
-        // Could hide loading spinner
+        
     }
 
     function connectToRealTime() {
-        // In real app, connect to WebSocket
+       
         console.log('Real-time features would be connected here');
     }
 
@@ -2607,7 +2586,7 @@ function updateAllApplyButtons(jobId) {
         }
     }
 
-    // Mock data for demo purposes
+    
     function loadMockData() {
         allJobs = [
             {

@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../../config/database'); // FIXED PATH
+const db = require('../../config/database'); 
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure profiles directory exists
+
 const profilesDir = path.join(__dirname, '../../uploads/profiles');
 if (!fs.existsSync(profilesDir)) {
   fs.mkdirSync(profilesDir, { recursive: true });
 }
 
-// Configure multer for profile pictures
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, profilesDir);
@@ -24,7 +23,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ 
   storage: storage,
-  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+  limits: { fileSize: 2 * 1024 * 1024 }, 
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
       cb(null, true);
@@ -34,7 +33,7 @@ const upload = multer({
   }
 });
 
-// Get student profile
+
 router.get('/student', async (req, res) => {
   if (!req.session.userId || req.session.userType !== 'student') {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -67,7 +66,7 @@ router.get('/student', async (req, res) => {
   }
 });
 
-// Update student profile
+
 router.put('/student', upload.single('profile_picture'), async (req, res) => {
   if (!req.session.userId || req.session.userType !== 'student') {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -76,13 +75,13 @@ router.put('/student', upload.single('profile_picture'), async (req, res) => {
   try {
     const { name, email, phone, graduation_date, location, bio, skills } = req.body;
 
-    // Update students table
+    
     await db.promise().execute(
       'UPDATE students SET name = ?, email = ? WHERE id = ?',
       [name, email, req.session.userId]
     );
 
-    // Update or insert student profile
+    
     const [existing] = await db.promise().execute(
       'SELECT * FROM student_profiles WHERE student_id = ?',
       [req.session.userId]
@@ -106,7 +105,7 @@ router.put('/student', upload.single('profile_picture'), async (req, res) => {
       );
     }
 
-    // Update session
+    
     req.session.userName = name;
 
     res.json({ success: true, message: 'Profile updated successfully' });
@@ -116,7 +115,7 @@ router.put('/student', upload.single('profile_picture'), async (req, res) => {
   }
 });
 
-// Get company profile
+
 router.get('/company', async (req, res) => {
   if (!req.session.userId || req.session.userType !== 'company') {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -148,7 +147,7 @@ router.get('/company', async (req, res) => {
   }
 });
 
-// Update company profile
+
 router.put('/company', upload.single('logo'), async (req, res) => {
   if (!req.session.userId || req.session.userType !== 'company') {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -157,13 +156,13 @@ router.put('/company', upload.single('logo'), async (req, res) => {
   try {
     const { companyName, email, phone, website, description, size, founded_year } = req.body;
 
-    // Update companies table
+    
     await db.promise().execute(
       'UPDATE companies SET companyName = ?, email = ? WHERE id = ?',
       [companyName, email, req.session.userId]
     );
 
-    // Update or insert company profile
+    
     const [existing] = await db.promise().execute(
       'SELECT * FROM company_profiles WHERE company_id = ?',
       [req.session.userId]
@@ -187,7 +186,7 @@ router.put('/company', upload.single('logo'), async (req, res) => {
       );
     }
 
-    // Update session
+    
     req.session.userName = companyName;
 
     res.json({ success: true, message: 'Profile updated successfully' });

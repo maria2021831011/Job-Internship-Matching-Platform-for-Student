@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Profile - JobPlatform</title>
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-content">
+            <div class="card glass animate-fade-in" style="margin-bottom: var(--space-lg);">
+                <div class="profile-header">
+                    <div class="avatar-section">
+                        <div class="avatar-large company">
+                            <img src="../../assets/images/avatars/company1.jpg" alt="Company Logo">
+                            <div class="verification-badge">✓</div>
+                        </div>
+                        <div class="profile-info">
+                            <h1 class="text-gradient">TechCorp Inc</h1>
+                            <p class="profile-title">Technology • 500-1000 employees • San Francisco, CA</p>
+                            <div class="company-rating">
+                                ⭐⭐⭐⭐⭐ 4.8 (1.2k reviews)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn btn-primary" onclick="companyProfile.editProfile()">Edit Profile</button>
+                        <button class="btn btn-secondary" onclick="companyProfile.viewAnalytics()">View Analytics</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2 stagger-animation">
+                <div class="content-column">
+                    <div class="card glass">
+                        <div class="card-header">
+                            <h2 class="card-title">Company Information</h2>
+                        </div>
+                        <div class="company-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Industry</span>
+                                <span class="detail-value">Technology & Software Development</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Company Size</span>
+                                <span class="detail-value">500-1000 employees</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Founded</span>
+                                <span class="detail-value">2015</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Website</span>
+                                <a href="#" class="detail-value link">www.techcorp.com</a>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Location</span>
+                                <span class="detail-value">San Francisco, California, USA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card glass">
+                        <div class="card-header">
+                            <h2 class="card-title">About Us</h2>
+                        </div>
+                        <div class="company-description">
+                            <p>TechCorp is a leading technology company focused on innovative software solutions. We're passionate about creating products that make a difference in people's lives.</p>
+                            <p>Our team consists of talented individuals from diverse backgrounds, all working together to push the boundaries of what's possible in technology.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-column">
+                    <div class="card glass">
+                        <div class="card-header">
+                            <h2 class="card-title">Company Statistics</h2>
+                        </div>
+                        <div class="stats-grid company-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">24</div>
+                                <div class="stat-label">Active Jobs</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">1.2k</div>
+                                <div class="stat-label">Applications</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">156</div>
+                                <div class="stat-label">Interviews</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">89</div>
+                                <div class="stat-label">Hires</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card glass">
+                        <div class="card-header">
+                            <h2 class="card-title">Recent Activity</h2>
+                        </div>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">🎯</div>
+                                <div class="activity-content">
+                                    <p>Posted new job: Senior Frontend Developer</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">📧</div>
+                                <div class="activity-content">
+                                    <p>Sent interview invites to 5 candidates</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">✅</div>
+                                <div class="activity-content">
+                                    <p>Hired Maria Rodriguez as Product Manager</p>
+                                    <span class="activity-time">3 days ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card glass">
+                        <div class="card-header">
+                            <h2 class="card-title">Team Members</h2>
+                        </div>
+                        <div class="team-grid">
+                            <div class="team-member">
+                                <div class="member-avatar">
+                                    <img src="../../assets/images/avatars/team1.jpg" alt="John Smith">
+                                </div>
+                                <div class="member-info">
+                                    <h4>John Smith</h4>
+                                    <p>HR Manager</p>
+                                </div>
+                            </div>
+                            <div class="team-member">
+                                <div class="member-avatar">
+                                    <img src="../../assets/images/avatars/team2.jpg" alt="Sarah Chen">
+                                </div>
+                                <div class="member-info">
+                                    <h4>Sarah Chen</h4>
+                                    <p>Recruitment Lead</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content glass large">
+            <span class="close">&times;</span>
+            <h2>Edit Company Profile</h2>
+            <form id="companyProfileForm" class="form-grid">
+                <div class="form-group">
+                    <label for="companyName">Company Name</label>
+                    <input type="text" id="companyName" class="form-control" value="TechCorp Inc" required>
+                </div>
+                <div class="form-group">
+                    <label for="companyIndustry">Industry</label>
+                    <input type="text" id="companyIndustry" class="form-control" value="Technology & Software Development" required>
+                </div>
+                <div class="form-group">
+                    <label for="companySize">Company Size</label>
+                    <select id="companySize" class="form-control" required>
+                        <option value="1-10">1-10 employees</option>
+                        <option value="11-50">11-50 employees</option>
+                        <option value="51-200">51-200 employees</option>
+                        <option value="201-500">201-500 employees</option>
+                        <option value="501-1000" selected>501-1000 employees</option>
+                        <option value="1000+">1000+ employees</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="companyWebsite">Website</label>
+                    <input type="url" id="companyWebsite" class="form-control" value="https://www.techcorp.com" required>
+                </div>
+                <div class="form-group full-width">
+                    <label for="companyDescription">Company Description</label>
+                    <textarea id="companyDescription" class="form-control" rows="4" required>TechCorp is a leading technology company focused on innovative software solutions...</textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="companyProfile.closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../js/modules/profile/company-profile.js"></script>
+    <script src="../../js/components/modal.js"></script>
+    <script src="../../js/components/toast.js"></script>
+</body>
+</html>

@@ -1980,6 +1980,14 @@
                     <div class="jobs-list" id="all-jobs-list">
                         <!-- Jobs will be loaded here -->
                     </div>
+                    <div class="job-actions">
+                        <a href="#" class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
+                            <i class="fas fa-eye"></i> View Applicants
+                        </a>
+                        <a href="#" class="btn btn-outline edit-job-btn" data-job-id="${job.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    </div>
                 </div>
             </div>
         `;
@@ -2004,6 +2012,34 @@
                             Post Your First Job
                         </button>
                     </div>
+                </div>
+            </div>
+        `;
+
+        renderAllApplicants();
+        
+        // Refresh button
+        const refreshBtn = document.getElementById('refreshApplicants');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', function() {
+                loadDashboardData();
+                showNotification('Applicants refreshed!', 'success');
+            });
+        }
+        
+        container.style.display = 'block';
+    }
+
+    function renderAllApplicants() {
+        const container = document.getElementById('all-applicants-grid');
+        if (!container) return;
+        
+        if (allApplications.length === 0) {
+            container.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                    <i class="fas fa-users" style="font-size: 3rem; color: var(--gray); margin-bottom: 15px;"></i>
+                    <h3>No applicants yet</h3>
+                    <p>Applicants will appear here when they apply to your jobs</p>
                 </div>
             `;
             return;
@@ -2196,6 +2232,23 @@
                 <div class="section-content">
                     <div id="interviews-list">
                         <!-- Interviews will be loaded here -->
+                    </div>
+                    
+                    <div class="applicant-count">
+                        <div class="applicant-number">${job.application_count || 0}</div>
+                        <div class="applicant-label">Applicants</div>
+                    </div>
+                    
+                    <div class="job-actions">
+                        <a href="#" class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
+                            <i class="fas fa-eye"></i> View Applicants
+                        </a>
+                        <a href="#" class="btn btn-outline edit-job-btn" data-job-id="${job.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="#" class="btn btn-outline delete-job-btn" data-job-id="${job.id}" style="color: var(--danger); border-color: var(--danger);">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
                     </div>
                 </div>
             </div>
@@ -2534,6 +2587,10 @@
             const response = await fetch(`/api/jobs/${jobId}`, {
                 method: 'DELETE'
             });
+        }
+
+        function loadCompanyProfilePage() {
+            const container = document.getElementById('dynamic-content');
             
             const result = await response.json();
             

@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../../config/database'); // FIXED PATH
+const db = require('../../config/database'); 
 
-// Get notifications for user
 router.get('/', async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -27,7 +26,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Mark notification as read
 router.put('/:id/read', async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -46,7 +44,7 @@ router.put('/:id/read', async (req, res) => {
   }
 });
 
-// Mark all notifications as read
+
 router.put('/read-all', async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -65,7 +63,6 @@ router.put('/read-all', async (req, res) => {
   }
 });
 
-// Create notification (internal use)
 async function createNotification(userId, userType, title, message, type = 'system') {
   try {
     await db.promise().execute(

@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../../config/database'); // FIXED PATH
+const db = require('../../config/database'); 
 
-// Get conversations for user
 router.get('/conversations', async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -78,8 +77,6 @@ router.get('/conversations', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
-
-// Get messages between users
 router.get('/:partnerId', async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -104,7 +101,7 @@ router.get('/:partnerId', async (req, res) => {
       partnerId, partnerType, userId, userType
     ]);
 
-    // Mark messages as read
+  
     await db.promise().execute(
       `UPDATE messages SET read_status = TRUE 
        WHERE sender_id = ? AND sender_type = ? 
@@ -120,7 +117,6 @@ router.get('/:partnerId', async (req, res) => {
   }
 });
 
-// Send message
 router.post('/send', async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ success: false, message: 'Unauthorized' });

@@ -5,13 +5,12 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, '../../uploads/resumes');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Configure multer for file uploads
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, uploadsDir);
@@ -36,7 +35,7 @@ const upload = multer({
     }
 });
 
-// Get all active jobs for students - FIXED
+
 router.get('/active', async (req, res) => {
     try {
         console.log('Fetching active jobs...');
@@ -62,7 +61,7 @@ router.get('/active', async (req, res) => {
 
 
 
-// Check if student already applied - ADD THIS
+
 router.get('/check-application/:jobId', async (req, res) => {
     if (!req.session.userId || req.session.userType !== 'student') {
         return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -192,7 +191,7 @@ router.post('/apply', upload.single('resume'), async (req, res) => {
             body: req.body 
         });
 
-        // Enhanced validation
+        
         if (!jobId || jobId.trim() === '') {
             console.log('❌ Job ID is missing or empty');
             return res.status(400).json({ 
@@ -201,7 +200,7 @@ router.post('/apply', upload.single('resume'), async (req, res) => {
             });
         }
 
-        // Check if job exists and is active
+        
         const jobCheckQuery = `
             SELECT j.*, c.companyName 
             FROM jobs j 
@@ -222,7 +221,7 @@ router.post('/apply', upload.single('resume'), async (req, res) => {
 
         console.log('Job found:', job[0].title, 'Company:', job[0].companyName);
 
-        // Check if already applied
+        
         console.log('Checking existing application...');
         const checkQuery = 'SELECT * FROM applications WHERE job_id = ? AND student_id = ?';
         const [existing] = await db.promise().execute(checkQuery, [jobId, studentId]);
@@ -235,7 +234,7 @@ router.post('/apply', upload.single('resume'), async (req, res) => {
             });
         }
 
-        // Save application
+        
         console.log('Saving application...');
         const applyQuery = `
             INSERT INTO applications (job_id, student_id, cover_letter, resume_path, status)
@@ -262,8 +261,7 @@ router.post('/apply', upload.single('resume'), async (req, res) => {
 
     } catch (error) {
         console.error('Error applying for job:', error);
-        
-        // Handle multer errors
+    
         if (error instanceof multer.MulterError) {
             if (error.code === 'LIMIT_FILE_SIZE') {
                 return res.status(400).json({ 
@@ -279,8 +277,6 @@ router.post('/apply', upload.single('resume'), async (req, res) => {
         });
     }
 });
-
-// Get company's jobs - FIXED
 router.get('/company', async (req, res) => {
     if (!req.session.userId || req.session.userType !== 'company') {
         return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -304,7 +300,6 @@ router.get('/company', async (req, res) => {
     }
 });
 
-// Get applications for company's jobs - FIXED
 router.get('/applications', async (req, res) => {
     if (!req.session.userId || req.session.userType !== 'company') {
         return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -339,7 +334,7 @@ router.get('/applications', async (req, res) => {
     }
 });
 
-// Update application status - FIXED
+
 router.put('/applications/:id/status', async (req, res) => {
     if (!req.session.userId || req.session.userType !== 'company') {
         return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -370,7 +365,7 @@ router.put('/applications/:id/status', async (req, res) => {
     }
 });
 
-// Create new job - FIXED
+
 router.post('/create', async (req, res) => {
     if (!req.session.userId || req.session.userType !== 'company') {
         return res.status(401).json({ success: false, message: 'Unauthorized' });
