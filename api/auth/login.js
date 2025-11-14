@@ -9,7 +9,6 @@ router.post('/login', (req, res) => {
   
   const { email, password, userType } = req.body;
 
-  // Enhanced validation with logging
   if (!email || !password || !userType) {
     console.log('❌ Missing fields:', { 
       email: !!email, 
@@ -69,7 +68,7 @@ router.post('/login', (req, res) => {
         });
       }
 
-      // Set session
+    
       req.session.userId = user.id;
       req.session.userType = userType;
       req.session.userName = user[nameField];
@@ -98,4 +97,4 @@ router.post('/login', (req, res) => {
   });
 });
 
-module.exports = router;
+module.exports = router; 
