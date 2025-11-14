@@ -1322,271 +1322,663 @@
         </div>
     </div>
 
-    <script>
-        // Global variables
-        let currentCompany = null;
-        let allJobs = [];
-        let allApplications = [];
-        let allNotifications = [];
+   <script>
+    // Global variables
+    let currentCompany = null;
+    let allJobs = [];
+    let allApplications = [];
+    let allNotifications = [];
 
-        // Initialize the dashboard
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check authentication
-            checkAuthentication();
-            
-            // Setup event listeners
-            setupEventListeners();
-            
-            // Load initial data
-            loadDashboardData();
-        });
+    // Initialize the dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Company dashboard loading...');
+        checkAuthentication();
+        setupEventListeners();
+    });
 
-        // Authentication functions
-        async function checkAuthentication() {
-            // In a real app, this would check with the server
-            // For demo purposes, we'll simulate a logged-in company
-            try {
-                // Simulate API call to check auth status
-                const response = await fetch('/api/auth/status', {
-                    credentials: 'include'
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    currentCompany = data.company;
-                    updateUIWithCompanyData();
-                } else {
-                    // Redirect to login if not authenticated
-                    window.location.href = '/login.html';
-                }
-            } catch (error) {
-                console.error('Auth check failed:', error);
-                // For demo, create a mock company
-                currentCompany = {
-                    id: 1,
-                    companyName: 'TechSolutions Inc.',
-                    email: 'contact@techsolutions.com',
-                    industry: 'Technology',
-                    website: 'https://techsolutions.com',
-                    description: 'A leading technology company specializing in innovative software solutions.'
+    // Authentication functions
+    async function checkAuthentication() {
+        try {
+            console.log('Checking authentication...');
+            const response = await fetch('/api/auth/status');
+            const data = await response.json();
+            console.log('Auth status:', data);
+            
+            if (data.loggedIn && data.userType === 'company') {
+                console.log('Company user authenticated');
+                currentCompany = data.userData || {
+                    id: data.userId,
+                    companyName: data.userName,
+                    email: '',
+                    industry: ''
                 };
                 updateUIWithCompanyData();
+                loadDashboardData();
+            } else {
+                console.log('Not authenticated, redirecting to login');
+                window.location.href = '/login.html';
             }
+        } catch (error) {
+            console.error('Auth check failed:', error);
+            window.location.href = '/login.html';
         }
+    }
 
-        function updateUIWithCompanyData() {
-            if (!currentCompany) return;
-            
-            // Update welcome message
-            document.getElementById('welcome-title').textContent = `Welcome, ${currentCompany.companyName}`;
-            
-            // Update company name in profile
-            document.getElementById('companyName').textContent = currentCompany.companyName;
-            
-            // Update avatar initials
-            const initials = currentCompany.companyName
+    function updateUIWithCompanyData() {
+        if (!currentCompany) return;
+        
+        console.log('Updating UI with company data:', currentCompany);
+        
+        const welcomeTitle = document.getElementById('welcome-title');
+        const companyNameElement = document.getElementById('companyName');
+        const companyAvatar = document.getElementById('companyAvatar');
+        
+        if (welcomeTitle) {
+            welcomeTitle.textContent = `Welcome, ${currentCompany.companyName || currentCompany.name}`;
+        }
+        
+        if (companyNameElement) {
+            companyNameElement.textContent = currentCompany.companyName || currentCompany.name;
+        }
+        
+        // Update avatar initials
+        if (companyAvatar) {
+            const companyName = currentCompany.companyName || currentCompany.name || 'Company';
+            const initials = companyName
                 .split(' ')
                 .map(word => word[0])
                 .join('')
                 .toUpperCase()
                 .substring(0, 2);
-            document.getElementById('companyAvatar').textContent = initials;
+            companyAvatar.textContent = initials;
         }
+    }
 
-        // Event listeners setup
-        function setupEventListeners() {
-            // Menu toggle for mobile
-            document.getElementById('menuToggle').addEventListener('click', function() {
+    // Event listeners setup
+    function setupEventListeners() {
+        console.log('Setting up event listeners...');
+        
+        // Menu toggle for mobile
+        const menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
                 document.querySelector('.sidebar').classList.toggle('active');
             });
+        }
 
-            // Sidebar navigation
-            document.querySelectorAll('.menu-item').forEach(item => {
-                if (item.id !== 'logoutBtn') {
-                    item.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const page = this.getAttribute('data-page');
-                        navigateToPage(page);
-                        
-                        // Update active menu item
-                        document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                        this.classList.add('active');
-                    });
-                }
-            });
-
-            // Quick actions
-            document.querySelectorAll('.action-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const action = this.getAttribute('data-action');
-                    handleQuickAction(action);
+        // Sidebar navigation
+        document.querySelectorAll('.menu-item').forEach(item => {
+            if (!item.classList.contains('logout-btn')) {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    console.log('Navigating to:', page);
+                    navigateToPage(page);
+                    
+                    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
                 });
-            });
+            }
+        });
 
-            // Search functionality
-            document.getElementById('searchInput').addEventListener('input', function() {
+        // Quick actions
+        document.querySelectorAll('.action-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const action = this.getAttribute('data-action');
+                console.log('Quick action:', action);
+                handleQuickAction(action);
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
                 const query = this.value.toLowerCase();
                 if (query.length > 2) {
                     performSearch(query);
                 }
             });
+        }
 
-            // Logout button
-            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+        // Logout button
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 handleLogout();
             });
+        }
 
-            // Post job form
-            document.getElementById('post-job-form').addEventListener('submit', function(e) {
+        // Post job form
+        const postJobForm = document.getElementById('post-job-form');
+        if (postJobForm) {
+            postJobForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 handlePostJob();
             });
+        }
 
-            // Edit job form
-            document.getElementById('edit-job-form').addEventListener('submit', function(e) {
+        // Edit job form
+        const editJobForm = document.getElementById('edit-job-form');
+        if (editJobForm) {
+            editJobForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 handleUpdateJob();
             });
+        }
 
-            // Modal close
-            document.getElementById('closeJobModal').addEventListener('click', function() {
+        // Modal close
+        const closeJobModal = document.getElementById('closeJobModal');
+        if (closeJobModal) {
+            closeJobModal.addEventListener('click', function() {
                 document.getElementById('jobModal').style.display = 'none';
             });
-
-            // Close modal when clicking outside
-            window.addEventListener('click', function(e) {
-                if (e.target === document.getElementById('jobModal')) {
-                    document.getElementById('jobModal').style.display = 'none';
-                }
-            });
         }
 
-        // Navigation function
-        function navigateToPage(page) {
-            // Hide all content sections
-            document.getElementById('dashboard-content').style.display = 'none';
-            document.getElementById('post-job-content').style.display = 'none';
-            document.getElementById('dynamic-content').innerHTML = '';
-            
-            // Show the selected page
-            switch(page) {
-                case 'dashboard':
-                    document.getElementById('dashboard-content').style.display = 'block';
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('jobModal');
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    // Navigation function
+    function navigateToPage(page) {
+        console.log('Navigating to page:', page);
+        
+        // Hide all content sections
+        const sections = [
+            'dashboard-content',
+            'post-job-content',
+            'dynamic-content'
+        ];
+        
+        sections.forEach(section => {
+            const element = document.getElementById(section);
+            if (element) {
+                element.style.display = 'none';
+            }
+        });
+        
+        // Show the selected page
+        switch(page) {
+            case 'dashboard':
+                const dashboardContent = document.getElementById('dashboard-content');
+                if (dashboardContent) {
+                    dashboardContent.style.display = 'block';
                     loadDashboardData();
-                    break;
-                case 'post-job':
-                    document.getElementById('post-job-content').style.display = 'block';
-                    break;
-                case 'jobs':
-                    loadJobsPage();
-                    break;
-                case 'applicants':
-                    loadApplicantsPage();
-                    break;
-                case 'interviews':
-                    loadInterviewsPage();
-                    break;
-                case 'notifications':
-                    loadNotificationsPage();
-                    break;
-                case 'company-profile':
-                    loadCompanyProfilePage();
-                    break;
-                case 'settings':
-                    loadSettingsPage();
-                    break;
-            }
+                }
+                break;
+            case 'post-job':
+                const postJobContent = document.getElementById('post-job-content');
+                if (postJobContent) {
+                    postJobContent.style.display = 'block';
+                }
+                break;
+            case 'jobs':
+                loadJobsPage();
+                break;
+            case 'applicants':
+                loadApplicantsPage();
+                break;
+            case 'interviews':
+                loadInterviewsPage();
+                break;
+            case 'notifications':
+                loadNotificationsPage();
+                break;
+            case 'company-profile':
+                loadCompanyProfilePage();
+                break;
+            case 'settings':
+                loadSettingsPage();
+                break;
+            default:
+                console.log('Unknown page:', page);
         }
+    }
 
-        // Quick actions handler
-        function handleQuickAction(action) {
-            switch(action) {
-                case 'post-job':
-                    navigateToPage('post-job');
-                    break;
-                case 'view-applicants':
-                    navigateToPage('applicants');
-                    break;
-                case 'schedule-interview':
-                    // In a real app, this would open a scheduling interface
-                    showNotification('Interview scheduling feature coming soon!', 'success');
-                    break;
-                case 'view-analytics':
-                    // In a real app, this would show analytics
-                    showNotification('Analytics dashboard coming soon!', 'success');
-                    break;
-            }
+    // Quick actions handler
+    function handleQuickAction(action) {
+        console.log('Handling quick action:', action);
+        switch(action) {
+            case 'post-job':
+                navigateToPage('post-job');
+                break;
+            case 'view-applicants':
+                navigateToPage('applicants');
+                break;
+            case 'schedule-interview':
+                showNotification('Interview scheduling feature coming soon!', 'success');
+                break;
+            case 'view-analytics':
+                showNotification('Analytics dashboard coming soon!', 'success');
+                break;
         }
+    }
 
-        // Data loading functions
-        async function loadDashboardData() {
-            showLoading();
-            
-            try {
-                // Load jobs
-                const jobsResponse = await fetch('/api/jobs?company_id=' + currentCompany.id);
-                allJobs = await jobsResponse.json();
-                
-                // Load applications
-                const appsResponse = await fetch('/api/applications?company_id=' + currentCompany.id);
-                allApplications = await appsResponse.json();
-                
-                // Load notifications
-                const notifsResponse = await fetch('/api/notifications?company_id=' + currentCompany.id);
-                allNotifications = await notifsResponse.json();
-                
-                // Update dashboard with real data
-                updateDashboardStats();
-                renderActiveJobs();
-                renderRecentApplicants();
-                renderRecentNotifications();
-                
-            } catch (error) {
-                console.error('Error loading dashboard data:', error);
-                // For demo, use mock data
-                loadMockData();
+    // Data loading functions
+    async function loadDashboardData() {
+        console.log('Loading dashboard data...');
+        showLoading();
+        
+        try {
+            // Load jobs
+            const jobsResponse = await fetch('/api/jobs/company');
+            if (jobsResponse.ok) {
+                const jobsData = await jobsResponse.json();
+                if (jobsData.success) {
+                    allJobs = jobsData.jobs || [];
+                    console.log('Loaded jobs:', allJobs.length);
+                }
             }
             
-            hideLoading();
+            // Load applications
+            const appsResponse = await fetch('/api/jobs/applications');
+            if (appsResponse.ok) {
+                const appsData = await appsResponse.json();
+                if (appsData.success) {
+                    allApplications = appsData.applications || [];
+                    console.log('Loaded applications:', allApplications.length);
+                }
+            }
+            
+            // Load notifications
+            const notifsResponse = await fetch('/api/notifications');
+            if (notifsResponse.ok) {
+                const notifsData = await notifsResponse.json();
+                if (notifsData.success) {
+                    allNotifications = notifsData.notifications || [];
+                    console.log('Loaded notifications:', allNotifications.length);
+                }
+            }
+            
+            // Update dashboard with real data
+            updateDashboardStats();
+            renderActiveJobs();
+            renderRecentApplicants();
+            renderRecentNotifications();
+            
+        } catch (error) {
+            console.error('Error loading dashboard data:', error);
+            loadMockData();
         }
+        
+        hideLoading();
+    }
 
-        function updateDashboardStats() {
-            // Update stats counts
-            const activeJobs = allJobs.filter(job => job.status === 'active').length;
-            const totalApplicants = allApplications.length;
-            const interviewsScheduled = allApplications.filter(app => app.status === 'interview').length;
-            const successfulHires = allApplications.filter(app => app.status === 'hired').length;
-            
-            document.getElementById('active-jobs-count').textContent = activeJobs;
-            document.getElementById('total-applicants-count').textContent = totalApplicants;
-            document.getElementById('interviews-scheduled-count').textContent = interviewsScheduled;
-            document.getElementById('successful-hires-count').textContent = successfulHires;
-            
-            // Update menu badges
-            document.getElementById('jobs-count').textContent = allJobs.length;
-            document.getElementById('applicants-count').textContent = totalApplicants;
-            document.getElementById('interviews-count').textContent = interviewsScheduled;
-            document.getElementById('notifications-count').textContent = allNotifications.filter(n => !n.read).length;
+    function updateDashboardStats() {
+        console.log('Updating dashboard stats...');
+        
+        // Update stats counts
+        const activeJobs = allJobs.filter(job => job.status === 'active').length;
+        const totalApplicants = allApplications.length;
+        const interviewsScheduled = allApplications.filter(app => app.status === 'interview').length;
+        const successfulHires = allApplications.filter(app => app.status === 'hired').length;
+        
+        console.log('Stats - Jobs:', activeJobs, 'Applicants:', totalApplicants, 'Interviews:', interviewsScheduled, 'Hires:', successfulHires);
+        
+        // Update stats cards
+        const activeJobsElement = document.getElementById('active-jobs-count');
+        const totalApplicantsElement = document.getElementById('total-applicants-count');
+        const interviewsScheduledElement = document.getElementById('interviews-scheduled-count');
+        const successfulHiresElement = document.getElementById('successful-hires-count');
+        
+        if (activeJobsElement) activeJobsElement.textContent = activeJobs;
+        if (totalApplicantsElement) totalApplicantsElement.textContent = totalApplicants;
+        if (interviewsScheduledElement) interviewsScheduledElement.textContent = interviewsScheduled;
+        if (successfulHiresElement) successfulHiresElement.textContent = successfulHires;
+        
+        // Update menu badges
+        const jobsBadge = document.getElementById('jobs-count');
+        const applicantsBadge = document.getElementById('applicants-count');
+        const interviewsBadge = document.getElementById('interviews-count');
+        const notificationsBadge = document.getElementById('notifications-count');
+        
+        if (jobsBadge) jobsBadge.textContent = allJobs.length;
+        if (applicantsBadge) applicantsBadge.textContent = totalApplicants;
+        if (interviewsBadge) interviewsBadge.textContent = interviewsScheduled;
+        if (notificationsBadge) notificationsBadge.textContent = allNotifications.filter(n => !n.read_status).length;
+    }
+
+    function renderActiveJobs() {
+        const container = document.getElementById('active-jobs-list');
+        if (!container) {
+            console.log('Active jobs container not found');
+            return;
         }
-
-        function renderActiveJobs() {
-            const container = document.getElementById('active-jobs-list');
-            const activeJobs = allJobs.filter(job => job.status === 'active').slice(0, 3);
-            
-            container.innerHTML = activeJobs.map(job => `
+        
+        const activeJobs = allJobs.filter(job => job.status === 'active').slice(0, 3);
+        
+        if (activeJobs.length === 0) {
+            container.innerHTML = `
                 <div class="job-item">
                     <div class="job-info">
-                        <h3>${job.title}</h3>
-                        <div class="job-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
-                            <span><i class="fas fa-clock"></i> ${job.job_type}</span>
-                            <span><i class="fas fa-calendar"></i> Posted ${formatDate(job.created_at)}</span>
-                        </div>
-                        <div class="job-status">
-                            <span class="status-badge status-active">Active</span>
-                            <span>Expires in ${daysUntil(job.application_deadline)} days</span>
-                        </div>
+                        <h3>No active jobs</h3>
+                        <p>Post your first job to start receiving applications</p>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn btn-primary" onclick="navigateToPage('post-job')">
+                            Post Your First Job
+                        </button>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = activeJobs.map(job => `
+            <div class="job-item">
+                <div class="job-info">
+                    <h3>${job.title}</h3>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
+                        <span><i class="fas fa-clock"></i> ${job.job_type}</span>
+                        <span><i class="fas fa-calendar"></i> Posted ${formatDate(job.created_at)}</span>
+                    </div>
+                    <div class="job-status">
+                        <span class="status-badge status-active">Active</span>
+                        <span>Expires in ${daysUntil(job.application_deadline)} days</span>
+                    </div>
+                </div>
+                
+                <div class="applicant-count">
+                    <div class="applicant-number">${job.application_count || 0}</div>
+                    <div class="applicant-label">Applicants</div>
+                </div>
+                
+                <div class="job-actions">
+                    <button class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
+                        <i class="fas fa-eye"></i> View Applicants
+                    </button>
+                    <button class="btn btn-outline edit-job-btn" data-job-id="${job.id}">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                </div>
+            </div>
+        `).join('');
+        
+        // Add event listeners to buttons
+        container.querySelectorAll('.view-applicants-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const jobId = this.getAttribute('data-job-id');
+                viewJobApplicants(jobId);
+            });
+        });
+        
+        container.querySelectorAll('.edit-job-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const jobId = this.getAttribute('data-job-id');
+                openEditJobModal(jobId);
+            });
+        });
+    }
+
+    function renderRecentApplicants() {
+        const container = document.getElementById('recent-applicants-grid');
+        if (!container) {
+            console.log('Recent applicants container not found');
+            return;
+        }
+        
+        const recentApplicants = allApplications.slice(0, 3);
+        
+        if (recentApplicants.length === 0) {
+            container.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                    <i class="fas fa-users" style="font-size: 3rem; color: var(--gray); margin-bottom: 15px;"></i>
+                    <h3>No applicants yet</h3>
+                    <p>Applicants will appear here when they apply to your jobs</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = recentApplicants.map(app => `
+            <div class="applicant-card">
+                <div class="applicant-header">
+                    <div class="applicant-avatar">${getInitials(app.student_name)}</div>
+                    <div class="applicant-info">
+                        <h4>${app.student_name}</h4>
+                        <p>${app.job_title}</p>
+                    </div>
+                </div>
+                
+                <div class="applicant-details">
+                    <p><i class="fas fa-graduation-cap"></i> ${app.institution || 'Not specified'}</p>
+                    <p><i class="fas fa-map-marker-alt"></i> ${app.location || 'Not specified'}</p>
+                    <p><i class="fas fa-star"></i> ${app.match_score || 'N/A'}/5 Match Score</p>
+                </div>
+                
+                <div class="applicant-skills">
+                    ${app.student_skills ? app.student_skills.split(',').map(skill => 
+                        `<span class="skill-tag">${skill.trim()}</span>`
+                    ).join('') : 'No skills listed'}
+                </div>
+                
+                <div class="applicant-actions">
+                    <select class="status-select" data-application-id="${app.id}">
+                        <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>Applied</option>
+                        <option value="shortlisted" ${app.status === 'shortlisted' ? 'selected' : ''}>Shortlisted</option>
+                        <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
+                        <option value="hired" ${app.status === 'hired' ? 'selected' : ''}>Hired</option>
+                        <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                    </select>
+                    <button class="btn btn-outline view-profile-btn" data-applicant-id="${app.student_id}">
+                        View Profile
+                    </button>
+                </div>
+            </div>
+        `).join('');
+        
+        // Add event listeners to status selects
+        container.querySelectorAll('.status-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const applicationId = this.getAttribute('data-application-id');
+                const newStatus = this.value;
+                updateApplicationStatus(applicationId, newStatus);
+            });
+        });
+    }
+
+    function renderRecentNotifications() {
+        const container = document.getElementById('recent-notifications-list');
+        if (!container) {
+            console.log('Recent notifications container not found');
+            return;
+        }
+        
+        const recentNotifications = allNotifications.slice(0, 3);
+        
+        if (recentNotifications.length === 0) {
+            container.innerHTML = `
+                <div class="notification-item">
+                    <div class="notification-icon system">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="notification-content">
+                        <p>No notifications yet</p>
+                        <div class="notification-time">You're all caught up!</div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = recentNotifications.map(notif => `
+            <div class="notification-item ${notif.read_status ? '' : 'unread'}">
+                <div class="notification-icon ${notif.type || 'system'}">
+                    <i class="fas fa-${getNotificationIcon(notif.type)}"></i>
+                </div>
+                <div class="notification-content">
+                    <p>${notif.message}</p>
+                    <div class="notification-time">${formatTime(notif.created_at)}</div>
+                </div>
+            </div>
+        `).join('');
+        
+        // Add click handlers to mark as read
+        container.querySelectorAll('.notification-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.remove('unread');
+            });
+        });
+    }
+
+    // Job management functions
+    async function handlePostJob() {
+        const jobData = {
+            title: document.getElementById('job-title').value,
+            description: document.getElementById('job-description').value,
+            requirements: document.getElementById('job-requirements').value,
+            location: document.getElementById('job-location').value,
+            job_type: document.getElementById('job-type').value,
+            salary_range: document.getElementById('salary-range').value,
+            application_deadline: document.getElementById('application-deadline').value,
+            skills_required: document.getElementById('skills-required').value,
+            status: 'active'
+        };
+
+        try {
+            const response = await fetch('/api/jobs/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jobData)
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                showNotification('Job posted successfully!', 'success');
+                document.getElementById('post-job-form').reset();
+                navigateToPage('dashboard');
+            } else {
+                showNotification('Error: ' + result.message, 'error');
+            }
+        } catch (error) {
+            console.error('Error posting job:', error);
+            showNotification('Error posting job', 'error');
+        }
+    }
+
+    function openEditJobModal(jobId) {
+        const job = allJobs.find(j => j.id == jobId);
+        if (!job) return;
+        
+        // Populate form with job data
+        document.getElementById('edit-job-id').value = job.id;
+        document.getElementById('edit-job-title').value = job.title;
+        document.getElementById('edit-job-description').value = job.description;
+        document.getElementById('edit-job-requirements').value = job.requirements;
+        document.getElementById('edit-job-location').value = job.location;
+        document.getElementById('edit-job-type').value = job.job_type;
+        document.getElementById('edit-salary-range').value = job.salary_range || '';
+        document.getElementById('edit-application-deadline').value = job.application_deadline;
+        document.getElementById('edit-skills-required').value = job.skills_required || '';
+        document.getElementById('edit-job-status').value = job.status;
+        
+        // Show modal
+        document.getElementById('jobModal').style.display = 'flex';
+    }
+
+    async function handleUpdateJob() {
+        const jobId = document.getElementById('edit-job-id').value;
+        
+        const jobData = {
+            title: document.getElementById('edit-job-title').value,
+            description: document.getElementById('edit-job-description').value,
+            requirements: document.getElementById('edit-job-requirements').value,
+            location: document.getElementById('edit-job-location').value,
+            job_type: document.getElementById('edit-job-type').value,
+            salary_range: document.getElementById('edit-salary-range').value,
+            application_deadline: document.getElementById('edit-application-deadline').value,
+            skills_required: document.getElementById('edit-skills-required').value,
+            status: document.getElementById('edit-job-status').value
+        };
+        
+        try {
+            const response = await fetch(`/api/jobs/${jobId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jobData)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showNotification('Job updated successfully!', 'success');
+                document.getElementById('jobModal').style.display = 'none';
+                loadDashboardData();
+            } else {
+                showNotification('Error updating job: ' + result.message, 'error');
+            }
+        } catch (error) {
+            console.error('Error updating job:', error);
+            showNotification('Error updating job', 'error');
+        }
+    }
+
+    // Application management
+    async function updateApplicationStatus(applicationId, newStatus) {
+        try {
+            const response = await fetch(`/api/jobs/applications/${applicationId}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: newStatus })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showNotification('Application status updated!', 'success');
+                
+                // Update local data
+                const appIndex = allApplications.findIndex(app => app.id == applicationId);
+                if (appIndex !== -1) {
+                    allApplications[appIndex].status = newStatus;
+                }
+                
+                updateDashboardStats();
+            } else {
+                showNotification('Error updating application status', 'error');
+            }
+        } catch (error) {
+            console.error('Error updating application status:', error);
+            showNotification('Error updating application status', 'error');
+        }
+    }
+
+    function viewJobApplicants(jobId) {
+        navigateToPage('applicants');
+    }
+
+    // Page loading functions
+    function loadJobsPage() {
+        const container = document.getElementById('dynamic-content');
+        if (!container) return;
+        
+        container.innerHTML = `
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>All Job Postings</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-primary" onclick="navigateToPage('post-job')">
+                            <i class="fas fa-plus"></i> Post New Job
+                        </button>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="jobs-list" id="all-jobs-list">
+                        <!-- Jobs will be loaded here -->
                     </div>
                     
                     <div class="applicant-count">
@@ -1603,275 +1995,221 @@
                         </a>
                     </div>
                 </div>
-            `).join('');
-            
-            // Add event listeners to buttons
-            container.querySelectorAll('.view-applicants-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const jobId = this.getAttribute('data-job-id');
-                    viewJobApplicants(jobId);
-                });
-            });
-            
-            container.querySelectorAll('.edit-job-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const jobId = this.getAttribute('data-job-id');
-                    openEditJobModal(jobId);
-                });
-            });
-        }
+            </div>
+        `;
+        
+        renderAllJobs();
+        container.style.display = 'block';
+    }
 
-        function renderRecentApplicants() {
-            const container = document.getElementById('recent-applicants-grid');
-            const recentApplicants = allApplications.slice(0, 3);
-            
-            container.innerHTML = recentApplicants.map(app => `
-                <div class="applicant-card">
-                    <div class="applicant-header">
-                        <div class="applicant-avatar">${getInitials(app.student_name)}</div>
-                        <div class="applicant-info">
-                            <h4>${app.student_name}</h4>
-                            <p>${app.job_title}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="applicant-details">
-                        <p><i class="fas fa-graduation-cap"></i> ${app.institution}</p>
-                        <p><i class="fas fa-map-marker-alt"></i> ${app.location || 'Not specified'}</p>
-                        <p><i class="fas fa-star"></i> ${app.match_score || 'N/A'}/5 Match Score</p>
-                    </div>
-                    
-                    <div class="applicant-skills">
-                        ${app.skills ? app.skills.split(',').map(skill => 
-                            `<span class="skill-tag">${skill.trim()}</span>`
-                        ).join('') : 'No skills listed'}
-                    </div>
-                    
-                    <div class="applicant-actions">
-                        <select class="status-select" data-application-id="${app.id}">
-                            <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>Applied</option>
-                            <option value="shortlisted" ${app.status === 'shortlisted' ? 'selected' : ''}>Shortlisted</option>
-                            <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
-                            <option value="hired" ${app.status === 'hired' ? 'selected' : ''}>Hired</option>
-                            <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
-                        </select>
-                        <a href="#" class="btn btn-outline view-profile-btn" data-applicant-id="${app.student_id}">View Profile</a>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Add event listeners to status selects
-            container.querySelectorAll('.status-select').forEach(select => {
-                select.addEventListener('change', function() {
-                    const applicationId = this.getAttribute('data-application-id');
-                    const newStatus = this.value;
-                    updateApplicationStatus(applicationId, newStatus);
-                });
-            });
-        }
-
-        function renderRecentNotifications() {
-            const container = document.getElementById('recent-notifications-list');
-            const recentNotifications = allNotifications.slice(0, 3);
-            
-            container.innerHTML = recentNotifications.map(notif => `
-                <div class="notification-item ${notif.read ? '' : 'unread'}">
-                    <div class="notification-icon ${notif.type}">
-                        <i class="fas fa-${getNotificationIcon(notif.type)}"></i>
-                    </div>
-                    <div class="notification-content">
-                        <p>${notif.message}</p>
-                        <div class="notification-time">${formatTime(notif.created_at)}</div>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Add click handlers to mark as read
-            container.querySelectorAll('.notification-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    this.classList.remove('unread');
-                    // In a real app, would mark as read in the database
-                });
-            });
-        }
-
-        // Job management functions
-        async function handlePostJob() {
-            const form = document.getElementById('post-job-form');
-            const formData = new FormData(form);
-            
-            const jobData = {
-                title: document.getElementById('job-title').value,
-                description: document.getElementById('job-description').value,
-                requirements: document.getElementById('job-requirements').value,
-                location: document.getElementById('job-location').value,
-                job_type: document.getElementById('job-type').value,
-                salary_range: document.getElementById('salary-range').value,
-                application_deadline: document.getElementById('application-deadline').value,
-                skills_required: document.getElementById('skills-required').value,
-                company_id: currentCompany.id,
-                status: 'active'
-            };
-            
-            try {
-                const response = await fetch('/api/jobs', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(jobData)
-                });
-                
-                if (response.ok) {
-                    showNotification('Job posted successfully!', 'success');
-                    form.reset();
-                    
-                    // Reload dashboard data
-                    loadDashboardData();
-                    
-                    // Navigate back to dashboard
-                    navigateToPage('dashboard');
-                } else {
-                    showNotification('Error posting job. Please try again.', 'error');
-                }
-            } catch (error) {
-                console.error('Error posting job:', error);
-                showNotification('Error posting job. Please try again.', 'error');
-            }
-        }
-
-        function openEditJobModal(jobId) {
-            const job = allJobs.find(j => j.id == jobId);
-            if (!job) return;
-            
-            // Populate form with job data
-            document.getElementById('edit-job-id').value = job.id;
-            document.getElementById('edit-job-title').value = job.title;
-            document.getElementById('edit-job-description').value = job.description;
-            document.getElementById('edit-job-requirements').value = job.requirements;
-            document.getElementById('edit-job-location').value = job.location;
-            document.getElementById('edit-job-type').value = job.job_type;
-            document.getElementById('edit-salary-range').value = job.salary_range || '';
-            document.getElementById('edit-application-deadline').value = job.application_deadline;
-            document.getElementById('edit-skills-required').value = job.skills_required || '';
-            document.getElementById('edit-job-status').value = job.status;
-            
-            // Show modal
-            document.getElementById('jobModal').style.display = 'flex';
-        }
-
-        async function handleUpdateJob() {
-            const jobId = document.getElementById('edit-job-id').value;
-            
-            const jobData = {
-                title: document.getElementById('edit-job-title').value,
-                description: document.getElementById('edit-job-description').value,
-                requirements: document.getElementById('edit-job-requirements').value,
-                location: document.getElementById('edit-job-location').value,
-                job_type: document.getElementById('edit-job-type').value,
-                salary_range: document.getElementById('edit-salary-range').value,
-                application_deadline: document.getElementById('edit-application-deadline').value,
-                skills_required: document.getElementById('edit-skills-required').value,
-                status: document.getElementById('edit-job-status').value
-            };
-            
-            try {
-                const response = await fetch(`/api/jobs/${jobId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(jobData)
-                });
-                
-                if (response.ok) {
-                    showNotification('Job updated successfully!', 'success');
-                    document.getElementById('jobModal').style.display = 'none';
-                    
-                    // Reload dashboard data
-                    loadDashboardData();
-                } else {
-                    showNotification('Error updating job. Please try again.', 'error');
-                }
-            } catch (error) {
-                console.error('Error updating job:', error);
-                showNotification('Error updating job. Please try again.', 'error');
-            }
-        }
-
-        // Application management
-        async function updateApplicationStatus(applicationId, newStatus) {
-            try {
-                const response = await fetch(`/api/applications/${applicationId}/status`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ status: newStatus })
-                });
-                
-                if (response.ok) {
-                    showNotification('Application status updated!', 'success');
-                    
-                    // Update local data
-                    const appIndex = allApplications.findIndex(app => app.id == applicationId);
-                    if (appIndex !== -1) {
-                        allApplications[appIndex].status = newStatus;
-                    }
-                    
-                    // Update dashboard stats
-                    updateDashboardStats();
-                } else {
-                    showNotification('Error updating application status', 'error');
-                }
-            } catch (error) {
-                console.error('Error updating application status:', error);
-                showNotification('Error updating application status', 'error');
-            }
-        }
-
-        function viewJobApplicants(jobId) {
-            navigateToPage('applicants');
-            // In a real app, would filter applicants by job ID
-        }
-
-        // Page loading functions
-        function loadJobsPage() {
-            const container = document.getElementById('dynamic-content');
-            
+    function renderAllJobs() {
+        const container = document.getElementById('all-jobs-list');
+        if (!container) return;
+        
+        if (allJobs.length === 0) {
             container.innerHTML = `
-                <div class="dashboard-section">
-                    <div class="section-header">
-                        <h2>All Job Postings</h2>
-                        <div class="section-actions">
-                            <a href="#" data-page="post-job">Post New Job <i class="fas fa-plus"></i></a>
-                        </div>
+                <div class="job-item">
+                    <div class="job-info">
+                        <h3>No jobs posted yet</h3>
+                        <p>Create your first job posting to get started</p>
                     </div>
-                    <div class="section-content">
-                        <div class="jobs-list" id="all-jobs-list">
-                            <!-- All jobs will be loaded here -->
-                        </div>
+                    <div class="job-actions">
+                        <button class="btn btn-primary" onclick="navigateToPage('post-job')">
+                            Post Your First Job
+                        </button>
                     </div>
                 </div>
             `;
-            
-            // Render all jobs
-            const jobsContainer = document.getElementById('all-jobs-list');
-            jobsContainer.innerHTML = allJobs.map(job => `
-                <div class="job-item">
-                    <div class="job-info">
-                        <h3>${job.title}</h3>
-                        <div class="job-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
-                            <span><i class="fas fa-clock"></i> ${job.job_type}</span>
-                            <span><i class="fas fa-calendar"></i> Posted ${formatDate(job.created_at)}</span>
-                        </div>
-                        <div class="job-status">
-                            <span class="status-badge ${getStatusClass(job.status)}">${job.status.charAt(0).toUpperCase() + job.status.slice(1)}</span>
-                            <span>${job.status === 'active' ? `Expires in ${daysUntil(job.application_deadline)} days` : ''}</span>
-                        </div>
+            return;
+        }
+        
+        container.innerHTML = allJobs.map(job => `
+            <div class="job-item">
+                <div class="job-info">
+                    <h3>${job.title}</h3>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
+                        <span><i class="fas fa-clock"></i> ${job.job_type}</span>
+                        <span><i class="fas fa-calendar"></i> Posted ${formatDate(job.created_at)}</span>
+                    </div>
+                    <div class="job-status">
+                        <span class="status-badge ${getStatusClass(job.status)}">${job.status.charAt(0).toUpperCase() + job.status.slice(1)}</span>
+                        <span>${job.status === 'active' ? `Expires in ${daysUntil(job.application_deadline)} days` : ''}</span>
+                    </div>
+                </div>
+                
+                <div class="applicant-count">
+                    <div class="applicant-number">${job.application_count || 0}</div>
+                    <div class="applicant-label">Applicants</div>
+                </div>
+                
+                <div class="job-actions">
+                    <button class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
+                        <i class="fas fa-eye"></i> View Applicants
+                    </button>
+                    <button class="btn btn-outline edit-job-btn" data-job-id="${job.id}">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="btn btn-outline delete-job-btn" data-job-id="${job.id}" style="color: var(--danger); border-color: var(--danger);">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+        `).join('');
+        
+        // Add event listeners
+        container.querySelectorAll('.view-applicants-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const jobId = this.getAttribute('data-job-id');
+                viewJobApplicants(jobId);
+            });
+        });
+        
+        container.querySelectorAll('.edit-job-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const jobId = this.getAttribute('data-job-id');
+                openEditJobModal(jobId);
+            });
+        });
+        
+        container.querySelectorAll('.delete-job-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const jobId = this.getAttribute('data-job-id');
+                deleteJob(jobId);
+            });
+        });
+    }
+
+    async function loadApplicantsPage() {
+        const container = document.getElementById('dynamic-content');
+        if (!container) return;
+        
+        container.innerHTML = `
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>All Applicants</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-outline" id="refreshApplicants">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="applicants-grid" id="all-applicants-grid">
+                        <!-- Applicants will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        `;
+
+        renderAllApplicants();
+        
+        // Refresh button
+        const refreshBtn = document.getElementById('refreshApplicants');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', function() {
+                loadDashboardData();
+                showNotification('Applicants refreshed!', 'success');
+            });
+        }
+        
+        container.style.display = 'block';
+    }
+
+    function renderAllApplicants() {
+        const container = document.getElementById('all-applicants-grid');
+        if (!container) return;
+        
+        if (allApplications.length === 0) {
+            container.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                    <i class="fas fa-users" style="font-size: 3rem; color: var(--gray); margin-bottom: 15px;"></i>
+                    <h3>No applicants yet</h3>
+                    <p>Applicants will appear here when they apply to your jobs</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = allApplications.map(app => `
+            <div class="applicant-card">
+                <div class="applicant-header">
+                    <div class="applicant-avatar">${getInitials(app.student_name)}</div>
+                    <div class="applicant-info">
+                        <h4>${app.student_name}</h4>
+                        <p>Applied for: ${app.job_title}</p>
+                        <small>Applied: ${formatDate(app.applied_at)}</small>
+                    </div>
+                </div>
+                
+                <div class="applicant-details">
+                    <p><i class="fas fa-graduation-cap"></i> ${app.institution || 'Not specified'}</p>
+                    <p><i class="fas fa-envelope"></i> ${app.student_email || 'No email'}</p>
+                    <p><i class="fas fa-calendar"></i> ${formatDate(app.applied_at)}</p>
+                </div>
+                
+                <div class="applicant-skills">
+                    ${app.student_skills ? app.student_skills.split(',').map(skill => 
+                        `<span class="skill-tag">${skill.trim()}</span>`
+                    ).join('') : 'No skills listed'}
+                </div>
+                
+                ${app.cover_letter ? `
+                <div class="cover-letter">
+                    <strong>Cover Letter:</strong>
+                    <p>${app.cover_letter.substring(0, 150)}${app.cover_letter.length > 150 ? '...' : ''}</p>
+                </div>
+                ` : ''}
+                
+                <div class="applicant-actions">
+                    <select class="status-select" data-application-id="${app.id}">
+                        <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>Applied</option>
+                        <option value="shortlisted" ${app.status === 'shortlisted' ? 'selected' : ''}>Shortlisted</option>
+                        <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
+                        <option value="hired" ${app.status === 'hired' ? 'selected' : ''}>Hired</option>
+                        <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                    </select>
+                    
+                    ${app.resume_path ? `
+                    <a href="/${app.resume_path}" class="btn btn-outline" target="_blank">
+                        <i class="fas fa-download"></i> Resume
+                    </a>
+                    ` : ''}
+                    
+                    <button class="btn btn-outline view-profile-btn" data-student-id="${app.student_id}">
+                        <i class="fas fa-eye"></i> Profile
+                    </button>
+                </div>
+            </div>
+        `).join('');
+        
+        // Add event listeners to status selects
+        container.querySelectorAll('.status-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const applicationId = this.getAttribute('data-application-id');
+                const newStatus = this.value;
+                updateApplicationStatus(applicationId, newStatus);
+            });
+        });
+    }
+
+    function loadInterviewsPage() {
+        const container = document.getElementById('dynamic-content');
+        if (!container) return;
+        
+        container.innerHTML = `
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>Scheduled Interviews</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-primary" id="scheduleInterviewBtn">
+                            <i class="fas fa-plus"></i> Schedule New Interview
+                        </button>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="interviews-list">
+                        <!-- Interviews will be loaded here -->
                     </div>
                     
                     <div class="applicant-count">
@@ -1891,585 +2229,437 @@
                         </a>
                     </div>
                 </div>
-            `).join('');
-            
-            // Add event listeners
-            jobsContainer.querySelectorAll('.view-applicants-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const jobId = this.getAttribute('data-job-id');
-                    viewJobApplicants(jobId);
-                });
-            });
-            
-            jobsContainer.querySelectorAll('.edit-job-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const jobId = this.getAttribute('data-job-id');
-                    openEditJobModal(jobId);
-                });
-            });
-            
-            jobsContainer.querySelectorAll('.delete-job-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const jobId = this.getAttribute('data-job-id');
-                    deleteJob(jobId);
-                });
-            });
-        }
-
-        function loadApplicantsPage() {
-            const container = document.getElementById('dynamic-content');
-            
-            container.innerHTML = `
-                <div class="dashboard-section">
-                    <div class="section-header">
-                        <h2>All Applicants</h2>
-                        <div class="section-actions">
-                            <a href="#">Export Data <i class="fas fa-download"></i></a>
-                        </div>
-                    </div>
-                    <div class="section-content">
-                        <div class="applicants-grid" id="all-applicants-grid">
-                            <!-- All applicants will be loaded here -->
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Render all applicants
-            const applicantsContainer = document.getElementById('all-applicants-grid');
-            applicantsContainer.innerHTML = allApplications.map(app => `
-                <div class="applicant-card">
-                    <div class="applicant-header">
-                        <div class="applicant-avatar">${getInitials(app.student_name)}</div>
-                        <div class="applicant-info">
-                            <h4>${app.student_name}</h4>
-                            <p>${app.job_title}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="applicant-details">
-                        <p><i class="fas fa-graduation-cap"></i> ${app.institution}</p>
-                        <p><i class="fas fa-map-marker-alt"></i> ${app.location || 'Not specified'}</p>
-                        <p><i class="fas fa-envelope"></i> ${app.student_email}</p>
-                        <p><i class="fas fa-calendar"></i> Applied: ${formatDate(app.applied_at)}</p>
-                    </div>
-                    
-                    <div class="applicant-skills">
-                        ${app.skills ? app.skills.split(',').map(skill => 
-                            `<span class="skill-tag">${skill.trim()}</span>`
-                        ).join('') : 'No skills listed'}
-                    </div>
-                    
-                    <div class="applicant-actions">
-                        <select class="status-select" data-application-id="${app.id}">
-                            <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>Applied</option>
-                            <option value="shortlisted" ${app.status === 'shortlisted' ? 'selected' : ''}>Shortlisted</option>
-                            <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
-                            <option value="hired" ${app.status === 'hired' ? 'selected' : ''}>Hired</option>
-                            <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
-                        </select>
-                        <a href="#" class="btn btn-outline">View Profile</a>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Add event listeners to status selects
-            applicantsContainer.querySelectorAll('.status-select').forEach(select => {
-                select.addEventListener('change', function() {
-                    const applicationId = this.getAttribute('data-application-id');
-                    const newStatus = this.value;
-                    updateApplicationStatus(applicationId, newStatus);
-                });
-            });
-        }
-
-        function loadInterviewsPage() {
-            const container = document.getElementById('dynamic-content');
-            
-            container.innerHTML = `
-                <div class="dashboard-section">
-                    <div class="section-header">
-                        <h2>Scheduled Interviews</h2>
-                        <div class="section-actions">
-                            <a href="#" id="scheduleInterviewBtn">Schedule New Interview <i class="fas fa-plus"></i></a>
-                        </div>
-                    </div>
-                    <div class="section-content">
-                        <div id="interviews-list">
-                            <!-- Interviews will be loaded here -->
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // For demo, show a message
-            document.getElementById('interviews-list').innerHTML = `
+            </div>
+        `;
+        
+        // For demo, show a message
+        const interviewsList = document.getElementById('interviews-list');
+        if (interviewsList) {
+            interviewsList.innerHTML = `
                 <div style="text-align: center; padding: 40px;">
                     <i class="fas fa-calendar-alt" style="font-size: 3rem; color: var(--gray); margin-bottom: 20px;"></i>
                     <h3 style="color: var(--gray); margin-bottom: 10px;">No interviews scheduled</h3>
                     <p style="color: var(--gray);">Schedule your first interview to get started.</p>
-                    <button class="btn btn-primary" style="margin-top: 20px;" id="scheduleFirstInterview">Schedule Interview</button>
+                    <button class="btn btn-primary" style="margin-top: 20px;" id="scheduleFirstInterview">
+                        Schedule Interview
+                    </button>
                 </div>
             `;
             
-            document.getElementById('scheduleFirstInterview').addEventListener('click', function() {
-                showNotification('Interview scheduling feature coming soon!', 'success');
-            });
-        }
-
-        function loadNotificationsPage() {
-            const container = document.getElementById('dynamic-content');
-            
-            container.innerHTML = `
-                <div class="dashboard-section">
-                    <div class="section-header">
-                        <h2>All Notifications</h2>
-                        <div class="section-actions">
-                            <a href="#" id="markAllReadBtn">Mark All as Read</a>
-                        </div>
-                    </div>
-                    <div class="section-content">
-                        <div class="notifications-list" id="all-notifications-list">
-                            <!-- All notifications will be loaded here -->
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Render all notifications
-            const notificationsContainer = document.getElementById('all-notifications-list');
-            notificationsContainer.innerHTML = allNotifications.map(notif => `
-                <div class="notification-item ${notif.read ? '' : 'unread'}">
-                    <div class="notification-icon ${notif.type}">
-                        <i class="fas fa-${getNotificationIcon(notif.type)}"></i>
-                    </div>
-                    <div class="notification-content">
-                        <p>${notif.message}</p>
-                        <div class="notification-time">${formatTime(notif.created_at)}</div>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Add click handlers to mark as read
-            notificationsContainer.querySelectorAll('.notification-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    this.classList.remove('unread');
-                    // In a real app, would mark as read in the database
+            const scheduleBtn = document.getElementById('scheduleFirstInterview');
+            if (scheduleBtn) {
+                scheduleBtn.addEventListener('click', function() {
+                    showNotification('Interview scheduling feature coming soon!', 'success');
                 });
-            });
-            
-            // Mark all as read button
-            document.getElementById('markAllReadBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                notificationsContainer.querySelectorAll('.notification-item').forEach(item => {
+            }
+        }
+        
+        container.style.display = 'block';
+    }
+
+    function loadNotificationsPage() {
+        const container = document.getElementById('dynamic-content');
+        if (!container) return;
+        
+        container.innerHTML = `
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>All Notifications</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-outline" id="markAllReadBtn">
+                            Mark All as Read
+                        </button>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="notifications-list" id="all-notifications-list">
+                        <!-- All notifications will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        renderAllNotifications();
+        
+        // Mark all as read button
+        const markAllReadBtn = document.getElementById('markAllReadBtn');
+        if (markAllReadBtn) {
+            markAllReadBtn.addEventListener('click', function() {
+                document.querySelectorAll('.notification-item').forEach(item => {
                     item.classList.remove('unread');
                 });
                 showNotification('All notifications marked as read', 'success');
+            });
+        }
+        
+        container.style.display = 'block';
+    }
+
+    function renderAllNotifications() {
+        const container = document.getElementById('all-notifications-list');
+        if (!container) return;
+        
+        if (allNotifications.length === 0) {
+            container.innerHTML = `
+                <div class="notification-item">
+                    <div class="notification-icon system">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="notification-content">
+                        <p>No notifications yet</p>
+                        <div class="notification-time">You're all caught up!</div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = allNotifications.map(notif => `
+            <div class="notification-item ${notif.read_status ? '' : 'unread'}">
+                <div class="notification-icon ${notif.type || 'system'}">
+                    <i class="fas fa-${getNotificationIcon(notif.type)}"></i>
+                </div>
+                <div class="notification-content">
+                    <p>${notif.message}</p>
+                    <div class="notification-time">${formatTime(notif.created_at)}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function loadCompanyProfilePage() {
+        const container = document.getElementById('dynamic-content');
+        if (!container) return;
+        
+        container.innerHTML = `
+            <div class="form-container">
+                <h2>Company Profile</h2>
+                <form id="company-profile-form">
+                    <div class="form-group">
+                        <label for="profile-company-name">Company Name</label>
+                        <input type="text" id="profile-company-name" class="form-control" value="${currentCompany.companyName || currentCompany.name}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-email">Email</label>
+                        <input type="email" id="profile-email" class="form-control" value="${currentCompany.email}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-industry">Industry</label>
+                        <input type="text" id="profile-industry" class="form-control" value="${currentCompany.industry}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-website">Website</label>
+                        <input type="url" id="profile-website" class="form-control" value="${currentCompany.website || ''}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-description">Company Description</label>
+                        <textarea id="profile-description" class="form-control" rows="5">${currentCompany.description || ''}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </form>
+            </div>
+        `;
+        
+        // Form submission
+        const profileForm = document.getElementById('company-profile-form');
+        if (profileForm) {
+            profileForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                updateCompanyProfile();
+            });
+        }
+        
+        container.style.display = 'block';
+    }
+
+    function loadSettingsPage() {
+        const container = document.getElementById('dynamic-content');
+        if (!container) return;
+        
+        container.innerHTML = `
+            <div class="form-container">
+                <h2>Account Settings</h2>
+                <form id="settings-form">
+                    <div class="form-group">
+                        <label for="settings-notifications">Email Notifications</label>
+                        <select id="settings-notifications" class="form-control">
+                            <option value="all">All Notifications</option>
+                            <option value="important">Important Only</option>
+                            <option value="none">None</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="settings-privacy">Profile Visibility</label>
+                        <select id="settings-privacy" class="form-control">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="settings-theme">Theme</label>
+                        <select id="settings-theme" class="form-control">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="auto">Auto</option>
+                        </select>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px; margin-bottom: 15px;">Change Password</h3>
+                    
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" id="new-password" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm New Password</label>
+                        <input type="password" id="confirm-password" class="form-control">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </form>
+            </div>
+        `;
+        
+        // Form submission
+        const settingsForm = document.getElementById('settings-form');
+        if (settingsForm) {
+            settingsForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveSettings();
+            });
+        }
+        
+        container.style.display = 'block';
+    }
+
+    // Utility functions
+    function getInitials(name) {
+        if (!name) return '??';
+        return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return 'Unknown date';
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 1) return 'yesterday';
+        if (diffDays < 7) return `${diffDays} days ago`;
+        if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+        return date.toLocaleDateString();
+    }
+
+    function formatTime(dateString) {
+        if (!dateString) return 'just now';
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffMinutes = Math.floor(diffTime / (1000 * 60));
+        const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+        
+        if (diffMinutes < 1) return 'just now';
+        if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
+        if (diffHours < 24) return `${diffHours} hours ago`;
+        return formatDate(dateString);
+    }
+
+    function daysUntil(dateString) {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = date - now;
+        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    function getStatusClass(status) {
+        switch(status) {
+            case 'active': return 'status-active';
+            case 'draft': return 'status-draft';
+            case 'closed': return 'status-closed';
+            default: return 'status-draft';
+        }
+    }
+
+    function getNotificationIcon(type) {
+        const iconMap = {
+            'application': 'user-plus',
+            'interview': 'calendar-alt',
+            'message': 'envelope',
+            'system': 'bell'
+        };
+        return iconMap[type] || 'bell';
+    }
+
+    function showNotification(message, type) {
+        console.log('Showing notification:', message, type);
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
+
+    function showLoading() {
+        console.log('Showing loading...');
+        // Could show a loading spinner
+    }
+
+    function hideLoading() {
+        console.log('Hiding loading...');
+        // Could hide loading spinner
+    }
+
+    async function handleLogout() {
+        if (!confirm('Are you sure you want to logout?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/auth/logout', {
+                method: 'POST'
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                console.log('Logout successful, redirecting...');
+                window.location.href = result.redirectUrl || '/login.html';
+            } else {
+                showNotification('Logout failed', 'error');
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+            window.location.href = '/login.html';
+        }
+    }
+
+    function performSearch(query) {
+        console.log('Searching for:', query);
+        // Could implement search functionality
+    }
+
+    async function deleteJob(jobId) {
+        if (!confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/jobs/${jobId}`, {
+                method: 'DELETE'
             });
         }
 
         function loadCompanyProfilePage() {
             const container = document.getElementById('dynamic-content');
             
-            container.innerHTML = `
-                <div class="form-container">
-                    <h2>Company Profile</h2>
-                    <form id="company-profile-form">
-                        <div class="form-group">
-                            <label for="profile-company-name">Company Name</label>
-                            <input type="text" id="profile-company-name" class="form-control" value="${currentCompany.companyName}" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="profile-email">Email</label>
-                            <input type="email" id="profile-email" class="form-control" value="${currentCompany.email}" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="profile-industry">Industry</label>
-                            <input type="text" id="profile-industry" class="form-control" value="${currentCompany.industry}" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="profile-website">Website</label>
-                            <input type="url" id="profile-website" class="form-control" value="${currentCompany.website || ''}">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="profile-description">Company Description</label>
-                            <textarea id="profile-description" class="form-control" rows="5">${currentCompany.description || ''}</textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">Update Profile</button>
-                    </form>
-                </div>
-            `;
+            const result = await response.json();
             
-            // Form submission
-            document.getElementById('company-profile-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                updateCompanyProfile();
-            });
-        }
-
-        function loadSettingsPage() {
-            const container = document.getElementById('dynamic-content');
-            
-            container.innerHTML = `
-                <div class="form-container">
-                    <h2>Account Settings</h2>
-                    <form id="settings-form">
-                        <div class="form-group">
-                            <label for="settings-notifications">Email Notifications</label>
-                            <select id="settings-notifications" class="form-control">
-                                <option value="all">All Notifications</option>
-                                <option value="important">Important Only</option>
-                                <option value="none">None</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="settings-privacy">Profile Visibility</label>
-                            <select id="settings-privacy" class="form-control">
-                                <option value="public">Public</option>
-                                <option value="private">Private</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="settings-theme">Theme</label>
-                            <select id="settings-theme" class="form-control">
-                                <option value="light">Light</option>
-                                <option value="dark">Dark</option>
-                                <option value="auto">Auto</option>
-                            </select>
-                        </div>
-                        
-                        <h3 style="margin-top: 30px; margin-bottom: 15px;">Change Password</h3>
-                        
-                        <div class="form-group">
-                            <label for="current-password">Current Password</label>
-                            <input type="password" id="current-password" class="form-control">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="new-password">New Password</label>
-                            <input type="password" id="new-password" class="form-control">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="confirm-password">Confirm New Password</label>
-                            <input type="password" id="confirm-password" class="form-control">
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">Save Settings</button>
-                    </form>
-                </div>
-            `;
-            
-            // Form submission
-            document.getElementById('settings-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveSettings();
-            });
-        }
-
-        // Utility functions
-        function getInitials(name) {
-            return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const now = new Date();
-            const diffTime = Math.abs(now - date);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            if (diffDays === 1) return 'yesterday';
-            if (diffDays < 7) return `${diffDays} days ago`;
-            if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-            return date.toLocaleDateString();
-        }
-
-        function formatTime(dateString) {
-            const date = new Date(dateString);
-            const now = new Date();
-            const diffTime = Math.abs(now - date);
-            const diffMinutes = Math.floor(diffTime / (1000 * 60));
-            const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-            
-            if (diffMinutes < 1) return 'just now';
-            if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
-            if (diffHours < 24) return `${diffHours} hours ago`;
-            return formatDate(dateString);
-        }
-
-        function daysUntil(dateString) {
-            const date = new Date(dateString);
-            const now = new Date();
-            const diffTime = date - now;
-            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        }
-
-        function getStatusClass(status) {
-            switch(status) {
-                case 'active': return 'status-active';
-                case 'draft': return 'status-draft';
-                case 'closed': return 'status-closed';
-                default: return 'status-draft';
+            if (result.success) {
+                showNotification('Job deleted successfully!', 'success');
+                allJobs = allJobs.filter(job => job.id != jobId);
+                loadJobsPage();
+            } else {
+                showNotification('Error deleting job: ' + result.message, 'error');
             }
+        } catch (error) {
+            console.error('Error deleting job:', error);
+            showNotification('Error deleting job', 'error');
         }
+    }
 
-        function getNotificationIcon(type) {
-            switch(type) {
-                case 'application': return 'user-plus';
-                case 'interview': return 'calendar-alt';
-                case 'message': return 'envelope';
-                default: return 'bell';
+    async function updateCompanyProfile() {
+        const formData = {
+            companyName: document.getElementById('profile-company-name').value,
+            email: document.getElementById('profile-email').value,
+            industry: document.getElementById('profile-industry').value,
+            website: document.getElementById('profile-website').value,
+            description: document.getElementById('profile-description').value
+        };
+        
+        try {
+            // In real app, call API to update profile
+            showNotification('Profile updated successfully!', 'success');
+            currentCompany = { ...currentCompany, ...formData };
+            updateUIWithCompanyData();
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            showNotification('Error updating profile', 'error');
+        }
+    }
+
+    function saveSettings() {
+        showNotification('Settings saved successfully!', 'success');
+    }
+
+    // Mock data for demo purposes
+    function loadMockData() {
+        console.log('Loading mock data...');
+        allJobs = [
+            {
+                id: 1,
+                title: 'Senior Frontend Developer',
+                description: 'We are looking for an experienced frontend developer.',
+                requirements: '5+ years of experience with React, JavaScript',
+                location: 'San Francisco, CA',
+                job_type: 'Full-time',
+                salary_range: '$120,000 - $150,000',
+                application_deadline: '2024-12-31',
+                skills_required: 'React, JavaScript, TypeScript, HTML, CSS',
+                status: 'active',
+                created_at: '2024-01-15',
+                application_count: 12
             }
-        }
-
-        function showNotification(message, type) {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
-        }
-
-        function showLoading() {
-            // In a real app, would show a loading spinner
-        }
-
-        function hideLoading() {
-            // In a real app, would hide the loading spinner
-        }
-
-        async function handleLogout() {
-            if (!confirm('Are you sure you want to logout?')) {
-                return;
+        ];
+        
+        allApplications = [
+            {
+                id: 1,
+                student_id: 101,
+                student_name: 'Sarah Johnson',
+                student_email: 'sarah.j@example.com',
+                job_title: 'Senior Frontend Developer',
+                institution: 'Stanford University',
+                location: 'San Francisco, CA',
+                student_skills: 'React, JavaScript, TypeScript, HTML, CSS, UI/UX',
+                status: 'interview',
+                applied_at: '2024-01-20',
+                cover_letter: 'I am very interested in this position...'
             }
-
-            try {
-                const response = await fetch('/api/auth/logout', {
-                    method: 'POST',
-                    credentials: 'include'
-                });
-                
-                // Clear client-side data
-                currentCompany = null;
-                allJobs = [];
-                allApplications = [];
-                allNotifications = [];
-                
-                // Redirect to login
-                window.location.href = '/login.html';
-                
-            } catch (error) {
-                console.error('Logout error:', error);
-                // Still redirect to login
-                window.location.href = '/login.html';
+        ];
+        
+        allNotifications = [
+            {
+                id: 1,
+                type: 'application',
+                message: 'New application: Sarah Johnson applied for Senior Frontend Developer',
+                read_status: false,
+                created_at: '2024-01-22T10:30:00'
             }
-        }
-
-        function performSearch(query) {
-            // In a real app, would search through jobs and applicants
-            console.log('Searching for:', query);
-        }
-
-        async function deleteJob(jobId) {
-            if (!confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
-                return;
-            }
-
-            try {
-                const response = await fetch(`/api/jobs/${jobId}`, {
-                    method: 'DELETE'
-                });
-                
-                if (response.ok) {
-                    showNotification('Job deleted successfully!', 'success');
-                    
-                    // Remove from local data
-                    allJobs = allJobs.filter(job => job.id != jobId);
-                    
-                    // Reload the jobs page
-                    loadJobsPage();
-                } else {
-                    showNotification('Error deleting job. Please try again.', 'error');
-                }
-            } catch (error) {
-                console.error('Error deleting job:', error);
-                showNotification('Error deleting job. Please try again.', 'error');
-            }
-        }
-
-        async function updateCompanyProfile() {
-            const formData = {
-                companyName: document.getElementById('profile-company-name').value,
-                email: document.getElementById('profile-email').value,
-                industry: document.getElementById('profile-industry').value,
-                website: document.getElementById('profile-website').value,
-                description: document.getElementById('profile-description').value
-            };
-            
-            try {
-                const response = await fetch('/api/company/profile', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-                
-                if (response.ok) {
-                    showNotification('Profile updated successfully!', 'success');
-                    
-                    // Update current company data
-                    currentCompany = { ...currentCompany, ...formData };
-                    updateUIWithCompanyData();
-                } else {
-                    showNotification('Error updating profile. Please try again.', 'error');
-                }
-            } catch (error) {
-                console.error('Error updating profile:', error);
-                showNotification('Error updating profile. Please try again.', 'error');
-            }
-        }
-
-        function saveSettings() {
-            // In a real app, would save settings to the server
-            showNotification('Settings saved successfully!', 'success');
-        }
-
-        // Mock data for demo purposes
-        function loadMockData() {
-            // Mock jobs
-            allJobs = [
-                {
-                    id: 1,
-                    title: 'Senior Frontend Developer',
-                    description: 'We are looking for an experienced frontend developer to join our team.',
-                    requirements: '5+ years of experience with React, JavaScript, and modern frontend tools.',
-                    location: 'San Francisco, CA',
-                    job_type: 'Full-time',
-                    salary_range: '$120,000 - $150,000',
-                    application_deadline: '2023-12-31',
-                    skills_required: 'React, JavaScript, TypeScript, HTML, CSS',
-                    status: 'active',
-                    created_at: '2023-10-15',
-                    application_count: 12
-                },
-                {
-                    id: 2,
-                    title: 'Backend Engineer (Node.js)',
-                    description: 'Join our backend team to build scalable APIs and services.',
-                    requirements: '3+ years of Node.js experience, knowledge of databases and cloud services.',
-                    location: 'Remote',
-                    job_type: 'Full-time',
-                    salary_range: '$100,000 - $130,000',
-                    application_deadline: '2023-12-25',
-                    skills_required: 'Node.js, MongoDB, AWS, Docker',
-                    status: 'active',
-                    created_at: '2023-10-10',
-                    application_count: 8
-                },
-                {
-                    id: 3,
-                    title: 'UX/UI Designer Intern',
-                    description: 'Great opportunity for a design student to gain real-world experience.',
-                    requirements: 'Currently enrolled in a design program, portfolio required.',
-                    location: 'New York, NY',
-                    job_type: 'Internship',
-                    salary_range: '$25 - $30 per hour',
-                    application_deadline: '2023-12-20',
-                    skills_required: 'Figma, Sketch, Adobe Creative Suite, UI/UX Design',
-                    status: 'active',
-                    created_at: '2023-10-18',
-                    application_count: 19
-                }
-            ];
-            
-            // Mock applications
-            allApplications = [
-                {
-                    id: 1,
-                    student_id: 101,
-                    student_name: 'Sarah Johnson',
-                    student_email: 'sarah.j@example.com',
-                    job_title: 'Senior Frontend Developer',
-                    institution: 'Stanford University',
-                    location: 'San Francisco, CA',
-                    skills: 'React, JavaScript, TypeScript, HTML, CSS, UI/UX',
-                    status: 'interview',
-                    applied_at: '2023-10-20',
-                    match_score: 4.8
-                },
-                {
-                    id: 2,
-                    student_id: 102,
-                    student_name: 'Michael Rodriguez',
-                    student_email: 'michael.r@example.com',
-                    job_title: 'Backend Engineer (Node.js)',
-                    institution: 'MIT',
-                    location: 'Boston, MA',
-                    skills: 'Node.js, Python, MongoDB, AWS, Docker',
-                    status: 'shortlisted',
-                    applied_at: '2023-10-18',
-                    match_score: 4.5
-                },
-                {
-                    id: 3,
-                    student_id: 103,
-                    student_name: 'Emily Chen',
-                    student_email: 'emily.c@example.com',
-                    job_title: 'UX/UI Designer Intern',
-                    institution: 'RISD',
-                    location: 'New York, NY',
-                    skills: 'Figma, UI/UX, Wireframing, Prototyping',
-                    status: 'applied',
-                    applied_at: '2023-10-22',
-                    match_score: 4.9
-                }
-            ];
-            
-            // Mock notifications
-            allNotifications = [
-                {
-                    id: 1,
-                    type: 'application',
-                    message: 'New application: Michael Rodriguez applied for Backend Engineer position',
-                    read: false,
-                    created_at: '2023-10-22T10:30:00'
-                },
-                {
-                    id: 2,
-                    type: 'interview',
-                    message: 'Interview reminder: Sarah Johnson interview tomorrow at 2:00 PM',
-                    read: false,
-                    created_at: '2023-10-21T14:15:00'
-                },
-                {
-                    id: 3,
-                    type: 'message',
-                    message: 'Message received: Emily Chen sent a message about the UX Designer role',
-                    read: true,
-                    created_at: '2023-10-20T09:45:00'
-                }
-            ];
-            
-            // Update UI with mock data
-            updateDashboardStats();
-            renderActiveJobs();
-            renderRecentApplicants();
-            renderRecentNotifications();
-        }
-    </script>
+        ];
+        
+        updateDashboardStats();
+        renderActiveJobs();
+        renderRecentApplicants();
+        renderRecentNotifications();
+    }
+</script>
 </body>
 </html>
