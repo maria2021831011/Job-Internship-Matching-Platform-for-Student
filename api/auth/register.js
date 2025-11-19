@@ -6,7 +6,6 @@ const fs = require('fs');
 const db = require('../../config/database');
 const router = express.Router();
 
-
 const uploadsDir = path.join(__dirname, '../../uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
@@ -41,6 +40,8 @@ const upload = multer({
 
 
 const noUpload = multer();
+
+
 router.post('/register_student', upload.single('resume'), async (req, res) => {
   console.log('=== STUDENT REGISTRATION STARTED ===');
   console.log('Body:', req.body);
@@ -134,6 +135,7 @@ router.post('/register_student', upload.single('resume'), async (req, res) => {
     });
   }
 });
+
 
 router.post('/register_company', noUpload.none(), async (req, res) => {
   console.log('=== COMPANY REGISTRATION STARTED ===');

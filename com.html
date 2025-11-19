@@ -6,7 +6,6 @@
     <title>Company Dashboard - CareerLaunch</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Enhanced CSS with better organization and visual improvements */
         * {
             margin: 0;
             padding: 0;
@@ -44,7 +43,6 @@
             min-height: 100vh;
         }
 
-        /* Sidebar improvements */
         .sidebar {
             width: var(--sidebar-width);
             background: white;
@@ -130,7 +128,6 @@
             font-weight: 600;
         }
 
-        /* Main content improvements */
         .main-content {
             flex: 1;
             margin-left: var(--sidebar-width);
@@ -138,7 +135,6 @@
             transition: var(--transition);
         }
 
-        /* Header improvements */
         .header {
             display: flex;
             justify-content: space-between;
@@ -226,7 +222,6 @@
             font-size: 1.1rem;
         }
 
-        /* Stats grid improvements */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -305,7 +300,6 @@
             font-size: 0.9rem;
         }
 
-        /* Dashboard section improvements */
         .dashboard-section {
             background: white;
             border-radius: var(--border-radius);
@@ -353,7 +347,6 @@
             padding: 25px;
         }
 
-        /* Quick actions improvements */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -412,7 +405,6 @@
             line-height: 1.4;
         }
 
-        /* Jobs list improvements */
         .jobs-list {
             display: flex;
             flex-direction: column;
@@ -542,96 +534,157 @@
             transform: translateY(-2px);
         }
 
-        /* Applicants grid improvements */
-        .applicants-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 22px;
-        }
+      .applicants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
 
-        .applicant-card {
-            border: 1px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            padding: 22px;
-            transition: var(--transition);
-            background: white;
-        }
+.applicant-card {
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    transition: var(--transition);
+    background: white;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    min-height: 280px;
+}
 
-        .applicant-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow);
-        }
+.applicant-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
 
-        .applicant-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 18px;
-        }
+.applicant-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--light-gray);
+}
 
-        .applicant-avatar {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 1.3rem;
-        }
+.applicant-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
 
-        .applicant-info h4 {
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
+.applicant-info {
+    flex: 1;
+    min-width: 0;
+}
 
-        .applicant-info p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
+.applicant-info h4 {
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
-        .applicant-details {
-            margin-bottom: 18px;
-        }
+.applicant-info p {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
-        .applicant-details p {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
+.applicant-details {
+    margin-bottom: 15px;
+    flex: 1;
+}
 
-        .applicant-skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 18px;
-        }
+.applicant-details p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+    color: var(--dark);
+}
 
-        .skill-tag {
-            background: var(--light);
-            color: var(--dark);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            transition: var(--transition);
-        }
+.applicant-details i {
+    width: 16px;
+    color: var(--gray);
+}
 
-        .skill-tag:hover {
-            background: var(--primary);
-            color: white;
-        }
+.applicant-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 15px;
+}
 
-        .applicant-actions {
-            display: flex;
-            gap: 10px;
-        }
+.skill-tag {
+    background: var(--light);
+    color: var(--dark);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    transition: var(--transition);
+    border: 1px solid var(--light-gray);
+}
 
-        /* Notifications improvements */
+.skill-tag:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.applicant-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.status-select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--light-gray);
+    background: white;
+    font-size: 0.8rem;
+    flex: 1;
+    min-width: 120px;
+}
+
+/* Compact cover letter style */
+.cover-letter-preview {
+    background: var(--light);
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    border-left: 3px solid var(--primary);
+}
+
+.cover-letter-preview strong {
+    font-size: 0.8rem;
+    color: var(--dark);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.cover-letter-preview p {
+    font-size: 0.75rem;
+    color: var(--gray);
+    line-height: 1.4;
+    margin: 0;
+}
+
         .notifications-list {
             display: flex;
             flex-direction: column;
@@ -696,7 +749,6 @@
             color: var(--gray);
         }
 
-        /* Form styles */
         .form-container {
             background: white;
             border-radius: var(--border-radius);
@@ -736,7 +788,6 @@
             resize: vertical;
         }
 
-        /* Modal styles */
         .modal {
             display: none;
             position: fixed;
@@ -790,7 +841,6 @@
             padding: 25px;
         }
 
-        /* Responsive improvements */
         @media (max-width: 1200px) {
             .applicants-grid {
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -830,6 +880,23 @@
                 align-items: flex-start;
             }
             
+             .applicants-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .applicant-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .applicant-actions {
+        flex-direction: column;
+    }
+    
+    .status-select {
+        min-width: 100%;
+    }
             .header-actions {
                 width: 100%;
                 justify-content: space-between;
@@ -892,7 +959,6 @@
             }
         }
 
-        /* Menu toggle button */
         .menu-toggle {
             display: none;
             background: none;
@@ -915,7 +981,6 @@
             }
         }
 
-        /* Logout button styling */
         .logout-btn {
             margin-top: 10px;
             color: var(--danger) !important;
@@ -925,7 +990,6 @@
             background: rgba(239, 68, 68, 0.05) !important;
         }
 
-        /* Loading spinner */
         .spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #3498db;
@@ -941,7 +1005,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Notification toast */
         .toast {
             position: fixed;
             top: 20px;
@@ -963,7 +1026,6 @@
             background: var(--danger);
         }
 
-        /* Status select */
         .status-select {
             padding: 8px 12px;
             border-radius: 6px;
@@ -977,11 +1039,68 @@
             outline: none;
             border-color: var(--primary);
         }
+
+        .profile-preview {
+            border: 2px dashed var(--light-gray);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: var(--light);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .profile-info h3 {
+            margin-bottom: 5px;
+            font-size: 1.5rem;
+        }
+
+        .profile-info p {
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <div class="logo-icon">CL</div>
@@ -1000,23 +1119,15 @@
                 <a href="#" class="menu-item" data-page="jobs">
                     <i class="fas fa-briefcase"></i>
                     <span>Manage Jobs</span>
-                    <span class="menu-badge" id="jobs-count">8</span>
+                    <span class="menu-badge" id="jobs-count">0</span>
                 </a>
                 <a href="#" class="menu-item" data-page="applicants">
                     <i class="fas fa-users"></i>
                     <span>View Applicants</span>
-                    <span class="menu-badge" id="applicants-count">24</span>
+                    <span class="menu-badge" id="applicants-count">0</span>
                 </a>
-                <a href="#" class="menu-item" data-page="interviews">
-                    <i class="fas fa-calendar-check"></i>
-                    <span>Interviews</span>
-                    <span class="menu-badge" id="interviews-count">3</span>
-                </a>
-                <a href="#" class="menu-item" data-page="notifications">
-                    <i class="fas fa-bell"></i>
-                    <span>Notifications</span>
-                    <span class="menu-badge" id="notifications-count">5</span>
-                </a>
+              
+              
                 <a href="#" class="menu-item" data-page="company-profile">
                     <i class="fas fa-building"></i>
                     <span>Company Profile</span>
@@ -1032,12 +1143,10 @@
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Header -->
             <div class="header">
                 <div class="header-title">
-                    <h1 id="welcome-title">Welcome, TechSolutions Inc.</h1>
+                    <h1 id="welcome-title">Welcome!</h1>
                     <p id="welcome-subtitle">Manage your job postings and applicants</p>
                 </div>
                 
@@ -1046,24 +1155,20 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Search jobs, applicants...">
-                    </div>
+                   
                     
                     <div class="user-profile" id="userProfile">
-                        <div class="avatar" id="companyAvatar">TS</div>
+                        <div class="avatar" id="companyAvatar">C</div>
                         <div>
-                            <div style="font-weight: 500;" id="companyName">TechSolutions Inc.</div>
-                            <div style="font-size: 0.8rem; color: var(--gray);">Verified Company</div>
+                            <div style="font-weight: 500;" id="companyName">Loading...</div>
+                            <div style="font-size: 0.8rem; color: var(--gray);" id="companyStatus">Verified Company</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Dashboard Content -->
+           
             <div id="dashboard-content">
-                <!-- Quick Actions -->
                 <div class="quick-actions">
                     <div class="action-card" data-action="post-job">
                         <div class="action-icon">
@@ -1081,31 +1186,16 @@
                         <p>Manage all applications</p>
                     </div>
                     
-                    <div class="action-card" data-action="schedule-interview">
-                        <div class="action-icon">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <h3>Schedule Interview</h3>
-                        <p>Set up candidate interviews</p>
-                    </div>
                     
-                    <div class="action-card" data-action="view-analytics">
-                        <div class="action-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <h3>View Analytics</h3>
-                        <p>See hiring metrics</p>
-                    </div>
                 </div>
 
-                <!-- Stats Grid -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-icon jobs">
                             <i class="fas fa-briefcase"></i>
                         </div>
                         <div class="stat-info">
-                            <h3 id="active-jobs-count">8</h3>
+                            <h3 id="active-jobs-count">0</h3>
                             <p>Active Jobs</p>
                         </div>
                     </div>
@@ -1115,7 +1205,7 @@
                             <i class="fas fa-file-alt"></i>
                         </div>
                         <div class="stat-info">
-                            <h3 id="total-applicants-count">24</h3>
+                            <h3 id="total-applicants-count">0</h3>
                             <p>Total Applicants</p>
                         </div>
                     </div>
@@ -1125,7 +1215,7 @@
                             <i class="fas fa-calendar-check"></i>
                         </div>
                         <div class="stat-info">
-                            <h3 id="interviews-scheduled-count">3</h3>
+                            <h3 id="interviews-scheduled-count">0</h3>
                             <p>Interviews Scheduled</p>
                         </div>
                     </div>
@@ -1135,13 +1225,12 @@
                             <i class="fas fa-user-check"></i>
                         </div>
                         <div class="stat-info">
-                            <h3 id="successful-hires-count">2</h3>
+                            <h3 id="successful-hires-count">0</h3>
                             <p>Successful Hires</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Active Job Postings -->
                 <div class="dashboard-section">
                     <div class="section-header">
                         <h2>Your Active Job Postings</h2>
@@ -1152,12 +1241,12 @@
                     
                     <div class="section-content">
                         <div class="jobs-list" id="active-jobs-list">
-                            <!-- Jobs will be loaded dynamically -->
+                            <div class="spinner"></div>
+                            <p style="text-align: center;">Loading jobs...</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recent Applicants -->
                 <div class="dashboard-section">
                     <div class="section-header">
                         <h2>Recent Applicants</h2>
@@ -1168,54 +1257,41 @@
                     
                     <div class="section-content">
                         <div class="applicants-grid" id="recent-applicants-grid">
-                            <!-- Applicants will be loaded dynamically -->
+                            <div class="spinner"></div>
+                            <p style="text-align: center;">Loading applicants...</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recent Notifications -->
-                <div class="dashboard-section">
-                    <div class="section-header">
-                        <h2>Recent Notifications</h2>
-                        <div class="section-actions">
-                            <a href="#" data-page="notifications">View All <i class="fas fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                    
-                    <div class="section-content">
-                        <div class="notifications-list" id="recent-notifications-list">
-                            <!-- Notifications will be loaded dynamically -->
-                        </div>
-                    </div>
-                </div>
+               
             </div>
 
-            <!-- Post Job Form -->
+            
             <div id="post-job-content" class="form-container" style="display: none;">
                 <h2>Post a New Job</h2>
                 <form id="post-job-form">
                     <div class="form-group">
-                        <label for="job-title">Job Title</label>
-                        <input type="text" id="job-title" class="form-control" required>
+                        <label for="job-title">Job Title *</label>
+                        <input type="text" id="job-title" class="form-control" required placeholder="e.g. Senior Frontend Developer">
                     </div>
                     
                     <div class="form-group">
-                        <label for="job-description">Job Description</label>
-                        <textarea id="job-description" class="form-control" required></textarea>
+                        <label for="job-description">Job Description *</label>
+                        <textarea id="job-description" class="form-control" required placeholder="Describe the role, responsibilities, and what you're looking for in a candidate..."></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label for="job-requirements">Requirements</label>
-                        <textarea id="job-requirements" class="form-control" required></textarea>
+                        <label for="job-requirements">Requirements *</label>
+                        <textarea id="job-requirements" class="form-control" required placeholder="List the required qualifications, skills, and experience..."></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label for="job-location">Location</label>
-                        <input type="text" id="job-location" class="form-control" required>
+                        <label for="job-location">Location *</label>
+                        <input type="text" id="job-location" class="form-control" required placeholder="e.g. Remote, New York, NY, etc.">
                     </div>
                     
                     <div class="form-group">
-                        <label for="job-type">Job Type</label>
+                        <label for="job-type">Job Type *</label>
                         <select id="job-type" class="form-control" required>
                             <option value="">Select Job Type</option>
                             <option value="Full-time">Full-time</option>
@@ -1232,25 +1308,238 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="application-deadline">Application Deadline</label>
+                        <label for="application-deadline">Application Deadline *</label>
                         <input type="date" id="application-deadline" class="form-control" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="skills-required">Skills Required (comma separated)</label>
-                        <input type="text" id="skills-required" class="form-control" placeholder="e.g. JavaScript, React, Node.js">
+                        <input type="text" id="skills-required" class="form-control" placeholder="e.g. JavaScript, React, Node.js, Python">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="job-status">Status</label>
+                        <select id="job-status" class="form-control">
+                            <option value="active">Active</option>
+                            <option value="draft">Draft</option>
+                        </select>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">Post Job</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Post Job
+                    </button>
                 </form>
             </div>
 
-            <!-- Other page content will be loaded here dynamically -->
-            <div id="dynamic-content"></div>
+           
+            <div id="jobs-content" style="display: none;">
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>All Job Postings</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" onclick="navigateToPage('post-job')">
+                                <i class="fas fa-plus"></i> Post New Job
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="jobs-list" id="all-jobs-list">
+                            <div class="spinner"></div>
+                            <p style="text-align: center;">Loading jobs...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+<div class="modal" id="studentProfileModal">
+    <div class="modal-content" style="max-width: 700px;">
+        <div class="modal-header">
+            <h3 id="studentProfileModalTitle">Student Profile</h3>
+            <button class="modal-close" id="closeStudentProfileModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="studentProfileContent">
+                <div class="spinner"></div>
+                <p style="text-align: center;">Loading student profile...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+            
+            <div id="applicants-content" style="display: none;">
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>All Applicants</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-outline" id="refreshApplicants">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="applicants-grid" id="all-applicants-grid">
+                            <div class="spinner"></div>
+                            <p style="text-align: center;">Loading applicants...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+            <div id="interviews-content" style="display: none;">
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Scheduled Interviews</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="scheduleInterviewBtn">
+                                <i class="fas fa-plus"></i> Schedule New Interview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div id="interviews-list">
+                            <div style="text-align: center; padding: 40px;">
+                                <i class="fas fa-calendar-alt" style="font-size: 3rem; color: var(--gray); margin-bottom: 20px;"></i>
+                                <h3 style="color: var(--gray); margin-bottom: 10px;">No interviews scheduled</h3>
+                                <p style="color: var(--gray);">Schedule your first interview to get started.</p>
+                                <button class="btn btn-primary" style="margin-top: 20px;" id="scheduleFirstInterview">
+                                    Schedule Interview
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+       
+
+            
+<div id="company-profile-content" class="form-container" style="display: none;">
+    <div class="profile-preview">
+        <div class="profile-header">
+            <div class="profile-avatar" id="companyPreviewAvatar">
+               
+                
+            </div>
+            <div class="profile-info">
+                <h3 id="companyPreviewName">Your Company</h3>
+                <p id="companyPreviewIndustry">Industry not set</p>
+                <p id="companyPreviewLocation"><i class="fas fa-globe"></i> Website not set</p>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <div class="stat-number" id="companyPreviewJobs">0</div>
+                        <div class="stat-label">Active Jobs</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="companyPreviewApplicants">0</div>
+                        <div class="stat-label">Applicants</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="companyPreviewHires">0</div>
+                        <div class="stat-label">Hires</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Modals -->
+                <h2>Company Profile</h2>
+                <form id="company-profile-form">
+                    <div class="form-group">
+                        <label for="profile-company-name">Company Name *</label>
+                        <input type="text" id="profile-company-name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-email">Email *</label>
+                        <input type="email" id="profile-email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-industry">Industry *</label>
+                        <input type="text" id="profile-industry" class="form-control" required placeholder="e.g. Technology, Healthcare, Finance">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-website">Website</label>
+                        <input type="url" id="profile-website" class="form-control" placeholder="https://yourcompany.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-phone">Phone</label>
+                        <input type="tel" id="profile-phone" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-size">Company Size</label>
+                        <select id="profile-size" class="form-control">
+                            <option value="">Select Size</option>
+                            <option value="1-10">1-10 employees</option>
+                            <option value="11-50">11-50 employees</option>
+                            <option value="51-200">51-200 employees</option>
+                            <option value="201-500">201-500 employees</option>
+                            <option value="501-1000">501-1000 employees</option>
+                            <option value="1000+">1000+ employees</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-founded">Founded Year</label>
+                        <input type="number" id="profile-founded" class="form-control" min="1900" max="2024" placeholder="e.g. 2015">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-description">Company Description</label>
+                        <textarea id="profile-description" class="form-control" rows="5" placeholder="Tell candidates about your company culture, mission, and values..."></textarea>
+                    </div>
+
+                   <div class="form-group">
+            <label for="company-logo">Company Logo</label>
+            <input type="file" id="company-logo" class="form-control" accept="image/*">
+            <small style="color: var(--gray);">Max file size: 2MB. Supported formats: JPG, PNG, GIF</small>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Update Profile
+        </button>
+    </form>
+</div>
+
+<div id="settings-content" class="form-container" style="display: none;">
+    <div class="settings-header" style="text-align: center; margin-bottom: 30px;">
+        <div class="icon-container" style="width: 70px; height: 70px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+            <i class="fas fa-lock" style="color: white; font-size: 1.8rem;"></i>
+        </div>
+        <h2 style="color: var(--dark); margin-bottom: 8px;">Change Password</h2>
+        <p style="color: var(--gray);">Update your account password for security</p>
+    </div>
+
+    <form id="changePasswordForm">
+        <div class="form-group">
+            <label for="current-password">Current Password</label>
+            <input type="password" id="current-password" class="form-control" required placeholder="Enter your current password">
+        </div>
+        
+        <div class="form-group">
+            <label for="new-password">New Password</label>
+            <input type="password" id="new-password" class="form-control" required placeholder="Enter new password" minlength="6">
+            <small style="color: var(--gray);">Minimum 6 characters required</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="confirm-password">Confirm New Password</label>
+            <input type="password" id="confirm-password" class="form-control" required placeholder="Confirm new password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">
+            <i class="fas fa-save"></i> Change Password
+        </button>
+    </form>
+</div>
+
+  
     <div class="modal" id="jobModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1322,67 +1611,102 @@
         </div>
     </div>
 
-   <script>
-    // Global variables
-    let currentCompany = null;
-    let allJobs = [];
-    let allApplications = [];
-    let allNotifications = [];
+    <script>
+     
+        let currentCompany = null;
+        let allJobs = [];
+        let allApplications = [];
+        let allNotifications = [];
 
-    // Initialize the dashboard
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('Company dashboard loading...');
-        checkAuthentication();
-        setupEventListeners();
-    });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+            setupEventListeners();
+              
+    startNotificationPolling();
+    
+   
+    startMessagesPolling()
+        });
 
-    // Authentication functions
-    async function checkAuthentication() {
+
+function startNotificationPolling() {
+    setInterval(async () => {
         try {
-            console.log('Checking authentication...');
-            const response = await fetch('/api/auth/status');
+            const response = await fetch('/api/notifications/unread-count');
             const data = await response.json();
-            console.log('Auth status:', data);
             
-            if (data.loggedIn && data.userType === 'company') {
-                console.log('Company user authenticated');
-                currentCompany = data.userData || {
-                    id: data.userId,
-                    companyName: data.userName,
-                    email: '',
-                    industry: ''
-                };
-                updateUIWithCompanyData();
-                loadDashboardData();
-            } else {
-                console.log('Not authenticated, redirecting to login');
-                window.location.href = '/login.html';
+            if (data.success) {
+                
+                const badge = document.getElementById('notifications-count-badge');
+                if (badge) {
+                    badge.textContent = data.unreadCount;
+                }
+                
+                
+                if (document.getElementById('notifications-content').style.display !== 'none') {
+                    loadNotificationsPage();
+                }
             }
         } catch (error) {
-            console.error('Auth check failed:', error);
+            console.error('Error polling notifications:', error);
+        }
+    }, 10000); 
+}
+
+function startMessagesPolling() {
+    setInterval(async () => {
+        try {
+            const response = await fetch('/api/notifications/unread-count');
+            const data = await response.json();
+            
+            if (data.success) {
+             
+                const messagesBadge = document.getElementById('messages-count-badge');
+                if (messagesBadge) {
+                   
+                    messagesBadge.textContent = data.unreadCount > 0 ? data.unreadCount : '';
+                }
+            }
+        } catch (error) {
+            console.error('Error polling messages:', error);
+        }
+    }, 15000); 
+}
+
+
+
+       
+async function checkAuthentication() {
+    try {
+        const response = await fetch('/api/auth/status');
+        const data = await response.json();
+        
+        if (data.loggedIn && data.userType === 'company') {
+            currentCompany = data.userData || {
+                id: data.userId,
+                companyName: data.userName,
+                email: '',
+                industry: ''
+            };
+            updateUIWithCompanyData();
+            loadDashboardData();
+            loadCompanyProfileData(); 
+        } else {
             window.location.href = '/login.html';
         }
+    } catch (error) {
+        console.error('Auth check failed:', error);
+        window.location.href = '/login.html';
     }
+}
 
-    function updateUIWithCompanyData() {
-        if (!currentCompany) return;
-        
-        console.log('Updating UI with company data:', currentCompany);
-        
-        const welcomeTitle = document.getElementById('welcome-title');
-        const companyNameElement = document.getElementById('companyName');
-        const companyAvatar = document.getElementById('companyAvatar');
-        
-        if (welcomeTitle) {
-            welcomeTitle.textContent = `Welcome, ${currentCompany.companyName || currentCompany.name}`;
-        }
-        
-        if (companyNameElement) {
-            companyNameElement.textContent = currentCompany.companyName || currentCompany.name;
-        }
-        
-        // Update avatar initials
-        if (companyAvatar) {
+        function updateUIWithCompanyData() {
+            if (!currentCompany) return;
+            
+            document.getElementById('welcome-title').textContent = `Welcome, ${currentCompany.companyName || currentCompany.name}`;
+            document.getElementById('companyName').textContent = currentCompany.companyName || currentCompany.name;
+           
             const companyName = currentCompany.companyName || currentCompany.name || 'Company';
             const initials = companyName
                 .split(' ')
@@ -1394,29 +1718,32 @@
         }
     }
 
-    // Event listeners setup
-    function setupEventListeners() {
-        console.log('Setting up event listeners...');
+       
+        function setupEventListeners() {
         
-        // Menu toggle for mobile
-        const menuToggle = document.getElementById('menuToggle');
-        if (menuToggle) {
-            menuToggle.addEventListener('click', function() {
+            document.getElementById('menuToggle').addEventListener('click', function() {
                 document.querySelector('.sidebar').classList.toggle('active');
             });
         }
 
-        // Sidebar navigation
-        document.querySelectorAll('.menu-item').forEach(item => {
-            if (!item.classList.contains('logout-btn')) {
-                item.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const page = this.getAttribute('data-page');
-                    console.log('Navigating to:', page);
-                    navigateToPage(page);
-                    
-                    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
+            document.querySelectorAll('.menu-item').forEach(item => {
+                if (!item.classList.contains('logout-btn')) {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const page = this.getAttribute('data-page');
+                        navigateToPage(page);
+                        
+                        document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                }
+            });
+
+           
+            document.querySelectorAll('.action-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    handleQuickAction(action);
                 });
             }
         });
@@ -1430,76 +1757,165 @@
             });
         });
 
-        // Search functionality
-        const searchInput = document.getElementById('searchInput');
-        if (searchInput) {
-            searchInput.addEventListener('input', function() {
-                const query = this.value.toLowerCase();
-                if (query.length > 2) {
-                    performSearch(query);
-                }
-            });
-        }
+       
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.toLowerCase();
+                    if (query.length > 2) {
+                        performSearch(query);
+                    }
+                });
+                    
+    setupStudentProfileModal();
+            }
 
-        // Logout button
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', function(e) {
+             const changePasswordForm = document.getElementById('changePasswordForm');
+            if (changePasswordForm) {
+                changePasswordForm.addEventListener('submit', handlePasswordChange);
+            }
+            
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
                 e.preventDefault();
                 handleLogout();
             });
         }
 
-        // Post job form
-        const postJobForm = document.getElementById('post-job-form');
-        if (postJobForm) {
-            postJobForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                handlePostJob();
-            });
+           
+            const postJobForm = document.getElementById('post-job-form');
+            if (postJobForm) {
+                postJobForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    handlePostJob();
+                });
+            }
+
+            const editJobForm = document.getElementById('edit-job-form');
+            if (editJobForm) {
+                editJobForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    handleUpdateJob();
+                });
+            }
+
+          
+            const companyProfileForm = document.getElementById('company-profile-form');
+    if (companyProfileForm) {
+        companyProfileForm.addEventListener('submit', handleCompanyProfileUpdate);
+    }
+       const companyLogoInput = document.getElementById('company-logo');
+    if (companyLogoInput) {
+        companyLogoInput.addEventListener('change', function() {
+            previewCompanyLogo(this);
+        });
+    }
+
+          
+            const refreshApplicantsBtn = document.getElementById('refreshApplicants');
+            if (refreshApplicantsBtn) {
+                refreshApplicantsBtn.addEventListener('click', function() {
+                    loadDashboardData();
+                    showNotification('Applicants refreshed!', 'success');
+                });
+            }
+
+           
+            const markAllReadBtn = document.getElementById('markAllReadBtn');
+            if (markAllReadBtn) {
+                markAllReadBtn.addEventListener('click', function() {
+                    markAllNotificationsAsRead();
+                });
+            }
+
+            
+            const scheduleInterviewBtn = document.getElementById('scheduleInterviewBtn');
+            const scheduleFirstInterviewBtn = document.getElementById('scheduleFirstInterview');
+            if (scheduleInterviewBtn) scheduleInterviewBtn.addEventListener('click', scheduleInterview);
+            if (scheduleFirstInterviewBtn) scheduleFirstInterviewBtn.addEventListener('click', scheduleInterview);
+
+            
+            setupModalEvents();
         }
 
-        // Edit job form
-        const editJobForm = document.getElementById('edit-job-form');
-        if (editJobForm) {
-            editJobForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                handleUpdateJob();
-            });
-        }
+        function setupModalEvents() {
+            const closeJobModal = document.getElementById('closeJobModal');
+            if (closeJobModal) {
+                closeJobModal.addEventListener('click', function() {
+                    document.getElementById('jobModal').style.display = 'none';
+                });
+            }
 
-        // Modal close
-        const closeJobModal = document.getElementById('closeJobModal');
-        if (closeJobModal) {
-            closeJobModal.addEventListener('click', function() {
-                document.getElementById('jobModal').style.display = 'none';
-            });
-        }
-
-        // Close modal when clicking outside
-        window.addEventListener('click', function(e) {
             const modal = document.getElementById('jobModal');
-            if (e.target === modal) {
-                modal.style.display = 'none';
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
             }
         });
     }
 
-    // Navigation function
-    function navigateToPage(page) {
-        console.log('Navigating to page:', page);
-        
-        // Hide all content sections
-        const sections = [
-            'dashboard-content',
-            'post-job-content',
-            'dynamic-content'
-        ];
-        
-        sections.forEach(section => {
-            const element = document.getElementById(section);
-            if (element) {
-                element.style.display = 'none';
+
+function navigateToPage(page) {
+   
+    const sections = [
+        'dashboard-content',
+        'post-job-content',
+        'jobs-content',
+        'applicants-content',
+        'interviews-content',
+        'notifications-content',
+        'company-profile-content',
+        'settings-content'
+    ];
+    
+    sections.forEach(section => {
+        const element = document.getElementById(section);
+        if (element) element.style.display = 'none';
+    });
+   
+    switch(page) {
+        case 'dashboard':
+            document.getElementById('dashboard-content').style.display = 'block';
+            loadDashboardData();
+            break;
+        case 'post-job':
+            document.getElementById('post-job-content').style.display = 'block';
+            break;
+        case 'jobs':
+            loadJobsPage();
+            break;
+        case 'applicants':
+            loadApplicantsPage();
+            break;
+        case 'interviews':
+            loadInterviewsPage();
+            break;
+        case 'notifications':
+            loadNotificationsPage();
+            break;
+        case 'company-profile':
+            document.getElementById('company-profile-content').style.display = 'block';
+            loadCompanyProfileData(); 
+            break;
+        case 'settings':
+            document.getElementById('settings-content').style.display = 'block';
+            loadSettingsData();
+            break;
+    }
+}
+       
+      
+        function handleQuickAction(action) {
+            switch(action) {
+                case 'post-job':
+                    navigateToPage('post-job');
+                    break;
+                case 'view-applicants':
+                    navigateToPage('applicants');
+                    break;
+                
             }
         });
         
@@ -1560,41 +1976,127 @@
         }
     }
 
-    // Data loading functions
-    async function loadDashboardData() {
-        console.log('Loading dashboard data...');
-        showLoading();
-        
-        try {
-            // Load jobs
-            const jobsResponse = await fetch('/api/jobs/company');
-            if (jobsResponse.ok) {
-                const jobsData = await jobsResponse.json();
-                if (jobsData.success) {
-                    allJobs = jobsData.jobs || [];
-                    console.log('Loaded jobs:', allJobs.length);
+     
+        async function loadDashboardData() {
+            try {
+               
+                const jobsResponse = await fetch('/api/jobs/company');
+                if (jobsResponse.ok) {
+                    const jobsData = await jobsResponse.json();
+                    if (jobsData.success) {
+                        allJobs = jobsData.jobs || [];
+                    }
                 }
+                
+             
+                const appsResponse = await fetch('/api/jobs/applications');
+                if (appsResponse.ok) {
+                    const appsData = await appsResponse.json();
+                    if (appsData.success) {
+                        allApplications = appsData.applications || [];
+                    }
+                }
+                
+              
+                const notifsResponse = await fetch('/api/notifications');
+                if (notifsResponse.ok) {
+                    const notifsData = await notifsResponse.json();
+                    if (notifsData.success) {
+                        allNotifications = notifsData.notifications || [];
+                    }
+                }
+                
+                
+                updateDashboardStats();
+                renderActiveJobs();
+                renderRecentApplicants();
+                renderRecentNotifications();
+                
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showNotification('Error loading dashboard data', 'error');
             }
+        }
+        function renderRecentApplicants() {
+    const container = document.getElementById('recent-applicants-grid');
+    if (!container) return;
+    
+    const recentApplicants = allApplications.slice(0, 4); 
+    
+    if (recentApplicants.length === 0) {
+        container.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                <i class="fas fa-users" style="font-size: 3rem; color: var(--gray); margin-bottom: 15px;"></i>
+                <h3>No applicants yet</h3>
+                <p>Applicants will appear here when they apply to your jobs</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = recentApplicants.map(app => `
+        <div class="applicant-card">
+            <div class="applicant-header">
+                <div class="applicant-avatar">${getInitials(app.student_name)}</div>
+                <div class="applicant-info">
+                    <h4>${app.student_name}</h4>
+                    <p>Applied for: ${app.job_title}</p>
+                    <small style="color: var(--gray);">Applied: ${formatDate(app.applied_at)}</small>
+                </div>
+            </div>
             
-            // Load applications
-            const appsResponse = await fetch('/api/jobs/applications');
-            if (appsResponse.ok) {
-                const appsData = await appsResponse.json();
-                if (appsData.success) {
-                    allApplications = appsData.applications || [];
-                    console.log('Loaded applications:', allApplications.length);
-                }
-            }
+            <div class="applicant-details">
+                <p><i class="fas fa-graduation-cap"></i> ${app.institution || 'Not specified'}</p>
+                <p><i class="fas fa-envelope"></i> ${app.student_email || 'No email'}</p>
+                <p><i class="fas fa-calendar"></i> ${formatDate(app.applied_at)}</p>
+            </div>
             
-            // Load notifications
-            const notifsResponse = await fetch('/api/notifications');
-            if (notifsResponse.ok) {
-                const notifsData = await notifsResponse.json();
-                if (notifsData.success) {
-                    allNotifications = notifsData.notifications || [];
-                    console.log('Loaded notifications:', allNotifications.length);
-                }
-            }
+            ${app.student_skills ? `
+            <div class="applicant-skills">
+                ${app.student_skills.split(',').slice(0, 4).map(skill => 
+                    `<span class="skill-tag">${skill.trim()}</span>`
+                ).join('')}
+            </div>
+            ` : '<div class="applicant-skills"><span class="skill-tag">No skills listed</span></div>'}
+            
+            <div class="applicant-actions">
+                <select class="status-select" data-application-id="${app.id}">
+                    <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>Applied</option>
+                    <option value="shortlisted" ${app.status === 'shortlisted' ? 'selected' : ''}>Shortlisted</option>
+                    <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
+                    <option value="hired" ${app.status === 'hired' ? 'selected' : ''}>Hired</option>
+                    <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                </select>
+                
+                <button class="btn btn-outline view-profile-btn" data-student-id="${app.student_id}">
+                    <i class="fas fa-eye"></i> View Profile
+                </button>
+            </div>
+        </div>
+    `).join('');
+    
+    
+    container.querySelectorAll('.view-profile-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const studentId = this.getAttribute('data-student-id');
+            openStudentProfile(studentId);
+        });
+    });
+    
+    container.querySelectorAll('.status-select').forEach(select => {
+        select.addEventListener('change', function() {
+            const applicationId = this.getAttribute('data-application-id');
+            const newStatus = this.value;
+            updateApplicationStatus(applicationId, newStatus);
+        });
+    });
+}
+
+        function updateDashboardStats() {
+            const activeJobs = allJobs.filter(job => job.status === 'active').length;
+            const totalApplicants = allApplications.length;
+            const interviewsScheduled = allApplications.filter(app => app.status === 'interview').length;
+            const successfulHires = allApplications.filter(app => app.status === 'hired').length;
             
             // Update dashboard with real data
             updateDashboardStats();
@@ -1602,210 +2104,198 @@
             renderRecentApplicants();
             renderRecentNotifications();
             
-        } catch (error) {
-            console.error('Error loading dashboard data:', error);
-            loadMockData();
+          
+            const jobsBadge = document.getElementById('jobs-count');
+            const applicantsBadge = document.getElementById('applicants-count');
+            const interviewsBadge = document.getElementById('interviews-count');
+            const notificationsBadge = document.getElementById('notifications-count');
+            
+            if (jobsBadge) jobsBadge.textContent = allJobs.length;
+            if (applicantsBadge) applicantsBadge.textContent = totalApplicants;
+            if (interviewsBadge) interviewsBadge.textContent = interviewsScheduled;
+            if (notificationsBadge) notificationsBadge.textContent = allNotifications.filter(n => !n.read_status).length;
         }
         
         hideLoading();
     }
 
-    function updateDashboardStats() {
-        console.log('Updating dashboard stats...');
-        
-        // Update stats counts
-        const activeJobs = allJobs.filter(job => job.status === 'active').length;
-        const totalApplicants = allApplications.length;
-        const interviewsScheduled = allApplications.filter(app => app.status === 'interview').length;
-        const successfulHires = allApplications.filter(app => app.status === 'hired').length;
-        
-        console.log('Stats - Jobs:', activeJobs, 'Applicants:', totalApplicants, 'Interviews:', interviewsScheduled, 'Hires:', successfulHires);
-        
-        // Update stats cards
-        const activeJobsElement = document.getElementById('active-jobs-count');
-        const totalApplicantsElement = document.getElementById('total-applicants-count');
-        const interviewsScheduledElement = document.getElementById('interviews-scheduled-count');
-        const successfulHiresElement = document.getElementById('successful-hires-count');
-        
-        if (activeJobsElement) activeJobsElement.textContent = activeJobs;
-        if (totalApplicantsElement) totalApplicantsElement.textContent = totalApplicants;
-        if (interviewsScheduledElement) interviewsScheduledElement.textContent = interviewsScheduled;
-        if (successfulHiresElement) successfulHiresElement.textContent = successfulHires;
-        
-        // Update menu badges
-        const jobsBadge = document.getElementById('jobs-count');
-        const applicantsBadge = document.getElementById('applicants-count');
-        const interviewsBadge = document.getElementById('interviews-count');
-        const notificationsBadge = document.getElementById('notifications-count');
-        
-        if (jobsBadge) jobsBadge.textContent = allJobs.length;
-        if (applicantsBadge) applicantsBadge.textContent = totalApplicants;
-        if (interviewsBadge) interviewsBadge.textContent = interviewsScheduled;
-        if (notificationsBadge) notificationsBadge.textContent = allNotifications.filter(n => !n.read_status).length;
-    }
-
-    function renderActiveJobs() {
-        const container = document.getElementById('active-jobs-list');
-        if (!container) {
-            console.log('Active jobs container not found');
-            return;
-        }
-        
-        const activeJobs = allJobs.filter(job => job.status === 'active').slice(0, 3);
-        
-        if (activeJobs.length === 0) {
-            container.innerHTML = `
+        function renderActiveJobs() {
+            const container = document.getElementById('active-jobs-list');
+            if (!container) return;
+            
+            const activeJobs = allJobs.filter(job => job.status === 'active').slice(0, 3);
+            
+            if (activeJobs.length === 0) {
+                container.innerHTML = `
+                    <div class="job-item">
+                        <div class="job-info">
+                            <h3>No active jobs</h3>
+                            <p>Post your first job to start receiving applications</p>
+                        </div>
+                        <div class="job-actions">
+                            <button class="btn btn-primary" onclick="navigateToPage('post-job')">
+                                Post Your First Job
+                            </button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = activeJobs.map(job => `
                 <div class="job-item">
                     <div class="job-info">
                         <h3>No active jobs</h3>
                         <p>Post your first job to start receiving applications</p>
                     </div>
                     <div class="job-actions">
-                        <button class="btn btn-primary" onclick="navigateToPage('post-job')">
-                            Post Your First Job
+                        <button class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
+                            <i class="fas fa-eye"></i> View Applicants
+                        </button>
+                        <button class="btn btn-outline edit-job-btn" data-job-id="${job.id}">
+                            <i class="fas fa-edit"></i> Edit
                         </button>
                     </div>
                 </div>
-            `;
-            return;
+            `).join('');
+            
+            
+            container.querySelectorAll('.view-applicants-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const jobId = this.getAttribute('data-job-id');
+                    viewJobApplicants(jobId);
+                });
+            });
+            
+            container.querySelectorAll('.edit-job-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const jobId = this.getAttribute('data-job-id');
+                    openEditJobModal(jobId);
+                });
+            });
         }
-        
-        container.innerHTML = activeJobs.map(job => `
-            <div class="job-item">
-                <div class="job-info">
-                    <h3>${job.title}</h3>
-                    <div class="job-meta">
-                        <span><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
-                        <span><i class="fas fa-clock"></i> ${job.job_type}</span>
-                        <span><i class="fas fa-calendar"></i> Posted ${formatDate(job.created_at)}</span>
-                    </div>
-                    <div class="job-status">
-                        <span class="status-badge status-active">Active</span>
-                        <span>Expires in ${daysUntil(job.application_deadline)} days</span>
-                    </div>
-                </div>
-                
-                <div class="applicant-count">
-                    <div class="applicant-number">${job.application_count || 0}</div>
-                    <div class="applicant-label">Applicants</div>
-                </div>
-                
-                <div class="job-actions">
-                    <button class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
-                        <i class="fas fa-eye"></i> View Applicants
-                    </button>
-                    <button class="btn btn-outline edit-job-btn" data-job-id="${job.id}">
-                        <i class="fas fa-edit"></i> Edit
-                    </button>
+
+       function renderAllApplicants() {
+    const container = document.getElementById('all-applicants-grid');
+    if (!container) return;
+    
+    container.innerHTML = allApplications.map(app => `
+        <div class="applicant-card">
+            <div class="applicant-header">
+                <div class="applicant-avatar">${getInitials(app.student_name)}</div>
+                <div class="applicant-info">
+                    <h4>${app.student_name}</h4>
+                    <p>Applied for: ${app.job_title}</p>
+                    <small style="color: var(--gray);">Applied: ${formatDate(app.applied_at)}</small>
                 </div>
             </div>
-        `).join('');
-        
-        // Add event listeners to buttons
-        container.querySelectorAll('.view-applicants-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const jobId = this.getAttribute('data-job-id');
-                viewJobApplicants(jobId);
-            });
-        });
-        
-        container.querySelectorAll('.edit-job-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const jobId = this.getAttribute('data-job-id');
-                openEditJobModal(jobId);
-            });
-        });
-    }
-
-    function renderRecentApplicants() {
-        const container = document.getElementById('recent-applicants-grid');
-        if (!container) {
-            console.log('Recent applicants container not found');
-            return;
-        }
-        
-        const recentApplicants = allApplications.slice(0, 3);
-        
-        if (recentApplicants.length === 0) {
-            container.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
-                    <i class="fas fa-users" style="font-size: 3rem; color: var(--gray); margin-bottom: 15px;"></i>
-                    <h3>No applicants yet</h3>
-                    <p>Applicants will appear here when they apply to your jobs</p>
-                </div>
-            `;
-            return;
-        }
-        
-        container.innerHTML = recentApplicants.map(app => `
-            <div class="applicant-card">
-                <div class="applicant-header">
-                    <div class="applicant-avatar">${getInitials(app.student_name)}</div>
-                    <div class="applicant-info">
-                        <h4>${app.student_name}</h4>
-                        <p>${app.job_title}</p>
-                    </div>
-                </div>
-                
-                <div class="applicant-details">
-                    <p><i class="fas fa-graduation-cap"></i> ${app.institution || 'Not specified'}</p>
-                    <p><i class="fas fa-map-marker-alt"></i> ${app.location || 'Not specified'}</p>
-                    <p><i class="fas fa-star"></i> ${app.match_score || 'N/A'}/5 Match Score</p>
-                </div>
-                
-                <div class="applicant-skills">
-                    ${app.student_skills ? app.student_skills.split(',').map(skill => 
-                        `<span class="skill-tag">${skill.trim()}</span>`
-                    ).join('') : 'No skills listed'}
-                </div>
-                
-                <div class="applicant-actions">
-                    <select class="status-select" data-application-id="${app.id}">
-                        <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>Applied</option>
-                        <option value="shortlisted" ${app.status === 'shortlisted' ? 'selected' : ''}>Shortlisted</option>
-                        <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
-                        <option value="hired" ${app.status === 'hired' ? 'selected' : ''}>Hired</option>
-                        <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
-                    </select>
-                    <button class="btn btn-outline view-profile-btn" data-applicant-id="${app.student_id}">
-                        View Profile
-                    </button>
-                </div>
+            
+            <div class="applicant-details">
+                <p><i class="fas fa-graduation-cap"></i> ${app.institution || 'Not specified'}</p>
+                <p><i class="fas fa-envelope"></i> ${app.student_email || 'No email'}</p>
+                <p><i class="fas fa-calendar"></i> ${formatDate(app.applied_at)}</p>
             </div>
-        `).join('');
-        
-        // Add event listeners to status selects
-        container.querySelectorAll('.status-select').forEach(select => {
-            select.addEventListener('change', function() {
-                const applicationId = this.getAttribute('data-application-id');
-                const newStatus = this.value;
-                updateApplicationStatus(applicationId, newStatus);
-            });
+            
+            ${app.student_skills ? `
+            <div class="applicant-skills">
+                ${app.student_skills.split(',').slice(0, 4).map(skill => 
+                    `<span class="skill-tag">${skill.trim()}</span>`
+                ).join('')}
+            </div>
+            ` : '<div class="applicant-skills"><span class="skill-tag">No skills listed</span></div>'}
+            
+            <div class="applicant-actions">
+                <select class="status-select" data-application-id="${app.id}">
+                    <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>Applied</option>
+                    <option value="shortlisted" ${app.status === 'shortlisted' ? 'selected' : ''}>Shortlisted</option>
+                    <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
+                    <option value="hired" ${app.status === 'hired' ? 'selected' : ''}>Hired</option>
+                    <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                </select>
+                
+                <!-- Resume View Button (ONLY VIEW, NO DOWNLOAD) -->
+                <button class="btn btn-outline view-resume-btn" data-student-id="${app.student_id}" data-student-name="${app.student_name}">
+                    <i class="fas fa-file-pdf"></i> View Resume
+                </button>
+                
+                <!-- Profile View Button -->
+                <button class="btn btn-outline view-profile-btn" data-student-id="${app.student_id}">
+                    <i class="fas fa-eye"></i> View Profile
+                </button>
+            </div>
+        </div>
+    `).join('');
+    
+    
+    container.querySelectorAll('.view-resume-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const studentId = this.getAttribute('data-student-id');
+            const studentName = this.getAttribute('data-student-name');
+            viewStudentResume(studentId, studentName);
         });
-    }
+    });
+    
+   
+    container.querySelectorAll('.view-profile-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const studentId = this.getAttribute('data-student-id');
+            openStudentProfile(studentId);
+        });
+    });
+    
+ 
+    container.querySelectorAll('.status-select').forEach(select => {
+        select.addEventListener('change', function() {
+            const applicationId = this.getAttribute('data-application-id');
+            const newStatus = this.value;
+            updateApplicationStatus(applicationId, newStatus);
+        });
+    });
+}
 
-    function renderRecentNotifications() {
-        const container = document.getElementById('recent-notifications-list');
-        if (!container) {
-            console.log('Recent notifications container not found');
-            return;
-        }
-        
-        const recentNotifications = allNotifications.slice(0, 3);
-        
-        if (recentNotifications.length === 0) {
-            container.innerHTML = `
-                <div class="notification-item">
-                    <div class="notification-icon system">
-                        <i class="fas fa-bell"></i>
+        function renderRecentNotifications() {
+            const container = document.getElementById('recent-notifications-list');
+            if (!container) return;
+            
+            const recentNotifications = allNotifications.slice(0, 3);
+            
+            if (recentNotifications.length === 0) {
+                container.innerHTML = `
+                    <div class="notification-item">
+                        <div class="notification-icon system">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="notification-content">
+                            <p>No notifications yet</p>
+                            <div class="notification-time">You're all caught up!</div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = recentNotifications.map(notif => `
+                <div class="notification-item ${notif.read_status ? '' : 'unread'}">
+                    <div class="notification-icon ${notif.type || 'system'}">
+                        <i class="fas fa-${getNotificationIcon(notif.type)}"></i>
                     </div>
                     <div class="notification-content">
                         <p>No notifications yet</p>
                         <div class="notification-time">You're all caught up!</div>
                     </div>
                 </div>
-            `;
-            return;
+            `).join('');
+            
+           
+            container.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const notificationId = this.getAttribute('data-notification-id');
+                    if (notificationId) {
+                        markNotificationAsRead(notificationId);
+                    }
+                    this.classList.remove('unread');
+                });
+            });
         }
         
         container.innerHTML = recentNotifications.map(notif => `
@@ -1851,14 +2341,41 @@
                 body: JSON.stringify(jobData)
             });
 
-            const result = await response.json();
-            
-            if (result.success) {
-                showNotification('Job posted successfully!', 'success');
-                document.getElementById('post-job-form').reset();
-                navigateToPage('dashboard');
-            } else {
-                showNotification('Error: ' + result.message, 'error');
+        
+        async function handlePostJob() {
+            const jobData = {
+                title: document.getElementById('job-title').value,
+                description: document.getElementById('job-description').value,
+                requirements: document.getElementById('job-requirements').value,
+                location: document.getElementById('job-location').value,
+                job_type: document.getElementById('job-type').value,
+                salary_range: document.getElementById('salary-range').value,
+                application_deadline: document.getElementById('application-deadline').value,
+                skills_required: document.getElementById('skills-required').value,
+                status: document.getElementById('job-status').value
+            };
+
+            try {
+                const response = await fetch('/api/jobs/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jobData)
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification('Job posted successfully!', 'success');
+                    document.getElementById('post-job-form').reset();
+                    navigateToPage('dashboard');
+                } else {
+                    showNotification('Error: ' + result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error posting job:', error);
+                showNotification('Error posting job', 'error');
             }
         } catch (error) {
             console.error('Error posting job:', error);
@@ -1910,45 +2427,71 @@
                 body: JSON.stringify(jobData)
             });
             
-            const result = await response.json();
+           
+            document.getElementById('edit-job-id').value = job.id;
+            document.getElementById('edit-job-title').value = job.title;
+            document.getElementById('edit-job-description').value = job.description;
+            document.getElementById('edit-job-requirements').value = job.requirements;
+            document.getElementById('edit-job-location').value = job.location;
+            document.getElementById('edit-job-type').value = job.job_type;
+            document.getElementById('edit-salary-range').value = job.salary_range || '';
+            document.getElementById('edit-application-deadline').value = job.application_deadline;
+            document.getElementById('edit-skills-required').value = job.skills_required || '';
+            document.getElementById('edit-job-status').value = job.status;
             
-            if (result.success) {
-                showNotification('Job updated successfully!', 'success');
-                document.getElementById('jobModal').style.display = 'none';
-                loadDashboardData();
-            } else {
-                showNotification('Error updating job: ' + result.message, 'error');
-            }
-        } catch (error) {
-            console.error('Error updating job:', error);
-            showNotification('Error updating job', 'error');
+            document.getElementById('jobModal').style.display = 'flex';
         }
-    }
 
-    // Application management
-    async function updateApplicationStatus(applicationId, newStatus) {
-        try {
-            const response = await fetch(`/api/jobs/applications/${applicationId}/status`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ status: newStatus })
-            });
+        async function handleUpdateJob() {
+            const jobId = document.getElementById('edit-job-id').value;
             
             const result = await response.json();
             
             if (result.success) {
                 showNotification('Application status updated!', 'success');
                 
-                // Update local data
-                const appIndex = allApplications.findIndex(app => app.id == applicationId);
-                if (appIndex !== -1) {
-                    allApplications[appIndex].status = newStatus;
-                }
+                const result = await response.json();
                 
-                updateDashboardStats();
-            } else {
+                if (result.success) {
+                    showNotification('Job updated successfully!', 'success');
+                    document.getElementById('jobModal').style.display = 'none';
+                    loadDashboardData();
+                } else {
+                    showNotification('Error updating job: ' + result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error updating job:', error);
+                showNotification('Error updating job', 'error');
+            }
+        }
+
+        
+        async function updateApplicationStatus(applicationId, newStatus) {
+            try {
+                const response = await fetch(`/api/jobs/applications/${applicationId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification('Application status updated!', 'success');
+                  
+                    const appIndex = allApplications.findIndex(app => app.id == applicationId);
+                    if (appIndex !== -1) {
+                        allApplications[appIndex].status = newStatus;
+                    }
+                    
+                    updateDashboardStats();
+                } else {
+                    showNotification('Error updating application status', 'error');
+                }
+            } catch (error) {
+                console.error('Error updating application status:', error);
                 showNotification('Error updating application status', 'error');
             }
         } catch (error) {
@@ -1957,511 +2500,867 @@
         }
     }
 
-    function viewJobApplicants(jobId) {
-        navigateToPage('applicants');
-    }
+        function viewJobApplicants(jobId) {
+            navigateToPage('applicants');
+            
+        }
 
-    // Page loading functions
-    function loadJobsPage() {
-        const container = document.getElementById('dynamic-content');
-        if (!container) return;
-        
-        container.innerHTML = `
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2>All Job Postings</h2>
-                    <div class="section-actions">
-                        <button class="btn btn-primary" onclick="navigateToPage('post-job')">
-                            <i class="fas fa-plus"></i> Post New Job
-                        </button>
-                    </div>
-                </div>
-                <div class="section-content">
-                    <div class="jobs-list" id="all-jobs-list">
-                        <!-- Jobs will be loaded here -->
-                    </div>
-                    <div class="job-actions">
-                        <a href="#" class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
-                            <i class="fas fa-eye"></i> View Applicants
-                        </a>
-                        <a href="#" class="btn btn-outline edit-job-btn" data-job-id="${job.id}">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        renderAllJobs();
-        container.style.display = 'block';
-    }
-
-    function renderAllJobs() {
-        const container = document.getElementById('all-jobs-list');
-        if (!container) return;
-        
-        if (allJobs.length === 0) {
+       
+        function loadJobsPage() {
+            const container = document.getElementById('jobs-content');
+            
             container.innerHTML = `
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>All Job Postings</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" onclick="navigateToPage('post-job')">
+                                <i class="fas fa-plus"></i> Post New Job
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="jobs-list" id="all-jobs-list">
+                            <div class="spinner"></div>
+                            <p style="text-align: center;">Loading jobs...</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            renderAllJobs();
+            container.style.display = 'block';
+        }
+
+        function renderAllJobs() {
+            const container = document.getElementById('all-jobs-list');
+            if (!container) return;
+            
+            if (allJobs.length === 0) {
+                container.innerHTML = `
+                    <div class="job-item">
+                        <div class="job-info">
+                            <h3>No jobs posted yet</h3>
+                            <p>Create your first job posting to get started</p>
+                        </div>
+                        <div class="job-actions">
+                            <button class="btn btn-primary" onclick="navigateToPage('post-job')">
+                                Post Your First Job
+                            </button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = allJobs.map(job => `
                 <div class="job-item">
                     <div class="job-info">
-                        <h3>No jobs posted yet</h3>
-                        <p>Create your first job posting to get started</p>
-                    </div>
-                    <div class="job-actions">
-                        <button class="btn btn-primary" onclick="navigateToPage('post-job')">
-                            Post Your First Job
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        renderAllApplicants();
-        
-        // Refresh button
-        const refreshBtn = document.getElementById('refreshApplicants');
-        if (refreshBtn) {
-            refreshBtn.addEventListener('click', function() {
-                loadDashboardData();
-                showNotification('Applicants refreshed!', 'success');
-            });
-        }
-        
-        container.style.display = 'block';
-    }
-
-    function renderAllApplicants() {
-        const container = document.getElementById('all-applicants-grid');
-        if (!container) return;
-        
-        if (allApplications.length === 0) {
-            container.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
-                    <i class="fas fa-users" style="font-size: 3rem; color: var(--gray); margin-bottom: 15px;"></i>
-                    <h3>No applicants yet</h3>
-                    <p>Applicants will appear here when they apply to your jobs</p>
-                </div>
-            `;
-            return;
-        }
-        
-        container.innerHTML = allJobs.map(job => `
-            <div class="job-item">
-                <div class="job-info">
-                    <h3>${job.title}</h3>
-                    <div class="job-meta">
-                        <span><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
-                        <span><i class="fas fa-clock"></i> ${job.job_type}</span>
-                        <span><i class="fas fa-calendar"></i> Posted ${formatDate(job.created_at)}</span>
-                    </div>
-                    <div class="job-status">
-                        <span class="status-badge ${getStatusClass(job.status)}">${job.status.charAt(0).toUpperCase() + job.status.slice(1)}</span>
-                        <span>${job.status === 'active' ? `Expires in ${daysUntil(job.application_deadline)} days` : ''}</span>
-                    </div>
-                </div>
-                
-                <div class="applicant-count">
-                    <div class="applicant-number">${job.application_count || 0}</div>
-                    <div class="applicant-label">Applicants</div>
-                </div>
-                
-                <div class="job-actions">
-                    <button class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
-                        <i class="fas fa-eye"></i> View Applicants
-                    </button>
-                    <button class="btn btn-outline edit-job-btn" data-job-id="${job.id}">
-                        <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="btn btn-outline delete-job-btn" data-job-id="${job.id}" style="color: var(--danger); border-color: var(--danger);">
-                        <i class="fas fa-trash"></i> Delete
-                    </button>
-                </div>
-            </div>
-        `).join('');
-        
-        // Add event listeners
-        container.querySelectorAll('.view-applicants-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const jobId = this.getAttribute('data-job-id');
-                viewJobApplicants(jobId);
-            });
-        });
-        
-        container.querySelectorAll('.edit-job-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const jobId = this.getAttribute('data-job-id');
-                openEditJobModal(jobId);
-            });
-        });
-        
-        container.querySelectorAll('.delete-job-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const jobId = this.getAttribute('data-job-id');
-                deleteJob(jobId);
-            });
-        });
-    }
-
-    async function loadApplicantsPage() {
-        const container = document.getElementById('dynamic-content');
-        if (!container) return;
-        
-        container.innerHTML = `
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2>All Applicants</h2>
-                    <div class="section-actions">
-                        <button class="btn btn-outline" id="refreshApplicants">
-                            <i class="fas fa-sync-alt"></i> Refresh
-                        </button>
-                    </div>
-                </div>
-                <div class="section-content">
-                    <div class="applicants-grid" id="all-applicants-grid">
-                        <!-- Applicants will be loaded here -->
-                    </div>
-                </div>
-            </div>
-        `;
-
-        renderAllApplicants();
-        
-        // Refresh button
-        const refreshBtn = document.getElementById('refreshApplicants');
-        if (refreshBtn) {
-            refreshBtn.addEventListener('click', function() {
-                loadDashboardData();
-                showNotification('Applicants refreshed!', 'success');
-            });
-        }
-        
-        container.style.display = 'block';
-    }
-
-    function renderAllApplicants() {
-        const container = document.getElementById('all-applicants-grid');
-        if (!container) return;
-        
-        if (allApplications.length === 0) {
-            container.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
-                    <i class="fas fa-users" style="font-size: 3rem; color: var(--gray); margin-bottom: 15px;"></i>
-                    <h3>No applicants yet</h3>
-                    <p>Applicants will appear here when they apply to your jobs</p>
-                </div>
-            `;
-            return;
-        }
-
-        container.innerHTML = allApplications.map(app => `
-            <div class="applicant-card">
-                <div class="applicant-header">
-                    <div class="applicant-avatar">${getInitials(app.student_name)}</div>
-                    <div class="applicant-info">
-                        <h4>${app.student_name}</h4>
-                        <p>Applied for: ${app.job_title}</p>
-                        <small>Applied: ${formatDate(app.applied_at)}</small>
-                    </div>
-                </div>
-                
-                <div class="applicant-details">
-                    <p><i class="fas fa-graduation-cap"></i> ${app.institution || 'Not specified'}</p>
-                    <p><i class="fas fa-envelope"></i> ${app.student_email || 'No email'}</p>
-                    <p><i class="fas fa-calendar"></i> ${formatDate(app.applied_at)}</p>
-                </div>
-                
-                <div class="applicant-skills">
-                    ${app.student_skills ? app.student_skills.split(',').map(skill => 
-                        `<span class="skill-tag">${skill.trim()}</span>`
-                    ).join('') : 'No skills listed'}
-                </div>
-                
-                ${app.cover_letter ? `
-                <div class="cover-letter">
-                    <strong>Cover Letter:</strong>
-                    <p>${app.cover_letter.substring(0, 150)}${app.cover_letter.length > 150 ? '...' : ''}</p>
-                </div>
-                ` : ''}
-                
-                <div class="applicant-actions">
-                    <select class="status-select" data-application-id="${app.id}">
-                        <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>Applied</option>
-                        <option value="shortlisted" ${app.status === 'shortlisted' ? 'selected' : ''}>Shortlisted</option>
-                        <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
-                        <option value="hired" ${app.status === 'hired' ? 'selected' : ''}>Hired</option>
-                        <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
-                    </select>
-                    
-                    ${app.resume_path ? `
-                    <a href="/${app.resume_path}" class="btn btn-outline" target="_blank">
-                        <i class="fas fa-download"></i> Resume
-                    </a>
-                    ` : ''}
-                    
-                    <button class="btn btn-outline view-profile-btn" data-student-id="${app.student_id}">
-                        <i class="fas fa-eye"></i> Profile
-                    </button>
-                </div>
-            </div>
-        `).join('');
-        
-        // Add event listeners to status selects
-        container.querySelectorAll('.status-select').forEach(select => {
-            select.addEventListener('change', function() {
-                const applicationId = this.getAttribute('data-application-id');
-                const newStatus = this.value;
-                updateApplicationStatus(applicationId, newStatus);
-            });
-        });
-    }
-
-    function loadInterviewsPage() {
-        const container = document.getElementById('dynamic-content');
-        if (!container) return;
-        
-        container.innerHTML = `
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2>Scheduled Interviews</h2>
-                    <div class="section-actions">
-                        <button class="btn btn-primary" id="scheduleInterviewBtn">
-                            <i class="fas fa-plus"></i> Schedule New Interview
-                        </button>
-                    </div>
-                </div>
-                <div class="section-content">
-                    <div id="interviews-list">
-                        <!-- Interviews will be loaded here -->
+                        <h3>${job.title}</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
+                            <span><i class="fas fa-clock"></i> ${job.job_type}</span>
+                            <span><i class="fas fa-calendar"></i> Posted ${formatDate(job.created_at)}</span>
+                        </div>
+                        <div class="job-status">
+                            <span class="status-badge ${getStatusClass(job.status)}">${job.status.charAt(0).toUpperCase() + job.status.slice(1)}</span>
+                            <span>${job.status === 'active' ? `Expires in ${daysUntil(job.application_deadline)} days` : ''}</span>
+                        </div>
                     </div>
                     
                     <div class="applicant-count">
                         <div class="applicant-number">${job.application_count || 0}</div>
                         <div class="applicant-label">Applicants</div>
                     </div>
-                    
                     <div class="job-actions">
-                        <a href="#" class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
+                        <button class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
                             <i class="fas fa-eye"></i> View Applicants
-                        </a>
-                        <a href="#" class="btn btn-outline edit-job-btn" data-job-id="${job.id}">
+                        </button>
+                        <button class="btn btn-outline edit-job-btn" data-job-id="${job.id}">
                             <i class="fas fa-edit"></i> Edit
-                        </a>
-                        <a href="#" class="btn btn-outline delete-job-btn" data-job-id="${job.id}" style="color: var(--danger); border-color: var(--danger);">
+                        </button>
+                        <button class="btn btn-outline delete-job-btn" data-job-id="${job.id}" style="color: var(--danger); border-color: var(--danger);">
                             <i class="fas fa-trash"></i> Delete
-                        </a>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // For demo, show a message
-        const interviewsList = document.getElementById('interviews-list');
-        if (interviewsList) {
-            interviewsList.innerHTML = `
-                <div style="text-align: center; padding: 40px;">
-                    <i class="fas fa-calendar-alt" style="font-size: 3rem; color: var(--gray); margin-bottom: 20px;"></i>
-                    <h3 style="color: var(--gray); margin-bottom: 10px;">No interviews scheduled</h3>
-                    <p style="color: var(--gray);">Schedule your first interview to get started.</p>
-                    <button class="btn btn-primary" style="margin-top: 20px;" id="scheduleFirstInterview">
-                        Schedule Interview
-                    </button>
-                </div>
-            `;
-            
-            const scheduleBtn = document.getElementById('scheduleFirstInterview');
-            if (scheduleBtn) {
-                scheduleBtn.addEventListener('click', function() {
-                    showNotification('Interview scheduling feature coming soon!', 'success');
-                });
-            }
-        }
-        
-        container.style.display = 'block';
-    }
-
-    function loadNotificationsPage() {
-        const container = document.getElementById('dynamic-content');
-        if (!container) return;
-        
-        container.innerHTML = `
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2>All Notifications</h2>
-                    <div class="section-actions">
-                        <button class="btn btn-outline" id="markAllReadBtn">
-                            Mark All as Read
                         </button>
                     </div>
                 </div>
-                <div class="section-content">
-                    <div class="notifications-list" id="all-notifications-list">
-                        <!-- All notifications will be loaded here -->
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        renderAllNotifications();
-        
-        // Mark all as read button
-        const markAllReadBtn = document.getElementById('markAllReadBtn');
-        if (markAllReadBtn) {
-            markAllReadBtn.addEventListener('click', function() {
-                document.querySelectorAll('.notification-item').forEach(item => {
-                    item.classList.remove('unread');
+            `).join('');
+            
+            
+            container.querySelectorAll('.view-applicants-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const jobId = this.getAttribute('data-job-id');
+                    viewJobApplicants(jobId);
                 });
-                showNotification('All notifications marked as read', 'success');
+            });
+            
+            container.querySelectorAll('.edit-job-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const jobId = this.getAttribute('data-job-id');
+                    openEditJobModal(jobId);
+                });
+            });
+            
+            container.querySelectorAll('.delete-job-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const jobId = this.getAttribute('data-job-id');
+                    deleteJob(jobId);
+                });
             });
         }
-        
-        container.style.display = 'block';
-    }
 
-    function renderAllNotifications() {
-        const container = document.getElementById('all-notifications-list');
-        if (!container) return;
-        
-        if (allNotifications.length === 0) {
+        async function loadApplicantsPage() {
+            const container = document.getElementById('applicants-content');
+            
             container.innerHTML = `
-                <div class="notification-item">
-                    <div class="notification-icon system">
-                        <i class="fas fa-bell"></i>
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>All Applicants</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-outline" id="refreshApplicants">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
                     </div>
-                    <div class="notification-content">
-                        <p>No notifications yet</p>
-                        <div class="notification-time">You're all caught up!</div>
+                    <div class="section-content">
+                        <div class="applicants-grid" id="all-applicants-grid">
+                            <div class="spinner"></div>
+                            <p style="text-align: center;">Loading applicants...</p>
+                        </div>
                     </div>
                 </div>
             `;
-            return;
+
+            renderAllApplicants();
+            container.style.display = 'block';
+        }
+
+function renderAllApplicants() {
+    const container = document.getElementById('all-applicants-grid');
+    if (!container) return;
+    
+    container.innerHTML = allApplications.map(app => `
+        <div class="applicant-card">
+            <div class="applicant-header">
+                <div class="applicant-avatar">${getInitials(app.student_name)}</div>
+                <div class="applicant-info">
+                    <h4>${app.student_name}</h4>
+                    <p>Applied for: ${app.job_title}</p>
+                    <small style="color: var(--gray);">Applied: ${formatDate(app.applied_at)}</small>
+                </div>
+            </div>
+            
+            <div class="applicant-details">
+                <p><i class="fas fa-graduation-cap"></i> ${app.institution || 'Not specified'}</p>
+                <p><i class="fas fa-envelope"></i> ${app.student_email || 'No email'}</p>
+                <p><i class="fas fa-calendar"></i> ${formatDate(app.applied_at)}</p>
+            </div>
+            
+            ${app.student_skills ? `
+            <div class="applicant-skills">
+                ${app.student_skills.split(',').slice(0, 4).map(skill => 
+                    `<span class="skill-tag">${skill.trim()}</span>`
+                ).join('')}
+            </div>
+            ` : '<div class="applicant-skills"><span class="skill-tag">No skills listed</span></div>'}
+            
+            <div class="applicant-actions">
+                <select class="status-select" data-application-id="${app.id}">
+                    <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>Applied</option>
+                    <option value="shortlisted" ${app.status === 'shortlisted' ? 'selected' : ''}>Shortlisted</option>
+                    <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
+                    <option value="hired" ${app.status === 'hired' ? 'selected' : ''}>Hired</option>
+                    <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                </select>
+                
+                <!-- Resume View Button -->
+                <button class="btn btn-outline view-resume-btn" data-student-id="${app.student_id}" data-student-name="${app.student_name}">
+                    <i class="fas fa-file-pdf"></i> View Resume
+                </button>
+                
+                <!-- Profile View Button -->
+                <button class="btn btn-outline view-profile-btn" data-student-id="${app.student_id}">
+                    <i class="fas fa-eye"></i> View Profile
+                </button>
+            </div>
+        </div>
+    `).join('');
+    
+ 
+    container.querySelectorAll('.view-resume-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const studentId = this.getAttribute('data-student-id');
+            const studentName = this.getAttribute('data-student-name');
+            viewStudentResume(studentId, studentName);
+        });
+    });
+    
+   
+    container.querySelectorAll('.view-profile-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const studentId = this.getAttribute('data-student-id');
+            openStudentProfile(studentId);
+        });
+    });
+ 
+    container.querySelectorAll('.schedule-interview-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const studentId = this.getAttribute('data-student-id');
+            const studentName = this.getAttribute('data-student-name');
+            const studentEmail = this.getAttribute('data-student-email');
+            scheduleInterview(studentId, studentName, studentEmail);
+        });
+    });
+    
+   
+    container.querySelectorAll('.status-select').forEach(select => {
+        select.addEventListener('change', function() {
+            const applicationId = this.getAttribute('data-application-id');
+            const newStatus = this.value;
+            updateApplicationStatus(applicationId, newStatus);
+        });
+    });
+}
+       
+
+        function loadInterviewsPage() {
+            const container = document.getElementById('interviews-content');
+            
+            container.innerHTML = `
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Scheduled Interviews</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="scheduleInterviewBtn">
+                                <i class="fas fa-plus"></i> Schedule New Interview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div id="interviews-list">
+                            <div style="text-align: center; padding: 40px;">
+                                <i class="fas fa-calendar-alt" style="font-size: 3rem; color: var(--gray); margin-bottom: 20px;"></i>
+                                <h3 style="color: var(--gray); margin-bottom: 10px;">No interviews scheduled</h3>
+                                <p style="color: var(--gray);">Schedule your first interview to get started.</p>
+                                <button class="btn btn-primary" style="margin-top: 20px;" id="scheduleFirstInterview">
+                                    Schedule Interview
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.style.display = 'block';
         }
         
-        container.innerHTML = allNotifications.map(notif => `
-            <div class="notification-item ${notif.read_status ? '' : 'unread'}">
-                <div class="notification-icon ${notif.type || 'system'}">
-                    <i class="fas fa-${getNotificationIcon(notif.type)}"></i>
-                </div>
-                <div class="notification-content">
-                    <p>${notif.message}</p>
-                    <div class="notification-time">${formatTime(notif.created_at)}</div>
-                </div>
-            </div>
-        `).join('');
+        container.style.display = 'block';
     }
 
-    function loadCompanyProfilePage() {
-        const container = document.getElementById('dynamic-content');
-        if (!container) return;
-        
-        container.innerHTML = `
-            <div class="form-container">
-                <h2>Company Profile</h2>
-                <form id="company-profile-form">
-                    <div class="form-group">
-                        <label for="profile-company-name">Company Name</label>
-                        <input type="text" id="profile-company-name" class="form-control" value="${currentCompany.companyName || currentCompany.name}" required>
+        function loadNotificationsPage() {
+            const container = document.getElementById('notifications-content');
+            
+            container.innerHTML = `
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>All Notifications</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-outline" id="markAllReadBtn">
+                                Mark All as Read
+                            </button>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="profile-email">Email</label>
-                        <input type="email" id="profile-email" class="form-control" value="${currentCompany.email}" required>
+                    <div class="section-content">
+                        <div class="notifications-list" id="all-notifications-list">
+                            <div class="spinner"></div>
+                            <p style="text-align: center;">Loading notifications...</p>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="profile-industry">Industry</label>
-                        <input type="text" id="profile-industry" class="form-control" value="${currentCompany.industry}" required>
+                </div>
+            `;
+            
+            renderAllNotifications();
+            container.style.display = 'block';
+        }
+
+        function renderAllNotifications() {
+            const container = document.getElementById('all-notifications-list');
+            if (!container) return;
+            
+            if (allNotifications.length === 0) {
+                container.innerHTML = `
+                    <div class="notification-item">
+                        <div class="notification-icon system">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="notification-content">
+                            <p>No notifications yet</p>
+                            <div class="notification-time">You're all caught up!</div>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="profile-website">Website</label>
-                        <input type="url" id="profile-website" class="form-control" value="${currentCompany.website || ''}">
+                `;
+                return;
+            }
+            
+            container.innerHTML = allNotifications.map(notif => `
+                <div class="notification-item ${notif.read_status ? '' : 'unread'}" data-notification-id="${notif.id}">
+                    <div class="notification-icon ${notif.type || 'system'}">
+                        <i class="fas fa-${getNotificationIcon(notif.type)}"></i>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="profile-description">Company Description</label>
-                        <textarea id="profile-description" class="form-control" rows="5">${currentCompany.description || ''}</textarea>
+                    <div class="notification-content">
+                        <p>${notif.message}</p>
+                        <div class="notification-time">${formatTime(notif.created_at)}</div>
                     </div>
-                    
-                    <button type="submit" class="btn btn-primary">Update Profile</button>
-                </form>
-            </div>
-        `;
-        
-        // Form submission
-        const profileForm = document.getElementById('company-profile-form');
-        if (profileForm) {
-            profileForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                updateCompanyProfile();
+                </div>
+            `).join('');
+            
+            
+            container.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const notificationId = this.getAttribute('data-notification-id');
+                    if (notificationId) {
+                        markNotificationAsRead(notificationId);
+                    }
+                    this.classList.remove('unread');
+                });
             });
         }
         
         container.style.display = 'block';
     }
 
-    function loadSettingsPage() {
-        const container = document.getElementById('dynamic-content');
-        if (!container) return;
+
+
         
-        container.innerHTML = `
-            <div class="form-container">
-                <h2>Account Settings</h2>
-                <form id="settings-form">
-                    <div class="form-group">
-                        <label for="settings-notifications">Email Notifications</label>
-                        <select id="settings-notifications" class="form-control">
-                            <option value="all">All Notifications</option>
-                            <option value="important">Important Only</option>
-                            <option value="none">None</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="settings-privacy">Profile Visibility</label>
-                        <select id="settings-privacy" class="form-control">
-                            <option value="public">Public</option>
-                            <option value="private">Private</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="settings-theme">Theme</label>
-                        <select id="settings-theme" class="form-control">
-                            <option value="light">Light</option>
-                            <option value="dark">Dark</option>
-                            <option value="auto">Auto</option>
-                        </select>
-                    </div>
-                    
-                    <h3 style="margin-top: 30px; margin-bottom: 15px;">Change Password</h3>
-                    
-                    <div class="form-group">
-                        <label for="current-password">Current Password</label>
-                        <input type="password" id="current-password" class="form-control">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="new-password">New Password</label>
-                        <input type="password" id="new-password" class="form-control">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="confirm-password">Confirm New Password</label>
-                        <input type="password" id="confirm-password" class="form-control">
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">Save Settings</button>
-                </form>
+function openStudentProfile(studentId) {
+    console.log('Opening student profile for ID:', studentId);
+    
+    const modal = document.getElementById('studentProfileModal');
+    const content = document.getElementById('studentProfileContent');
+    
+   
+    content.innerHTML = `
+        <div class="spinner"></div>
+        <p style="text-align: center;">Loading student profile...</p>
+    `;
+    
+    modal.style.display = 'flex';
+    
+   
+    loadStudentProfile(studentId);
+}
+
+async function loadStudentProfile(studentId) {
+    try {
+        const response = await fetch(`/api/profile/student/${studentId}/public`);
+        const result = await response.json();
+        
+        const content = document.getElementById('studentProfileContent');
+        
+        if (result.success) {
+            const profile = result.profile;
+            renderStudentProfile(profile);
+        } else {
+            content.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--danger); margin-bottom: 15px;"></i>
+                    <h3>Error Loading Profile</h3>
+                    <p>${result.message || 'Unable to load student profile'}</p>
+                    <button class="btn btn-outline" onclick="document.getElementById('studentProfileModal').style.display='none'" style="margin-top: 15px;">
+                        Close
+                    </button>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Error loading student profile:', error);
+        const content = document.getElementById('studentProfileContent');
+        content.innerHTML = `
+            <div style="text-align: center; padding: 40px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--danger); margin-bottom: 15px;"></i>
+                <h3>Network Error</h3>
+                <p>Unable to load student profile. Please try again.</p>
+                <button class="btn btn-outline" onclick="document.getElementById('studentProfileModal').style.display='none'" style="margin-top: 15px;">
+                    Close
+                </button>
             </div>
         `;
+    }
+}
+
+
+function renderStudentProfile(profile) {
+    const content = document.getElementById('studentProfileContent');
+    
+    content.innerHTML = `
+        <div class="student-profile-view">
+            <div class="profile-header" style="display: flex; align-items: center; gap: 20px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--light-gray);">
+                <div class="profile-avatar-large" style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: bold; position: relative;">
+                    ${profile.profile_picture ? 
+                        `<img src="${profile.profile_picture}" alt="Profile" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">` :
+                        getInitials(profile.name)
+                    }
+                </div>
+                <div class="profile-info" style="flex: 1;">
+                    <h2 style="margin-bottom: 8px; color: var(--dark);">${profile.name}</h2>
+                    <p style="color: var(--gray); margin-bottom: 8px;">
+                        <i class="fas fa-graduation-cap"></i> ${profile.institution} • ${profile.department}
+                    </p>
+                    <p style="color: var(--gray); margin-bottom: 8px;">
+                        <i class="fas fa-map-marker-alt"></i> ${profile.location || 'Location not specified'}
+                    </p>
+                    ${profile.graduation_date ? `
+                        <p style="color: var(--gray);">
+                            <i class="fas fa-calendar"></i> Expected Graduation: ${profile.graduation_date}
+                        </p>
+                    ` : ''}
+                </div>
+            </div>
+
+            <div class="profile-sections">
+                ${profile.bio ? `
+                <div class="profile-section" style="margin-bottom: 25px;">
+                    <h3 style="color: var(--dark); margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-user" style="color: var(--primary);"></i> About Me
+                    </h3>
+                    <div style="background: var(--light); padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary);">
+                        <p style="line-height: 1.6; color: var(--dark);">${profile.bio}</p>
+                    </div>
+                </div>
+                ` : ''}
+
+                ${profile.skills ? `
+                <div class="profile-section" style="margin-bottom: 25px;">
+                    <h3 style="color: var(--dark); margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-star" style="color: var(--warning);"></i> Skills
+                    </h3>
+                    <div class="skills-container" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        ${profile.skills.split(',').map(skill => `
+                            <span class="skill-tag" style="background: var(--primary); color: white; padding: 6px 12px; border-radius: 15px; font-size: 0.85rem; font-weight: 500;">
+                                ${skill.trim()}
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                <div class="profile-section">
+                    <h3 style="color: var(--dark); margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-file-alt" style="color: var(--accent);"></i> Resume
+                    </h3>
+                    ${profile.resume_path ? `
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <button class="btn btn-primary" onclick="viewStudentResume(${profile.id}, '${profile.name}')" style="text-decoration: none;">
+                                <i class="fas fa-eye"></i> View Resume
+                            </button>
+                            <!-- Download button REMOVED -->
+                        </div>
+                    ` : `
+                        <p style="color: var(--gray); font-style: italic;">No resume uploaded</p>
+                    `}
+                </div>
+            </div>
+
+            <div class="profile-actions" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--light-gray); display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn btn-outline" onclick="document.getElementById('studentProfileModal').style.display='none'">
+                    Close
+                </button>
+                <!-- Removed Schedule Interview button -->
+            </div>
+        </div>
+    `;
+}
+
+
+
+async function viewStudentResume(studentId, studentName) {
+    try {
+        const response = await fetch(`/api/profile/student/${studentId}/resume`);
         
-        // Form submission
-        const settingsForm = document.getElementById('settings-form');
-        if (settingsForm) {
-            settingsForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveSettings();
-            });
+        if (response.ok) {
+           
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+        } else {
+            const result = await response.json();
+            showNotification(result.message || 'Resume not available', 'error');
+        }
+    } catch (error) {
+        console.error('Error viewing resume:', error);
+        showNotification('Error loading resume', 'error');
+    }
+}
+
+
+
+
+function scheduleInterview() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Schedule New Interview</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="interview-form">
+                    <div class="form-group">
+                        <label for="interview-email">Candidate Email *</label>
+                        <input type="email" id="interview-email" class="form-control" required 
+                               placeholder="Enter candidate email address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interview-date">Interview Date & Time *</label>
+                        <input type="datetime-local" id="interview-date" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interview-method">Interview Method *</label>
+                        <select id="interview-method" class="form-control" required>
+                            <option value="">Select Method</option>
+                            <option value="zoom">Zoom Meeting</option>
+                            <option value="google_meet">Google Meet</option>
+                            <option value="teams">Microsoft Teams</option>
+                            <option value="phone">Phone Call</option>
+                            <option value="in_person">In-Person</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="button" class="btn btn-outline" id="cancel-interview" style="flex: 1;">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="submit-interview" style="flex: 2;">
+                            <i class="fas fa-paper-plane"></i> Send Invitation
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    
+    modal.querySelector('.modal-close').addEventListener('click', () => modal.remove());
+    modal.querySelector('#cancel-interview').addEventListener('click', () => modal.remove());
+    modal.addEventListener('click', (e) => { 
+        if (e.target === modal) modal.remove(); 
+    });
+
+    modal.querySelector('#interview-form').addEventListener('submit', handleInterviewSubmit);
+}
+
+
+async function handleInterviewSubmit(e) {
+    e.preventDefault();
+    
+    const candidateEmail = document.getElementById('interview-email').value;
+    const interviewDateTime = document.getElementById('interview-date').value;
+    const interviewMethod = document.getElementById('interview-method').value;
+    
+    const submitBtn = document.getElementById('submit-interview');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+    try {
+        const response = await fetch('/api/interviews/schedule', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                candidateEmail: candidateEmail,
+                interviewDateTime: interviewDateTime,
+                interviewMethod: interviewMethod,
+                companyName: currentCompany.companyName || 'Our Company'
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showNotification(`Interview invitation sent to ${candidateEmail}!`, 'success');
+            document.querySelector('.modal').remove();
+            
+            
+            document.getElementById('interview-form').reset();
+            
+        } else {
+            showNotification(result.message || 'Error scheduling interview', 'error');
+        }
+    } catch (error) {
+        console.error('Error scheduling interview:', error);
+        showNotification('Error scheduling interview. Please try again.', 'error');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+    }
+}
+
+
+function handleQuickAction(action) {
+    switch(action) {
+        case 'post-job':
+            navigateToPage('post-job');
+            break;
+        case 'view-applicants':
+            navigateToPage('applicants');
+            break;
+        case 'schedule-interview':
+            scheduleInterview(); 
+            break;
+        case 'view-analytics':
+            showNotification('Analytics dashboard coming soon!', 'success');
+            break;
+    }
+}
+
+     
+async function loadCompanyProfileData() {
+    try {
+        const response = await fetch('/api/profile/company');
+        const result = await response.json();
+        
+        if (result.success) {
+            const profile = result.profile;
+            
+         
+            document.getElementById('profile-company-name').value = profile.companyName || '';
+            document.getElementById('profile-email').value = profile.email || '';
+            document.getElementById('profile-industry').value = profile.industry || '';
+            document.getElementById('profile-website').value = profile.website || '';
+            document.getElementById('profile-phone').value = profile.phone || '';
+            document.getElementById('profile-size').value = profile.size || '';
+            document.getElementById('profile-founded').value = profile.founded_year || '';
+            document.getElementById('profile-description').value = profile.description || '';
+            
+            updateCompanyProfilePreview(profile);
+            
+          
+            if (profile.logo_path) {
+                updateCompanyLogo(profile.logo_path);
+            }
+        } else {
+            console.error('Error loading profile:', result.message);
+        }
+    } catch (error) {
+        console.error('Error loading company profile data:', error);
+        showNotification('Error loading company profile data', 'error');
+    }
+}
+
+function updateCompanyProfilePreview(profile) {
+    document.getElementById('companyPreviewName').textContent = profile.companyName || 'Your Company';
+    document.getElementById('companyPreviewIndustry').textContent = profile.industry || 'Industry not set';
+    document.getElementById('companyPreviewLocation').innerHTML = profile.website ? 
+        `<i class="fas fa-globe"></i> ${profile.website}` : 
+        '<i class="fas fa-globe"></i> Website not set';
+    
+  
+    const activeJobs = allJobs.filter(job => job.status === 'active').length;
+    const totalApplicants = allApplications.length;
+    const successfulHires = allApplications.filter(app => app.status === 'hired').length;
+    
+    document.getElementById('companyPreviewJobs').textContent = activeJobs;
+    document.getElementById('companyPreviewApplicants').textContent = totalApplicants;
+    document.getElementById('companyPreviewHires').textContent = successfulHires;
+    
+    
+    const avatar = document.getElementById('companyPreviewAvatar');
+    const initials = profile.companyName ? 
+        profile.companyName.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2) : 'C';
+    avatar.textContent = initials;
+    
+ 
+    const headerAvatar = document.getElementById('companyAvatar');
+    headerAvatar.textContent = initials;
+}
+
+
+function openQuickScheduleModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.style.display = 'flex';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Quick Schedule Interview</h3>
+        <button class="modal-close" onclick="this.closest('.modal').remove()">×</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="handleQuickSchedule(event)">
+          <div class="form-group">
+            <label>Student Email *</label>
+            <input type="email" id="studentEmail" required class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Student Name *</label>
+            <input type="text" id="studentName" required class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Date & Time *</label>
+            <input type="datetime-local" id="interviewDate" required class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Meeting Link</label>
+            <input type="text" id="meetingLink" class="form-control" placeholder="https://meet.google.com/xxx-xxxx-xxx">
+          </div>
+          <button type="submit" class="btn btn-primary">Schedule Interview</button>
+        </form>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+
+async function handleQuickSchedule(event) {
+  event.preventDefault();
+  
+  const formData = {
+    studentEmail: document.getElementById('studentEmail').value,
+    studentName: document.getElementById('studentName').value,
+    interviewDate: document.getElementById('interviewDate').value,
+    meetingLink: document.getElementById('meetingLink').value
+  };
+
+  try {
+    const response = await fetch('/api/interviews/quick-schedule', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+    
+    if (result.success) {
+      alert('Interview scheduled successfully!');
+      document.querySelector('.modal').remove();
+    } else {
+      alert('Error: ' + result.message);
+    }
+  } catch (error) {
+    alert('Error scheduling interview');
+  }
+}
+function updateCompanyLogo(logoPath) {
+  
+    let logoImg = document.getElementById('companyLogoImg');
+    if (!logoImg) {
+        logoImg = document.createElement('img');
+        logoImg.id = 'companyLogoImg';
+        logoImg.style.width = '100%';
+        logoImg.style.height = '100%';
+        logoImg.style.borderRadius = '50%';
+        logoImg.style.objectFit = 'cover';
+        
+        const avatar = document.getElementById('companyPreviewAvatar');
+        avatar.innerHTML = '';
+        avatar.appendChild(logoImg);
+    }
+    
+
+    logoImg.src = logoPath + '?t=' + new Date().getTime();
+}
+
+function previewCompanyLogo(input) {
+    const avatar = document.getElementById('companyPreviewAvatar');
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          
+            let logoImg = document.getElementById('companyLogoImg');
+            if (!logoImg) {
+                logoImg = document.createElement('img');
+                logoImg.id = 'companyLogoImg';
+                logoImg.style.width = '100%';
+                logoImg.style.height = '100%';
+                logoImg.style.borderRadius = '50%';
+                logoImg.style.objectFit = 'cover';
+                avatar.innerHTML = '';
+                avatar.appendChild(logoImg);
+            }
+            
+            logoImg.src = e.target.result;
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+
+async function handleCompanyProfileUpdate(e) {
+    e.preventDefault();
+    
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+    const formData = new FormData();
+    formData.append('companyName', document.getElementById('profile-company-name').value);
+    formData.append('email', document.getElementById('profile-email').value);
+    formData.append('industry', document.getElementById('profile-industry').value);
+    formData.append('website', document.getElementById('profile-website').value);
+    formData.append('phone', document.getElementById('profile-phone').value);
+    formData.append('size', document.getElementById('profile-size').value);
+    formData.append('founded_year', document.getElementById('profile-founded').value);
+    formData.append('description', document.getElementById('profile-description').value);
+    
+    const companyLogo = document.getElementById('company-logo').files[0];
+    if (companyLogo) {
+        formData.append('logo', companyLogo);
+    }
+
+    try {
+        const response = await fetch('/api/profile/company', {
+            method: 'PUT',
+            body: formData
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification('Company profile updated successfully!', 'success');
+            
+           
+            currentCompany.companyName = document.getElementById('profile-company-name').value;
+            currentCompany.email = document.getElementById('profile-email').value;
+            currentCompany.industry = document.getElementById('profile-industry').value;
+            
+         
+            updateUIWithCompanyData();
+            
+            
+            await loadCompanyProfileData();
+            
+        } else {
+            showNotification(result.message || 'Error updating profile', 'error');
+        }
+    } catch (error) {
+        console.error('Error updating company profile:', error);
+        showNotification('Error updating company profile. Please try again.', 'error');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+    }
+}
+
+      
+
+        function loadSettingsData() {
+            
+            console.log('Loading settings data...');
         }
         
         container.style.display = 'block';
@@ -2539,37 +3438,72 @@
         }, 3000);
     }
 
-    function showLoading() {
-        console.log('Showing loading...');
-        // Could show a loading spinner
-    }
+        async function handleSettingsUpdate(e) {
+            e.preventDefault();
+            
+            try {
+               
+                showNotification('Settings saved successfully!', 'success');
+            } catch (error) {
+                console.error('Error saving settings:', error);
+                showNotification('Error saving settings', 'error');
+            }
+        }
 
-    function hideLoading() {
-        console.log('Hiding loading...');
-        // Could hide loading spinner
-    }
+        
+        function getInitials(name) {
+            if (!name) return '??';
+            return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown date';
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) return 'yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+            return date.toLocaleDateString();
+        }
+
+        function formatTime(dateString) {
+            if (!dateString) return 'just now';
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffMinutes = Math.floor(diffTime / (1000 * 60));
+            const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+            
+            if (diffMinutes < 1) return 'just now';
+            if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
+            if (diffHours < 24) return `${diffHours} hours ago`;
+            return formatDate(dateString);
+        }
+
+        function daysUntil(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = date - now;
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
 
     async function handleLogout() {
         if (!confirm('Are you sure you want to logout?')) {
             return;
         }
 
-        try {
-            const response = await fetch('/api/auth/logout', {
-                method: 'POST'
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                console.log('Logout successful, redirecting...');
-                window.location.href = result.redirectUrl || '/login.html';
-            } else {
-                showNotification('Logout failed', 'error');
-            }
-        } catch (error) {
-            console.error('Logout error:', error);
-            window.location.href = '/login.html';
+        function getNotificationIcon(type) {
+            const iconMap = {
+                'application': 'user-plus',
+                'interview': 'calendar-alt',
+                'message': 'envelope',
+                'system': 'bell'
+            };
+            return iconMap[type] || 'bell';
         }
     }
 
@@ -2578,110 +3512,196 @@
         // Could implement search functionality
     }
 
-    async function deleteJob(jobId) {
-        if (!confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
-            return;
+        async function markNotificationAsRead(notificationId) {
+            try {
+                await fetch(`/api/notifications/${notificationId}/read`, {
+                    method: 'PUT'
+                });
+            } catch (error) {
+                console.error('Error marking notification as read:', error);
+            }
         }
 
-        try {
-            const response = await fetch(`/api/jobs/${jobId}`, {
-                method: 'DELETE'
-            });
+        async function markAllNotificationsAsRead() {
+            try {
+                const response = await fetch('/api/notifications/read-all', {
+                    method: 'PUT'
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    showNotification('All notifications marked as read', 'success');
+                    
+                    loadDashboardData();
+                    if (document.getElementById('notifications-content').style.display !== 'none') {
+                        loadNotificationsPage();
+                    }
+                }
+            } catch (error) {
+                console.error('Error marking all notifications as read:', error);
+                showNotification('Error marking notifications as read', 'error');
+            }
         }
 
-        function loadCompanyProfilePage() {
-            const container = document.getElementById('dynamic-content');
+        function performSearch(query) {
             
-            const result = await response.json();
-            
-            if (result.success) {
-                showNotification('Job deleted successfully!', 'success');
-                allJobs = allJobs.filter(job => job.id != jobId);
-                loadJobsPage();
-            } else {
-                showNotification('Error deleting job: ' + result.message, 'error');
-            }
-        } catch (error) {
-            console.error('Error deleting job:', error);
-            showNotification('Error deleting job', 'error');
+            console.log('Searching for:', query);
         }
-    }
 
-    async function updateCompanyProfile() {
-        const formData = {
-            companyName: document.getElementById('profile-company-name').value,
-            email: document.getElementById('profile-email').value,
-            industry: document.getElementById('profile-industry').value,
-            website: document.getElementById('profile-website').value,
-            description: document.getElementById('profile-description').value
-        };
-        
-        try {
-            // In real app, call API to update profile
-            showNotification('Profile updated successfully!', 'success');
-            currentCompany = { ...currentCompany, ...formData };
-            updateUIWithCompanyData();
-        } catch (error) {
-            console.error('Error updating profile:', error);
-            showNotification('Error updating profile', 'error');
+        async function deleteJob(jobId) {
+            if (!confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/jobs/${jobId}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification('Job deleted successfully!', 'success');
+                    allJobs = allJobs.filter(job => job.id != jobId);
+                    loadJobsPage();
+                } else {
+                    showNotification('Error deleting job: ' + result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting job:', error);
+                showNotification('Error deleting job', 'error');
+            }
         }
+
+        function scheduleInterview() {
+            showNotification('Interview scheduling feature coming soon!', 'success');
+        }
+
+
+async function handlePasswordChange(e) {
+    e.preventDefault();
+    
+    const currentPassword = document.getElementById('current-password').value;
+    const newPassword = document.getElementById('new-password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    
+    if (newPassword !== confirmPassword) {
+        showNotification('New passwords do not match!', 'error');
+        return;
+    }
+    
+    if (newPassword.length < 6) {
+        showNotification('Password must be at least 6 characters long!', 'error');
+        return;
     }
 
-    function saveSettings() {
-        showNotification('Settings saved successfully!', 'success');
-    }
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Changing...';
 
-    // Mock data for demo purposes
-    function loadMockData() {
-        console.log('Loading mock data...');
-        allJobs = [
-            {
-                id: 1,
-                title: 'Senior Frontend Developer',
-                description: 'We are looking for an experienced frontend developer.',
-                requirements: '5+ years of experience with React, JavaScript',
-                location: 'San Francisco, CA',
-                job_type: 'Full-time',
-                salary_range: '$120,000 - $150,000',
-                application_deadline: '2024-12-31',
-                skills_required: 'React, JavaScript, TypeScript, HTML, CSS',
-                status: 'active',
-                created_at: '2024-01-15',
-                application_count: 12
-            }
-        ];
+    try {
+        const response = await fetch('/api/settings/change-password', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                currentPassword,
+                newPassword,
+                confirmPassword
+            })
+        });
         
-        allApplications = [
-            {
-                id: 1,
-                student_id: 101,
-                student_name: 'Sarah Johnson',
-                student_email: 'sarah.j@example.com',
-                job_title: 'Senior Frontend Developer',
-                institution: 'Stanford University',
-                location: 'San Francisco, CA',
-                student_skills: 'React, JavaScript, TypeScript, HTML, CSS, UI/UX',
-                status: 'interview',
-                applied_at: '2024-01-20',
-                cover_letter: 'I am very interested in this position...'
-            }
-        ];
+        const result = await response.json();
         
-        allNotifications = [
-            {
-                id: 1,
-                type: 'application',
-                message: 'New application: Sarah Johnson applied for Senior Frontend Developer',
-                read_status: false,
-                created_at: '2024-01-22T10:30:00'
-            }
-        ];
-        
-        updateDashboardStats();
-        renderActiveJobs();
-        renderRecentApplicants();
-        renderRecentNotifications();
+        if (result.success) {
+            showNotification('Password changed successfully!', 'success');
+            document.getElementById('changePasswordForm').reset();
+        } else {
+            showNotification('Error: ' + result.message, 'error');
+        }
+    } catch (error) {
+        console.error('Error changing password:', error);
+        showNotification('Error changing password', 'error');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
     }
-</script>
+}
+
+function navigateToPage(page) {
+    const sections = [
+        'dashboard-content',
+        'post-job-content', 
+        'jobs-content',
+        'applicants-content',
+        'interviews-content',
+        'notifications-content',
+        'company-profile-content',
+        'settings-content'
+    ];
+    
+    sections.forEach(section => {
+        const element = document.getElementById(section);
+        if (element) element.style.display = 'none';
+    });
+    
+    switch(page) {
+        case 'dashboard':
+            document.getElementById('dashboard-content').style.display = 'block';
+            loadDashboardData();
+            break;
+        case 'post-job':
+            document.getElementById('post-job-content').style.display = 'block';
+            break;
+        case 'jobs':
+            loadJobsPage();
+            break;
+        case 'applicants':
+            loadApplicantsPage();
+            break;
+        case 'interviews':
+            loadInterviewsPage();
+            break;
+        case 'notifications':
+            loadNotificationsPage();
+            break;
+        case 'company-profile':
+            document.getElementById('company-profile-content').style.display = 'block';
+            loadCompanyProfileData();
+            break;
+        case 'settings':
+            document.getElementById('settings-content').style.display = 'block';
+           
+            break;
+    }
+}
+ 
+
+        async function handleLogout() {
+            if (!confirm('Are you sure you want to logout?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/logout', {
+                    method: 'POST'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    window.location.href = result.redirectUrl || '/login.html';
+                } else {
+                    showNotification('Logout failed', 'error');
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                window.location.href = '/login.html';
+            }
+        }
+    </script>
 </body>
 </html>

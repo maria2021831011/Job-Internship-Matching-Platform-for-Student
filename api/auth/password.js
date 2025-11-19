@@ -3,8 +3,6 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const db = require('../../config/database');
 const router = express.Router();
-
-
 const resetTokens = new Map();
 router.post('/forgot-password', (req, res) => {
   const { email, userType } = req.body;
@@ -17,7 +15,6 @@ router.post('/forgot-password', (req, res) => {
       message: 'Email and user type are required' 
     });
   }
-
   const table = userType === 'student' ? 'students' : 'companies';
   db.query(`SELECT * FROM ${table} WHERE email = ?`, [email], (err, results) => {
     if (err) {
@@ -38,7 +35,6 @@ router.post('/forgot-password', (req, res) => {
     const user = results[0];
     const token = crypto.randomBytes(32).toString('hex');
     const expires = Date.now() + 3600000; 
-
     resetTokens.set(token, { 
       email, 
       userType, 
@@ -49,7 +45,6 @@ router.post('/forgot-password', (req, res) => {
     console.log(`Reset token generated for ${email}: ${token}`);
     console.log(`Token expires at: ${new Date(expires).toLocaleString()}`);
 
-    
     const resetLink = `http://localhost:3000/reset-password.html?token=${token}&userType=${userType}`;
 
     res.json({
@@ -105,7 +100,6 @@ router.post('/reset-password', async (req, res) => {
     });
   }
 
-  
   const tokenData = resetTokens.get(token);
   if (!tokenData) {
     return res.status(400).json({ 
@@ -129,9 +123,10 @@ router.post('/reset-password', async (req, res) => {
   }
 
   try {
-    
+   
     const hashedPassword = await bcrypt.hash(password, 10);
     const table = userType === 'student' ? 'students' : 'companies';
+
     db.query(
       `UPDATE ${table} SET password = ? WHERE email = ?`,
       [hashedPassword, tokenData.email],
@@ -152,6 +147,8 @@ router.post('/reset-password', async (req, res) => {
         }
 
         console.log(`Password reset successfully for: ${tokenData.email}`);
+
+        
         resetTokens.delete(token);
 
         res.json({
