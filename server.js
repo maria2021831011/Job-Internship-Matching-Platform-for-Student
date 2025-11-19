@@ -8,6 +8,21 @@ const multer = require('multer');
 const app = express();
 const PORT = 3000;
 
+// Ensure uploads directory exists
+const fs = require('fs');
+const uploadsDir = path.join(__dirname, 'uploads');
+const resumesDir = path.join(__dirname, 'uploads/resumes');
+const profilesDir = path.join(__dirname, 'uploads/profiles');
+
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+if (!fs.existsSync(resumesDir)) {
+  fs.mkdirSync(resumesDir, { recursive: true });
+}
+if (!fs.existsSync(profilesDir)) {
+  fs.mkdirSync(profilesDir, { recursive: true });
+}
 
 const fs = require('fs');
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -86,6 +101,12 @@ app.use('/api/jobs', require('./api/jobs/jobs'));
 app.use('/uploads', express.static('uploads'));
 
 
+// Add these routes with correct paths
+app.use('/api/profile', require('./api/profile/profile'));
+app.use('/api/messages', require('./api/messages/messages'));
+app.use('/api/notifications', require('./api/notifications/notifications'));
+
+// Enhanced logout endpoint
 app.post('/api/auth/logout', (req, res) => {
   const userId = req.session.userId;
   const userType = req.session.userType;
@@ -792,6 +813,33 @@ app.use((req, res) => {
 });
 
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Server error:', err);
+  res.status(500).json({ 
+    success: false, 
+    message: 'Internal server error'
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ 
+    success: false, 
+    message: 'Endpoint not found' 
+  });
+});
+
+// Start server
 app.listen(PORT, () => {
   console.log(`CareerLaunch server running on http://localhost:${PORT}`);
   console.log('Make sure MySQL server is running on localhost:3306');

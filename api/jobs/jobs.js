@@ -264,26 +264,34 @@ router.get('/applications', async (req, res) => {
 
 
 router.put('/applications/:id/status', async (req, res) => {
-  if (!req.session.userId || req.session.userType !== 'company') {
-    return res.status(401).json({ success: false, message: 'Unauthorized' });
-  }
-
-  try {
-    const { id } = req.params;
-    const { status } = req.body;
-
-    const query = `
-      UPDATE applications a
-      JOIN jobs j ON a.job_id = j.id
-      SET a.status = ?
-      WHERE a.id = ? AND j.company_id = ?
-    `;
-
-    const [result] = await db.promise().execute(query, [status, id, req.session.userId]);
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ success: false, message: 'Application not found' });
+    if (!req.session.userId || req.session.userType !== 'company') {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
     }
+
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        const query = `
+            UPDATE applications a
+            JOIN jobs j ON a.job_id = j.id
+            SET a.status = ?
+            WHERE a.id = ? AND j.company_id = ?
+        `;
+
+        const [result] = await db.promise().execute(query, [status, id, req.session.userId]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ success: false, message: 'Application not found' });
+        }
+
+        res.json({ success: true, message: 'Application status updated' });
+
+    } catch (error) {
+        console.error('Error updating application:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
 
     const appQuery = `
       SELECT a.*, s.name as student_name, j.title as job_title, s.id as student_id
@@ -329,10 +337,54 @@ router.put('/applications/:id/status', async (req, res) => {
 
     res.json({ success: true, message: 'Application status updated' });
 
-  } catch (error) {
-    console.error('Error updating application:', error);
-    res.status(500).json({ success: false, message: 'Server error' });
-  }
+router.post('/create', async (req, res) => {
+    if (!req.session.userId || req.session.userType !== 'company') {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    try {
+        const {
+            title,
+            description,
+            requirements,
+            location,
+            job_type,
+            salary_range,
+            application_deadline,
+            skills_required,
+            status
+        } = req.body;
+
+        console.log('Creating job:', title);
+
+        const query = `
+            INSERT INTO jobs (company_id, title, description, requirements, location, job_type, salary_range, application_deadline, skills_required, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        const [result] = await db.promise().execute(query, [
+            req.session.userId,
+            title,
+            description,
+            requirements,
+            location,
+            job_type,
+            salary_range,
+            application_deadline,
+            skills_required,
+            status || 'active'
+        ]);
+
+        res.json({
+            success: true,
+            message: 'Job posted successfully!',
+            jobId: result.insertId
+        });
+
+    } catch (error) {
+        console.error('Error creating job:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
 });
 
 

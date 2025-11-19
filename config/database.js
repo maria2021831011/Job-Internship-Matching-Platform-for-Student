@@ -1,6 +1,10 @@
 
 
 const mysql = require('mysql2');
+const fs = require('fs');
+const path = require('path');
+require('dotenv').config();
+
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -11,6 +15,9 @@ const connection = mysql.createConnection({
   
 });
 
+
+
+// Connect to MySQL
 connection.connect((err) => {
   if (err) {
     console.error(' Error connecting to MySQL:', err.message);
@@ -63,7 +70,7 @@ function createTablesInOrder() {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `;
-  
+
   const createCompaniesTable = `
     CREATE TABLE IF NOT EXISTS companies (
       id INT AUTO_INCREMENT PRIMARY KEY,

@@ -1714,8 +1714,9 @@ async function checkAuthentication() {
                 .join('')
                 .toUpperCase()
                 .substring(0, 2);
-            document.getElementById('companyAvatar').textContent = initials;
+            companyAvatar.textContent = initials;
         }
+    }
 
        
         function setupEventListeners() {
@@ -1723,6 +1724,7 @@ async function checkAuthentication() {
             document.getElementById('menuToggle').addEventListener('click', function() {
                 document.querySelector('.sidebar').classList.toggle('active');
             });
+        }
 
             document.querySelectorAll('.menu-item').forEach(item => {
                 if (!item.classList.contains('logout-btn')) {
@@ -1743,7 +1745,17 @@ async function checkAuthentication() {
                     const action = this.getAttribute('data-action');
                     handleQuickAction(action);
                 });
+            }
+        });
+
+        // Quick actions
+        document.querySelectorAll('.action-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const action = this.getAttribute('data-action');
+                console.log('Quick action:', action);
+                handleQuickAction(action);
             });
+        });
 
        
             const searchInput = document.getElementById('searchInput');
@@ -1767,6 +1779,7 @@ async function checkAuthentication() {
                 e.preventDefault();
                 handleLogout();
             });
+        }
 
            
             const postJobForm = document.getElementById('post-job-form');
@@ -1840,7 +1853,8 @@ async function checkAuthentication() {
                     }
                 });
             }
-        }
+        });
+    }
 
 
 function navigateToPage(page) {
@@ -1903,7 +1917,64 @@ function navigateToPage(page) {
                     break;
                 
             }
+        });
+        
+        // Show the selected page
+        switch(page) {
+            case 'dashboard':
+                const dashboardContent = document.getElementById('dashboard-content');
+                if (dashboardContent) {
+                    dashboardContent.style.display = 'block';
+                    loadDashboardData();
+                }
+                break;
+            case 'post-job':
+                const postJobContent = document.getElementById('post-job-content');
+                if (postJobContent) {
+                    postJobContent.style.display = 'block';
+                }
+                break;
+            case 'jobs':
+                loadJobsPage();
+                break;
+            case 'applicants':
+                loadApplicantsPage();
+                break;
+            case 'interviews':
+                loadInterviewsPage();
+                break;
+            case 'notifications':
+                loadNotificationsPage();
+                break;
+            case 'company-profile':
+                loadCompanyProfilePage();
+                break;
+            case 'settings':
+                loadSettingsPage();
+                break;
+            default:
+                console.log('Unknown page:', page);
         }
+    }
+
+    // Quick actions handler
+    function handleQuickAction(action) {
+        console.log('Handling quick action:', action);
+        switch(action) {
+            case 'post-job':
+                navigateToPage('post-job');
+                break;
+            case 'view-applicants':
+                navigateToPage('applicants');
+                break;
+            case 'schedule-interview':
+                showNotification('Interview scheduling feature coming soon!', 'success');
+                break;
+            case 'view-analytics':
+                showNotification('Analytics dashboard coming soon!', 'success');
+                break;
+        }
+    }
 
      
         async function loadDashboardData() {
@@ -2027,10 +2098,11 @@ function navigateToPage(page) {
             const interviewsScheduled = allApplications.filter(app => app.status === 'interview').length;
             const successfulHires = allApplications.filter(app => app.status === 'hired').length;
             
-            document.getElementById('active-jobs-count').textContent = activeJobs;
-            document.getElementById('total-applicants-count').textContent = totalApplicants;
-            document.getElementById('interviews-scheduled-count').textContent = interviewsScheduled;
-            document.getElementById('successful-hires-count').textContent = successfulHires;
+            // Update dashboard with real data
+            updateDashboardStats();
+            renderActiveJobs();
+            renderRecentApplicants();
+            renderRecentNotifications();
             
           
             const jobsBadge = document.getElementById('jobs-count');
@@ -2043,6 +2115,9 @@ function navigateToPage(page) {
             if (interviewsBadge) interviewsBadge.textContent = interviewsScheduled;
             if (notificationsBadge) notificationsBadge.textContent = allNotifications.filter(n => !n.read_status).length;
         }
+        
+        hideLoading();
+    }
 
         function renderActiveJobs() {
             const container = document.getElementById('active-jobs-list');
@@ -2070,23 +2145,9 @@ function navigateToPage(page) {
             container.innerHTML = activeJobs.map(job => `
                 <div class="job-item">
                     <div class="job-info">
-                        <h3>${job.title}</h3>
-                        <div class="job-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
-                            <span><i class="fas fa-clock"></i> ${job.job_type}</span>
-                            <span><i class="fas fa-calendar"></i> Posted ${formatDate(job.created_at)}</span>
-                        </div>
-                        <div class="job-status">
-                            <span class="status-badge status-active">Active</span>
-                            <span>Expires in ${daysUntil(job.application_deadline)} days</span>
-                        </div>
+                        <h3>No active jobs</h3>
+                        <p>Post your first job to start receiving applications</p>
                     </div>
-                    
-                    <div class="applicant-count">
-                        <div class="applicant-number">${job.application_count || 0}</div>
-                        <div class="applicant-label">Applicants</div>
-                    </div>
-                    
                     <div class="job-actions">
                         <button class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
                             <i class="fas fa-eye"></i> View Applicants
@@ -2219,8 +2280,8 @@ function navigateToPage(page) {
                         <i class="fas fa-${getNotificationIcon(notif.type)}"></i>
                     </div>
                     <div class="notification-content">
-                        <p>${notif.message}</p>
-                        <div class="notification-time">${formatTime(notif.created_at)}</div>
+                        <p>No notifications yet</p>
+                        <div class="notification-time">You're all caught up!</div>
                     </div>
                 </div>
             `).join('');
@@ -2236,6 +2297,49 @@ function navigateToPage(page) {
                 });
             });
         }
+        
+        container.innerHTML = recentNotifications.map(notif => `
+            <div class="notification-item ${notif.read_status ? '' : 'unread'}">
+                <div class="notification-icon ${notif.type || 'system'}">
+                    <i class="fas fa-${getNotificationIcon(notif.type)}"></i>
+                </div>
+                <div class="notification-content">
+                    <p>${notif.message}</p>
+                    <div class="notification-time">${formatTime(notif.created_at)}</div>
+                </div>
+            </div>
+        `).join('');
+        
+        // Add click handlers to mark as read
+        container.querySelectorAll('.notification-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.remove('unread');
+            });
+        });
+    }
+
+    // Job management functions
+    async function handlePostJob() {
+        const jobData = {
+            title: document.getElementById('job-title').value,
+            description: document.getElementById('job-description').value,
+            requirements: document.getElementById('job-requirements').value,
+            location: document.getElementById('job-location').value,
+            job_type: document.getElementById('job-type').value,
+            salary_range: document.getElementById('salary-range').value,
+            application_deadline: document.getElementById('application-deadline').value,
+            skills_required: document.getElementById('skills-required').value,
+            status: 'active'
+        };
+
+        try {
+            const response = await fetch('/api/jobs/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jobData)
+            });
 
         
         async function handlePostJob() {
@@ -2273,11 +2377,55 @@ function navigateToPage(page) {
                 console.error('Error posting job:', error);
                 showNotification('Error posting job', 'error');
             }
+        } catch (error) {
+            console.error('Error posting job:', error);
+            showNotification('Error posting job', 'error');
         }
+    }
 
-        function openEditJobModal(jobId) {
-            const job = allJobs.find(j => j.id == jobId);
-            if (!job) return;
+    function openEditJobModal(jobId) {
+        const job = allJobs.find(j => j.id == jobId);
+        if (!job) return;
+        
+        // Populate form with job data
+        document.getElementById('edit-job-id').value = job.id;
+        document.getElementById('edit-job-title').value = job.title;
+        document.getElementById('edit-job-description').value = job.description;
+        document.getElementById('edit-job-requirements').value = job.requirements;
+        document.getElementById('edit-job-location').value = job.location;
+        document.getElementById('edit-job-type').value = job.job_type;
+        document.getElementById('edit-salary-range').value = job.salary_range || '';
+        document.getElementById('edit-application-deadline').value = job.application_deadline;
+        document.getElementById('edit-skills-required').value = job.skills_required || '';
+        document.getElementById('edit-job-status').value = job.status;
+        
+        // Show modal
+        document.getElementById('jobModal').style.display = 'flex';
+    }
+
+    async function handleUpdateJob() {
+        const jobId = document.getElementById('edit-job-id').value;
+        
+        const jobData = {
+            title: document.getElementById('edit-job-title').value,
+            description: document.getElementById('edit-job-description').value,
+            requirements: document.getElementById('edit-job-requirements').value,
+            location: document.getElementById('edit-job-location').value,
+            job_type: document.getElementById('edit-job-type').value,
+            salary_range: document.getElementById('edit-salary-range').value,
+            application_deadline: document.getElementById('edit-application-deadline').value,
+            skills_required: document.getElementById('edit-skills-required').value,
+            status: document.getElementById('edit-job-status').value
+        };
+        
+        try {
+            const response = await fetch(`/api/jobs/${jobId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jobData)
+            });
             
            
             document.getElementById('edit-job-id').value = job.id;
@@ -2297,26 +2445,10 @@ function navigateToPage(page) {
         async function handleUpdateJob() {
             const jobId = document.getElementById('edit-job-id').value;
             
-            const jobData = {
-                title: document.getElementById('edit-job-title').value,
-                description: document.getElementById('edit-job-description').value,
-                requirements: document.getElementById('edit-job-requirements').value,
-                location: document.getElementById('edit-job-location').value,
-                job_type: document.getElementById('edit-job-type').value,
-                salary_range: document.getElementById('edit-salary-range').value,
-                application_deadline: document.getElementById('edit-application-deadline').value,
-                skills_required: document.getElementById('edit-skills-required').value,
-                status: document.getElementById('edit-job-status').value
-            };
+            const result = await response.json();
             
-            try {
-                const response = await fetch(`/api/jobs/${jobId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(jobData)
-                });
+            if (result.success) {
+                showNotification('Application status updated!', 'success');
                 
                 const result = await response.json();
                 
@@ -2362,7 +2494,11 @@ function navigateToPage(page) {
                 console.error('Error updating application status:', error);
                 showNotification('Error updating application status', 'error');
             }
+        } catch (error) {
+            console.error('Error updating application status:', error);
+            showNotification('Error updating application status', 'error');
         }
+    }
 
         function viewJobApplicants(jobId) {
             navigateToPage('applicants');
@@ -2436,7 +2572,6 @@ function navigateToPage(page) {
                         <div class="applicant-number">${job.application_count || 0}</div>
                         <div class="applicant-label">Applicants</div>
                     </div>
-                    
                     <div class="job-actions">
                         <button class="btn btn-primary view-applicants-btn" data-job-id="${job.id}">
                             <i class="fas fa-eye"></i> View Applicants
@@ -2618,6 +2753,9 @@ function renderAllApplicants() {
             
             container.style.display = 'block';
         }
+        
+        container.style.display = 'block';
+    }
 
         function loadNotificationsPage() {
             const container = document.getElementById('notifications-content');
@@ -2687,6 +2825,9 @@ function renderAllApplicants() {
                 });
             });
         }
+        
+        container.style.display = 'block';
+    }
 
 
 
@@ -3221,6 +3362,81 @@ async function handleCompanyProfileUpdate(e) {
             
             console.log('Loading settings data...');
         }
+        
+        container.style.display = 'block';
+    }
+
+    // Utility functions
+    function getInitials(name) {
+        if (!name) return '??';
+        return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return 'Unknown date';
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 1) return 'yesterday';
+        if (diffDays < 7) return `${diffDays} days ago`;
+        if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+        return date.toLocaleDateString();
+    }
+
+    function formatTime(dateString) {
+        if (!dateString) return 'just now';
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffMinutes = Math.floor(diffTime / (1000 * 60));
+        const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+        
+        if (diffMinutes < 1) return 'just now';
+        if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
+        if (diffHours < 24) return `${diffHours} hours ago`;
+        return formatDate(dateString);
+    }
+
+    function daysUntil(dateString) {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = date - now;
+        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    function getStatusClass(status) {
+        switch(status) {
+            case 'active': return 'status-active';
+            case 'draft': return 'status-draft';
+            case 'closed': return 'status-closed';
+            default: return 'status-draft';
+        }
+    }
+
+    function getNotificationIcon(type) {
+        const iconMap = {
+            'application': 'user-plus',
+            'interview': 'calendar-alt',
+            'message': 'envelope',
+            'system': 'bell'
+        };
+        return iconMap[type] || 'bell';
+    }
+
+    function showNotification(message, type) {
+        console.log('Showing notification:', message, type);
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
 
         async function handleSettingsUpdate(e) {
             e.preventDefault();
@@ -3275,13 +3491,9 @@ async function handleCompanyProfileUpdate(e) {
             return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         }
 
-        function getStatusClass(status) {
-            switch(status) {
-                case 'active': return 'status-active';
-                case 'draft': return 'status-draft';
-                case 'closed': return 'status-closed';
-                default: return 'status-draft';
-            }
+    async function handleLogout() {
+        if (!confirm('Are you sure you want to logout?')) {
+            return;
         }
 
         function getNotificationIcon(type) {
@@ -3293,17 +3505,12 @@ async function handleCompanyProfileUpdate(e) {
             };
             return iconMap[type] || 'bell';
         }
+    }
 
-        function showNotification(message, type) {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
-        }
+    function performSearch(query) {
+        console.log('Searching for:', query);
+        // Could implement search functionality
+    }
 
         async function markNotificationAsRead(notificationId) {
             try {
